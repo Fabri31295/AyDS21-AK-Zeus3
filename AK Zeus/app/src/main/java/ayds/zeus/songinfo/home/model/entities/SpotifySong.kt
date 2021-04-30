@@ -8,24 +8,24 @@ interface Song {
     val releaseDate: String
     val spotifyUrl: String
     val imageUrl: String
-    val release_date_precision: String
+    val releaseDatePrecision: String
     var isLocallyStoraged: Boolean
 }
 
 data class SpotifySong(
-  override val id: String,
-  override val songName: String,
-  override val artistName: String,
-  override val albumName: String,
-  override val releaseDate: String,
-  override val spotifyUrl: String,
-  override val imageUrl: String,
-  override val release_date_precision: String,
-  override var isLocallyStoraged: Boolean = false
+        override val id: String,
+        override val songName: String,
+        override val artistName: String,
+        override val albumName: String,
+        override val releaseDate: String,
+        override val spotifyUrl: String,
+        override val imageUrl: String,
+        override val releaseDatePrecision: String,
+        override var isLocallyStoraged: Boolean = false
 ) : Song {
 
     val releaseDateWithPrecision =
-        when (release_date_precision) {
+        when (releaseDatePrecision) {
             "day" -> dateWithDayPrecision(releaseDate)
             "month" -> dateWithMonthPrecision(releaseDate)
             "year" -> dateWithYearPrecision(releaseDate)
@@ -78,6 +78,6 @@ object EmptySong : Song {
     override val releaseDate: String = ""
     override val spotifyUrl: String = ""
     override val imageUrl: String = ""
-    override val release_date_precision: String = ""
+    override val releaseDatePrecision: String = ""
     override var isLocallyStoraged: Boolean = false
 }
