@@ -24,6 +24,50 @@ data class SpotifySong(
   override var isLocallyStoraged: Boolean = false
 ) : Song {
 
+    val releaseDateWithPrecision =
+        when (release_date_precision) {
+            "day" -> dateWithDayPrecision(releaseDate)
+            "month" -> dateWithMonthPrecision(releaseDate)
+            "year" -> dateWithYearPrecision(releaseDate)
+            else -> "*Invalid date precision*"
+        }
+
+    private fun dateWithDayPrecision(date: String) : String {
+        val dateArray = date.split('-')
+        return "${dateArray[2]}/${dateArray[1]}/${dateArray[0]}"
+    }
+
+    private fun dateWithMonthPrecision(date: String) : String =
+        getMonthName(date.split('-')[1])
+
+        private fun getMonthName(month: String) = when(month){
+        "1" -> "January"
+        "2" -> "February"
+        "3" -> "March"
+        "4" -> "April"
+        "5" -> "May"
+        "6" -> "June"
+        "7" -> "July"
+        "8" -> "August"
+        "9" -> "September"
+        "10" -> "October"
+        "11" -> "November"
+        "12" -> "December"
+        else -> "*Invalid month number*"
+    }
+
+    private fun dateWithYearPrecision(date: String) : String {
+        val year = date.split('-')[0].toInt()
+        return "$year (${
+            if (checkLeapYear(year)) "Leap year" 
+            else "Not a leap year"})"
+    }
+
+        private fun checkLeapYear(year: Int): Boolean {
+            return ((year % 400) == 0)
+                    || (((year % 4) == 0) && ((year % 100) != 0))
+        }
+
 }
 
 object EmptySong : Song {
