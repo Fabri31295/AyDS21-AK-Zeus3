@@ -17,8 +17,9 @@ internal class SongDescriptionHelperImpl : SongDescriptionHelper {
                             if (song.isLocallyStoraged) "[*]" else ""
                 } \n" +
                         "Artist: ${song.artistName}  \n" +
-                        "Album: ${song.albumName}  " +
-                        "Release Date With Precision:  "
+                        "Album: ${song.albumName}  \n" +
+                        "Release Date: ${song.releaseDate} \n"+
+                        "Release Date With Precision:  ${song.releaseDateWithPrecision}"
             else -> "Song not found"
         }
     }
