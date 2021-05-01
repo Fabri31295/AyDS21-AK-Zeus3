@@ -37,8 +37,10 @@ data class SpotifySong(
         return "${dateArray[2]}/${dateArray[1]}/${dateArray[0]}"
     }
 
-    private fun dateWithMonthPrecision(date: String) : String =
-        getMonthName(date.split('-')[1])
+    private fun dateWithMonthPrecision(date: String) : String {
+        val dateArray = date.split('-')
+        return "${getMonthName(dateArray[1])}, ${dateArray[0]}"
+    }
 
         private fun getMonthName(month: String) = when(month){
         "01" -> "January"
