@@ -9,7 +9,10 @@ interface SongDescriptionHelper {
 }
 
 internal class SongDescriptionHelperImpl : SongDescriptionHelper {
+
+
     override fun getSongDescriptionText(song: Song): String {
+        val songReleaseDateHelper = HomeViewModule.songReleaseDateHelper
         return when (song) {
             is SpotifySong ->
                 "${
@@ -18,9 +21,9 @@ internal class SongDescriptionHelperImpl : SongDescriptionHelper {
                 } \n" +
                         "Artist: ${song.artistName}  \n" +
                         "Album: ${song.albumName}  \n" +
-                        "Release Date: ${song.releaseDate} \n"+
-                        "Release Date With Precision:  ${song.releaseDateWithPrecision}"
+                        "Release Date:  ${songReleaseDateHelper.getReleaseDateWithPrecision(song)}"
             else -> "Song not found"
         }
     }
+
 }
