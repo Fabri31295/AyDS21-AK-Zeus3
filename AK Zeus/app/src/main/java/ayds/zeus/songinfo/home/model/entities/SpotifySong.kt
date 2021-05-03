@@ -1,8 +1,8 @@
 package ayds.zeus.songinfo.home.model.entities
 
-import ayds.zeus.songinfo.utils.date.dateWithDayPrecision
-import ayds.zeus.songinfo.utils.date.dateWithMonthPrecision
-import ayds.zeus.songinfo.utils.date.dateWithYearPrecision
+import ayds.zeus.songinfo.utils.date.getDateWithDayPrecision
+import ayds.zeus.songinfo.utils.date.getDateWithMonthPrecision
+import ayds.zeus.songinfo.utils.date.getDateWithYearPrecision
 
 interface Song {
     val id: String
@@ -30,9 +30,9 @@ data class SpotifySong(
 
     val releaseDateWithPrecision =
     when (releaseDatePrecision) {
-        "day" -> dateWithDayPrecision(releaseDate)
-        "month" -> dateWithMonthPrecision(releaseDate)
-        "year" -> dateWithYearPrecision(releaseDate)
+        "day" -> getDateWithDayPrecision(releaseDate)
+        "month" -> getDateWithMonthPrecision(releaseDate)
+        "year" -> getDateWithYearPrecision(releaseDate)
         else -> "*Invalid date precision*"
     }
 

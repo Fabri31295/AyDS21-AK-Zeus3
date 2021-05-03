@@ -1,11 +1,11 @@
 package ayds.zeus.songinfo.utils.date
 
-fun dateWithDayPrecision(date: String) : String {
+fun getDateWithDayPrecision(date: String) : String {
     val dateArray = date.split('-')
     return "${dateArray[2]}/${dateArray[1]}/${dateArray[0]}"
 }
 
-fun dateWithMonthPrecision(date: String) : String {
+fun getDateWithMonthPrecision(date: String) : String {
     val dateArray = date.split('-')
     return "${getMonthName(dateArray[1])}, ${dateArray[0]}"
 }
@@ -26,7 +26,7 @@ private fun getMonthName(month: String) = when(month){
     else -> "*Invalid month number*"
 }
 
-fun dateWithYearPrecision(date: String) : String {
+fun getDateWithYearPrecision(date: String) : String {
     val year = date.split('-')[0].toInt()
     return "$year (${
         if (checkLeapYear(year)) "Leap year"
