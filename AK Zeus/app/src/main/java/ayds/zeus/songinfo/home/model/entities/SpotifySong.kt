@@ -1,6 +1,5 @@
 package ayds.zeus.songinfo.home.model.entities
 
-
 interface Song {
     val id: String
     val songName: String

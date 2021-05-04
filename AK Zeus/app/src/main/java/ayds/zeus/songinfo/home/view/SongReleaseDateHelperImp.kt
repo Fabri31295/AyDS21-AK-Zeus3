@@ -17,8 +17,6 @@ internal class SongReleaseDateHelperImpl : SongReleaseDateHelper {
             else -> "*Invalid date precision*"
         }
 
-
-
     private fun getDateWithDayPrecision(date: String) : String {
         val dateArray = date.split('-')
         return "${dateArray[2]}/${dateArray[1]}/${dateArray[0]}"
