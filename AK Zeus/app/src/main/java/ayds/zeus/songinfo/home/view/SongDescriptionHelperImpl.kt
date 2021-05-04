@@ -8,11 +8,10 @@ interface SongDescriptionHelper {
     fun getSongDescriptionText(song: Song = EmptySong): String
 }
 
-internal class SongDescriptionHelperImpl : SongDescriptionHelper {
+internal class SongDescriptionHelperImpl(private val songReleaseDateHelper: SongReleaseDateHelper) : SongDescriptionHelper {
 
 
     override fun getSongDescriptionText(song: Song): String {
-        val songReleaseDateHelper = HomeViewModule.songReleaseDateHelper
         return when (song) {
             is SpotifySong ->
                 "${

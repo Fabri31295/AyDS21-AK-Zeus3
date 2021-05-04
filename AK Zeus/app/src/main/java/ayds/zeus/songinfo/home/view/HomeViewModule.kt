@@ -5,8 +5,8 @@ import ayds.zeus.songinfo.home.model.HomeModelModule
 
 object HomeViewModule {
 
-    val songDescriptionHelper: SongDescriptionHelper = SongDescriptionHelperImpl()
     val songReleaseDateHelper: SongReleaseDateHelper = SongReleaseDateHelperImpl()
+    val songDescriptionHelper: SongDescriptionHelper = SongDescriptionHelperImpl(songReleaseDateHelper)
 
     fun init(homeView: HomeView) {
         HomeModelModule.initHomeModel(homeView)
