@@ -40,7 +40,7 @@ internal class SongReleaseDateHelperImpl : SongReleaseDateHelper {
         "10" -> "October"
         "11" -> "November"
         "12" -> "December"
-        else -> "*Invalid month number*"
+        else -> throw Exception("*Invalid month number*")
     }
 
     private fun getDateWithYearPrecision(date: String) : String {
