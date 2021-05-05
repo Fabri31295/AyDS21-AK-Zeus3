@@ -15,5 +15,4 @@ internal class FactorySongReleaseDateMapperImp: FactorySongReleaseDateMapper{
             "year" -> PrecisionYearMapper(song)
             else -> PrecisionEmptyMapper()
         }
-
 }
