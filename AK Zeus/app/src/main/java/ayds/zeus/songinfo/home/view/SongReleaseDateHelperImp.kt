@@ -14,7 +14,7 @@ internal class SongReleaseDateHelperImpl : SongReleaseDateHelper {
             "day" -> getDateWithDayPrecision(song.releaseDate)
             "month" -> getDateWithMonthPrecision(song.releaseDate)
             "year" -> getDateWithYearPrecision(song.releaseDate)
-            else -> "*Invalid date precision*"
+            else -> song.releaseDate
         }
 
     private fun getDateWithDayPrecision(date: String) : String {
