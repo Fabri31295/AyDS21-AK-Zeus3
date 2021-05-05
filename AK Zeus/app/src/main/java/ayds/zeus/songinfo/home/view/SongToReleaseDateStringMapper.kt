@@ -3,13 +3,13 @@ package ayds.zeus.songinfo.home.view
 import ayds.zeus.songinfo.home.model.entities.EmptySong
 import ayds.zeus.songinfo.home.model.entities.Song
 
-interface SongReleaseDateHelper {
-    fun getReleaseDateWithPrecision(song: Song = EmptySong): String
+interface SongToReleaseDateStringMapper {
+    fun Map(song: Song = EmptySong): String
 }
 
-internal class SongReleaseDateHelperImpl : SongReleaseDateHelper {
+internal class SongToReleaseDateStringMapperImpl : SongToReleaseDateStringMapper {
 
-    override fun getReleaseDateWithPrecision(song: Song): String =
+    override fun Map(song: Song): String =
         when (song.releaseDatePrecision) {
             "day" -> getDateWithDayPrecision(song.releaseDate)
             "month" -> getDateWithMonthPrecision(song.releaseDate)

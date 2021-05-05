@@ -8,7 +8,7 @@ interface SongDescriptionHelper {
     fun getSongDescriptionText(song: Song = EmptySong): String
 }
 
-internal class SongDescriptionHelperImpl(private val songReleaseDateHelper: SongReleaseDateHelper) : SongDescriptionHelper {
+internal class SongDescriptionHelperImpl(private val songToReleaseDateStringMapper: SongToReleaseDateStringMapper) : SongDescriptionHelper {
 
     override fun getSongDescriptionText(song: Song): String {
         return when (song) {
@@ -19,7 +19,7 @@ internal class SongDescriptionHelperImpl(private val songReleaseDateHelper: Song
                 } \n" +
                         "Artist: ${song.artistName}  \n" +
                         "Album: ${song.albumName}  \n" +
-                        "Release Date:  ${songReleaseDateHelper.getReleaseDateWithPrecision(song)}"
+                        "Release Date:  ${songToReleaseDateStringMapper.Map(song)}"
             else -> "Song not found"
         }
     }
