@@ -19,7 +19,7 @@ internal class SongDescriptionHelperImpl(private val songToReleaseDateStringMapp
                 } \n" +
                         "Artist: ${song.artistName}  \n" +
                         "Album: ${song.albumName}  \n" +
-                        "Release Date:  ${songToReleaseDateStringMapper.Map(song)}"
+                        "Release Date:  ${songToReleaseDateStringMapper.map(song)}"
             else -> "Song not found"
         }
     }

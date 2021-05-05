@@ -4,12 +4,12 @@ import ayds.zeus.songinfo.home.model.entities.EmptySong
 import ayds.zeus.songinfo.home.model.entities.Song
 
 interface SongToReleaseDateStringMapper {
-    fun Map(song: Song = EmptySong): String
+    fun map(song: Song = EmptySong): String
 }
 
 internal class SongToReleaseDateStringMapperImpl : SongToReleaseDateStringMapper {
 
-    override fun Map(song: Song): String =
+    override fun map(song: Song): String =
         when (song.releaseDatePrecision) {
             "day" -> getDateWithDayPrecision(song.releaseDate)
             "month" -> getDateWithMonthPrecision(song.releaseDate)
