@@ -10,7 +10,6 @@ interface SongDescriptionHelper {
 
 internal class SongDescriptionHelperImpl(private val songReleaseDateHelper: SongReleaseDateHelper) : SongDescriptionHelper {
 
-
     override fun getSongDescriptionText(song: Song): String {
         return when (song) {
             is SpotifySong ->
