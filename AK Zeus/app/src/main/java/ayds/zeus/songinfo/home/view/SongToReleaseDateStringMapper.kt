@@ -42,7 +42,7 @@ class PrecisionMonthMapper(private val song: Song): SongToReleaseDateStringMappe
     }
 }
 
-class PrecisionYearMapper(private val song: Song): SongToReleaseDateStringMapper {
+internal class PrecisionYearMapper(private val song: Song): SongToReleaseDateStringMapper {
     override fun formatReleaseDate(): String {
         val year = song.releaseDate.toInt()
         return "$year (${
@@ -54,6 +54,6 @@ class PrecisionYearMapper(private val song: Song): SongToReleaseDateStringMapper
     }
 }
 
-class PrecisionEmptyMapper(): SongToReleaseDateStringMapper {
+internal class PrecisionEmptyMapper(): SongToReleaseDateStringMapper {
     override fun formatReleaseDate(): String =  ""
 }
