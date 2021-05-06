@@ -20,7 +20,9 @@ class PrecisionMonthMapper(private val song: Song): SongToReleaseDateStringMappe
 
     override fun formatReleaseDate(): String {
         val dateArray = song.releaseDate.split('-')
-        return "${getMonthName(dateArray[1])}, ${dateArray[0]}"
+        val month = dateArray[1]
+        val year = dateArray[0]
+        return "${getMonthName(month)}, $year"
     }
 
     private fun getMonthName(month: String) = when(month){
@@ -42,7 +44,7 @@ class PrecisionMonthMapper(private val song: Song): SongToReleaseDateStringMappe
 
 class PrecisionYearMapper(private val song: Song): SongToReleaseDateStringMapper {
     override fun formatReleaseDate(): String {
-        val year = song.releaseDate.split('-')[0].toInt()
+        val year = song.releaseDate.toInt()
         return "$year (${
             if (checkLeapYear(year)) "Leap year"
             else "Not a leap year"})"
