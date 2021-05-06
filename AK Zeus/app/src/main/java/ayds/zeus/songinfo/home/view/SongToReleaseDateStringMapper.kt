@@ -16,7 +16,7 @@ internal class PrecisionDayMapper(private val song: Song): SongToReleaseDateStri
     }
 }
 
-class PrecisionMonthMapper(private val song: Song): SongToReleaseDateStringMapper {
+internal class PrecisionMonthMapper(private val song: Song): SongToReleaseDateStringMapper {
 
     override fun formatReleaseDate(): String {
         val dateArray = song.releaseDate.split('-')
