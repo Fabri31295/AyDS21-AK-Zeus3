@@ -5,7 +5,7 @@ import ayds.zeus.songinfo.home.model.HomeModelModule
 
 object HomeViewModule {
 
-    val factorySongRelease: FactorySongReleaseDateMapper = FactorySongReleaseDateMapperImp()
+    private val factorySongRelease: FactorySongReleaseDateMapper = FactorySongReleaseDateMapperImp()
     val songDescriptionHelper: SongDescriptionHelper = SongDescriptionHelperImpl(factorySongRelease)
 
     fun init(homeView: HomeView) {

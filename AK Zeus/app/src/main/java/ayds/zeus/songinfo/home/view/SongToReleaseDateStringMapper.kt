@@ -6,10 +6,13 @@ interface SongToReleaseDateStringMapper {
     fun formatReleaseDate(): String
 }
 
-class PrecisionDayMapper(private val song: Song): SongToReleaseDateStringMapper {
+internal class PrecisionDayMapper(private val song: Song): SongToReleaseDateStringMapper {
     override fun formatReleaseDate(): String {
         val dateArray = song.releaseDate.split('-')
-        return "${dateArray[2]}/${dateArray[1]}/${dateArray[0]}"
+        val day = dateArray[2]
+        val month = dateArray[1]
+        val year = dateArray[0]
+        return "$day/$month/$year"
     }
 }
 
