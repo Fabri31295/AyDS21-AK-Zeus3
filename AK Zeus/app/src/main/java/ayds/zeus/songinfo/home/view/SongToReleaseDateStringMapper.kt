@@ -1,6 +1,5 @@
 package ayds.zeus.songinfo.home.view
 
-import ayds.zeus.songinfo.home.model.entities.EmptySong
 import ayds.zeus.songinfo.home.model.entities.Song
 
 interface SongToReleaseDateStringMapper {

@@ -19,7 +19,7 @@ internal class SongDescriptionHelperImpl(private val factorySongReleaseMapper: F
                 } \n" +
                         "Artist: ${song.artistName}  \n" +
                         "Album: ${song.albumName}  \n" +
-                        "Release Date:  ${factorySongReleaseMapper.getMapSongReleaseDate(song).formatReleaseDate()}"
+                        "Release Date:  ${factorySongReleaseMapper.get(song).formatReleaseDate()}"
             else -> "Song not found"
         }
     }
