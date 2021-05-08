@@ -36,20 +36,33 @@ class DataBase(private val context: Context): SQLiteOpenHelper(context,"dictiona
 
     fun saveArtist(dbHelper: DataBase, artist: String, info: String ){
         val dataBase = dbHelper.writableDatabase
-        val contentValues = ContentValues()
-        contentValues.put("artist", artist)
-        contentValues.put("info", info)
-        contentValues.put("source", 1)
+        val contentValues = createArtistContentValues(artist, info)
         dataBase.insert("artists", null, contentValues)
     }
 
+    private fun createArtistContentValues(artist: String, info: String) = ContentValues().apply {
+        this.put("artist", artist)
+        this.put("info", info)
+        this.put("source", 1)
+    }
+
     fun getInfo(dbHelper: DataBase, artist: String) : String?{
+        val cursor = getNewArtistCursor(dbHelper, artist)
+        val items = getCursorItems(cursor)
+        cursor.close()
+        return if (items.isEmpty())
+            null
+        else
+            items[0]
+    }
+
+    private fun getNewArtistCursor(dbHelper: DataBase, artist: String): Cursor {
         val dataBase = dbHelper.readableDatabase
         val projection = arrayOf("id", "artist", "info")
         val selection = "artist = ?"
         val selectionArgs = arrayOf(artist)
         val sortOrder = "artist DESC"
-        val cursor = dataBase.query(
+        return dataBase.query(
                 "artists",
                 projection,
                 selection,
@@ -58,17 +71,14 @@ class DataBase(private val context: Context): SQLiteOpenHelper(context,"dictiona
                 null,
                 sortOrder
         )
-        val items = mutableListOf<String>()
+    }
+
+    private fun getCursorItems(cursor: Cursor) = ArrayList<String>().apply {
         while (cursor.moveToNext()){
             val columnIndex = cursor.getColumnIndexOrThrow("info")
             val info = cursor.getString(columnIndex)
-            items.add(info)
+            this.add(info)
         }
-        cursor.close()
-        return if (items.isEmpty())
-            null
-        else
-            items[0]
     }
 
     override fun onCreate(db: SQLiteDatabase){
