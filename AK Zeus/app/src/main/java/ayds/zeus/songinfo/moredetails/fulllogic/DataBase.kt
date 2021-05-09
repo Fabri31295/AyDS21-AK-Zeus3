@@ -18,12 +18,7 @@ class DataBase(private val context: Context): SQLiteOpenHelper(context,"dictiona
                 val statement = connection.createStatement()
                 statement.queryTimeout = 30
                 val artistsResultSet = statement.executeQuery("select * from artists")
-                while (artistsResultSet.next()) {
-                    println("id = ${artistsResultSet.getInt("id")}")
-                    println("artist = ${artistsResultSet.getString("artist")}")
-                    println("info = ${artistsResultSet.getString("info")}")
-                    println("source = ${artistsResultSet.getString("source")}")
-                }
+                printArtistsResults(artistsResultSet)
             } catch (e: SQLException) {
                 println(e.message)
             } finally {
@@ -32,6 +27,15 @@ class DataBase(private val context: Context): SQLiteOpenHelper(context,"dictiona
                 } catch (e: SQLException) {
                     println(e.message)
                 }
+            }
+        }
+
+        private fun printArtistsResults(resultSet: ResultSet){
+            while (resultSet.next()) {
+                println("id = ${resultSet.getInt("id")}")
+                println("artist = ${resultSet.getString("artist")}")
+                println("info = ${resultSet.getString("info")}")
+                println("source = ${resultSet.getString("source")}")
             }
         }
 
