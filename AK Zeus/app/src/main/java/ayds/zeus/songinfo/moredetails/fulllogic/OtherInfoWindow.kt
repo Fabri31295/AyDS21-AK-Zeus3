@@ -27,7 +27,16 @@ class OtherInfoWindow : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_other_info)
         textPane2 = findViewById(R.id.textPane2)
-        open(intent.getStringExtra("artistName"))
+        val artistName = intent.getStringExtra("artistName")
+        open(artistName)
+    }
+
+    private fun open(artist: String?) {
+        dataBase = DataBase(this)
+        DataBase.saveArtist(dataBase, "test", "sarasa")
+        Log.e("TAG", "" + DataBase.getInfo(dataBase, "test"))
+        Log.e("TAG", "" + DataBase.getInfo(dataBase, "nada"))
+        getArtistInfo(artist)
     }
 
     fun getArtistInfo(artistName: String?) {
@@ -77,14 +86,6 @@ class OtherInfoWindow : AppCompatActivity() {
                 textPane2!!.text = Html.fromHtml(finalText)
             }
         }.start()
-    }
-
-    private fun open(artist: String?) {
-        dataBase = DataBase(this)
-        DataBase.saveArtist(dataBase, "test", "sarasa")
-        Log.e("TAG", "" + DataBase.getInfo(dataBase, "test"))
-        Log.e("TAG", "" + DataBase.getInfo(dataBase, "nada"))
-        getArtistInfo(artist)
     }
 
     companion object {
