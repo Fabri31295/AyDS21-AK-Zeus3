@@ -22,39 +22,28 @@ class OtherInfoWindow : AppCompatActivity() {
 
     private var textPane2: TextView? = null
     private var dataBase: DataBase? = null
+    private var artistName: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_other_info)
         textPane2 = findViewById(R.id.textPane2)
-        val artistName = intent.getStringExtra("artistName")
-        open(artistName)
+        artistName = intent.getStringExtra("artistName")
+        open()
     }
 
-    private fun open(artist: String?) {
+    private fun open() {
         dataBase = DataBase(this)
-        DataBase.saveArtist(dataBase, "test", "sarasa")
-        Log.e("TAG", "" + DataBase.getInfo(dataBase, "test"))
-        Log.e("TAG", "" + DataBase.getInfo(dataBase, "nada"))
-        getArtistInfo(artist)
+        getArtistInfo()
     }
 
-    fun getArtistInfo(artistName: String?) {
-        val retrofit = Retrofit.Builder()
-                .baseUrl("https://en.wikipedia.org/w/")
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .build()
-        val wikipediaAPI = retrofit.create(WikipediaAPI::class.java)
-        Log.e("TAG", "artistName $artistName")
+    fun getArtistInfo() {
         Thread {
             var text = DataBase.getInfo(dataBase, artistName)
             if (text != null) {
                 text = "[*]$text"
             } else {
-                val callResponse: Response<String>
                 try {
-                    callResponse = wikipediaAPI.getArtistInfo(artistName).execute()
-                    println("JSON " + callResponse.body())
                     val gson = Gson()
                     val jobj = gson.fromJson(callResponse.body(), JsonObject::class.java)
                     val query = jobj["query"].asJsonObject
@@ -88,6 +77,16 @@ class OtherInfoWindow : AppCompatActivity() {
         }.start()
     }
 
+    private fun getCallResponse() : Response<String>{
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://en.wikipedia.org/w/")
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .build()
+        val wikipediaAPI = retrofit.create(WikipediaAPI::class.java)
+        val callResponse = wikipediaAPI.getArtistInfo(artistName).execute()
+        return callResponse
+    }
+
     companion object {
         const val ARTIST_NAME_EXTRA = "artistName"
         fun textToHtml(text: String, term: String?): String {
@@ -95,9 +94,9 @@ class OtherInfoWindow : AppCompatActivity() {
             builder.append("<html><div width=400>")
             builder.append("<font face=\"arial\">")
             val textWithBold = text
-                    .replace("'", " ")
-                    .replace("\n", "<br>")
-                    .replace("(?i)" + term!!.toRegex(), "<b>" + term.toUpperCase() + "</b>")
+                .replace("'", " ")
+                .replace("\n", "<br>")
+                .replace("(?i)" + term!!.toRegex(), "<b>" + term.toUpperCase() + "</b>")
             builder.append(textWithBold)
             builder.append("</font></div></html>")
             return builder.toString()
