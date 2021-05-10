@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import ayds.zeus.songinfo.R
 import com.google.gson.Gson
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.squareup.picasso.Picasso
 import retrofit2.Response
@@ -44,11 +45,8 @@ class OtherInfoWindow : AppCompatActivity() {
                 text = "[*]$text"
             } else {
                 try {
-                    val gson = Gson()
-                    val jobj = gson.fromJson(callResponse.body(), JsonObject::class.java)
-                    val query = jobj["query"].asJsonObject
-                    val snippet = query["search"].asJsonArray[0].asJsonObject["snippet"]
-                    val pageid = query["search"].asJsonArray[0].asJsonObject["pageid"]
+                    val snippet = getJsonElement("snippet")
+                    val pageid = getJsonElement("pageid")
                     if (snippet == null) {
                         text = "No Results"
                     } else {
@@ -75,6 +73,16 @@ class OtherInfoWindow : AppCompatActivity() {
                 textPane2!!.text = Html.fromHtml(finalText)
             }
         }.start()
+    }
+
+    private fun getJsonElement(name: String): JsonElement {
+        val callResponse = getCallResponse()
+        println("JSON " + callResponse.body())
+        val gson = Gson()
+        val jobj = gson.fromJson(callResponse.body(), JsonObject::class.java)
+        val query = jobj["query"].asJsonObject
+        val element = query["search"].asJsonArray[0].asJsonObject[name]
+        return element
     }
 
     private fun getCallResponse() : Response<String>{
