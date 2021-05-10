@@ -52,7 +52,7 @@ class OtherInfoWindow : AppCompatActivity() {
                     } else {
                         text = snippet.asString.replace("\\n", "\n")
                         text = textToHtml(text, artistName)
-                        DataBase.saveArtist(dataBase, artistName, text)
+                        saveToDatabase(text)
                     }
                     val urlString = "https://en.wikipedia.org/?curid=$pageid"
                     findViewById<View>(R.id.openUrlButton).setOnClickListener {
@@ -93,6 +93,10 @@ class OtherInfoWindow : AppCompatActivity() {
         val wikipediaAPI = retrofit.create(WikipediaAPI::class.java)
         val callResponse = wikipediaAPI.getArtistInfo(artistName).execute()
         return callResponse
+    }
+
+    private fun saveToDatabase(text: String){
+        DataBase.saveArtist(dataBase!!, artistName!!, text)
     }
 
     companion object {
