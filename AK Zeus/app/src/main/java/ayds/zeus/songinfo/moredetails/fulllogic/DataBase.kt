@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 
 
-class DataBase(private val context: Context): SQLiteOpenHelper(context,"dictionary.db", null, 1) {
+class DataBase(context: Context): SQLiteOpenHelper(context,"dictionary.db", null, 1) {
 
     fun saveArtist(dbHelper: DataBase, artist: String, info: String) {
         val dataBase = dbHelper.writableDatabase
