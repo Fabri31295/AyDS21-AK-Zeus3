@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -45,8 +44,7 @@ class OtherInfoWindow : AppCompatActivity() {
                 text = "[*]$text"
             } else {
                 try {
-                    val snippet = getJsonElement("snippet")
-                    text = getDescriptionArtistInfo(snippet)
+                    text = getDescriptionArtistInfo()
                     openWikipediaPage()
                 } catch (e1: IOException) {
                     e1.printStackTrace()
@@ -61,7 +59,8 @@ class OtherInfoWindow : AppCompatActivity() {
         }.start()
     }
 
-    private fun getDescriptionArtistInfo(snippet: JsonElement): String {
+    private fun getDescriptionArtistInfo(): String {
+        val snippet = getJsonElement("snippet")
         var newText = "No Results"
         if (snippet != null) {
             newText = snippet.asString.replace("\\n", "\n")
@@ -122,6 +121,6 @@ class OtherInfoWindow : AppCompatActivity() {
     }
 
     companion object {
-        const val ARTIST_NAME_EXTRA = "artistName
+        const val ARTIST_NAME_EXTRA = "artistName"
     }
 }
