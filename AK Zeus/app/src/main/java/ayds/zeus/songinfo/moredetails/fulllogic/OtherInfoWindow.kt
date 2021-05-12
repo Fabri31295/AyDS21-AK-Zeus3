@@ -29,17 +29,13 @@ class OtherInfoWindow : AppCompatActivity() {
         setContentView(R.layout.activity_other_info)
         textPane2 = findViewById(R.id.textPane2)
         artistName = intent.getStringExtra("artistName").toString()
-        open()
-    }
-
-    private fun open() {
         dataBase = DataBase(this)
         getArtistInfo()
     }
 
     private fun getArtistInfo() {
         Thread {
-            var text = DataBase.getInfo(dataBase, artistName)
+            var text = dataBase.getInfo(artistName)
             if (text != null) {
                 text = "[*]$text"
             } else {
@@ -50,11 +46,9 @@ class OtherInfoWindow : AppCompatActivity() {
                     e1.printStackTrace()
                 }
             }
-            val imageUrl = "https://upload.wikimedia.org/wikipedia/commons/8/8c/Wikipedia-logo-v2-es.png"
             val finalText = text
             runOnUiThread {
-                Picasso.get().load(imageUrl).into(findViewById<View>(R.id.imageView) as ImageView)
-                textPane2.text = Html.fromHtml(finalText)
+                finalText?.let { showInfo(it) }
             }
         }.start()
     }
@@ -69,6 +63,11 @@ class OtherInfoWindow : AppCompatActivity() {
         }
         return newText
     }
+
+    private fun saveToDatabase(text: String){
+        dataBase.saveArtist(artistName, text)
+    }
+
     private fun openWikipediaPage() {
         findViewById<View>(R.id.openUrlButton).setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
@@ -103,8 +102,10 @@ class OtherInfoWindow : AppCompatActivity() {
         return callResponse
     }
 
-    private fun saveToDatabase(text: String){
-        DataBase.saveArtist(dataBase, artistName, text)
+    private fun showInfo(text: String){
+        val imageUrl = "https://upload.wikimedia.org/wikipedia/commons/8/8c/Wikipedia-logo-v2-es.png"
+        Picasso.get().load(imageUrl).into(findViewById<View>(R.id.imageView) as ImageView)
+        textPane2.text = Html.fromHtml(text)
     }
 
     private fun textToHtml(text: String, term: String?): String {
