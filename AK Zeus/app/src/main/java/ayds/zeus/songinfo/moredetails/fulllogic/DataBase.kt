@@ -10,14 +10,14 @@ import android.util.Log
 
 class DataBase(context: Context): SQLiteOpenHelper(context,"dictionary.db", null, 1) {
 
-    fun saveArtist(dbHelper: DataBase, artist: String, info: String) {
-        val dataBase = dbHelper.writableDatabase
+    fun saveArtist(artist: String, info: String) {
+        val dataBase = this.writableDatabase
         val contentValues = createArtistContentValues(artist, info)
         dataBase.insert("artists", null, contentValues)
     }
 
-    fun getInfo(dbHelper: DataBase, artist: String): String? {
-        val cursor = getNewArtistCursor(dbHelper, artist)
+    fun getInfo(artist: String): String? {
+        val cursor = getNewArtistCursor(artist)
         val items = getCursorItems(cursor)
         cursor.close()
         return if (items.isEmpty())
@@ -32,8 +32,8 @@ class DataBase(context: Context): SQLiteOpenHelper(context,"dictionary.db", null
         this.put("source", 1)
     }
 
-    private fun getNewArtistCursor(dbHelper: DataBase, artist: String): Cursor {
-        val dataBase = dbHelper.readableDatabase
+    private fun getNewArtistCursor(artist: String): Cursor {
+        val dataBase = this.readableDatabase
         val projection = arrayOf("id", "artist", "info")
         val selection = "artist = ?"
         val selectionArgs = arrayOf(artist)
