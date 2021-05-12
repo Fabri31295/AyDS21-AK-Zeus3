@@ -39,7 +39,6 @@ class OtherInfoWindow : AppCompatActivity() {
     }
 
     private fun getArtistInfo() {
-        Log.e("TAG", "artistName $artistName")
         Thread {
             var text = DataBase.getInfo(dataBase, artistName)
             if (text != null) {
@@ -50,12 +49,10 @@ class OtherInfoWindow : AppCompatActivity() {
                     text = getDescriptionArtistInfo(snippet)
                     openWikipediaPage()
                 } catch (e1: IOException) {
-                    Log.e("TAG", "Error $e1")
                     e1.printStackTrace()
                 }
             }
             val imageUrl = "https://upload.wikimedia.org/wikipedia/commons/8/8c/Wikipedia-logo-v2-es.png"
-            Log.e("TAG", "Get Image from $imageUrl")
             val finalText = text
             runOnUiThread {
                 Picasso.get().load(imageUrl).into(findViewById<View>(R.id.imageView) as ImageView)
@@ -111,20 +108,20 @@ class OtherInfoWindow : AppCompatActivity() {
         DataBase.saveArtist(dataBase, artistName, text)
     }
 
-    companion object {
-        const val ARTIST_NAME_EXTRA = "artistName"
+    private fun textToHtml(text: String, term: String?): String {
+        val builder = StringBuilder()
+        builder.append("<html><div width=400>")
+        builder.append("<font face=\"arial\">")
+        val textWithBold = text
+            .replace("'", " ")
+            .replace("\n", "<br>")
+            .replace("(?i)" + term!!.toRegex(), "<b>" + term.toUpperCase() + "</b>")
+        builder.append(textWithBold)
+        builder.append("</font></div></html>")
+        return builder.toString()
+    }
 
-        fun textToHtml(text: String, term: String?): String {
-            val builder = StringBuilder()
-            builder.append("<html><div width=400>")
-            builder.append("<font face=\"arial\">")
-            val textWithBold = text
-                .replace("'", " ")
-                .replace("\n", "<br>")
-                .replace("(?i)" + term!!.toRegex(), "<b>" + term.toUpperCase() + "</b>")
-            builder.append(textWithBold)
-            builder.append("</font></div></html>")
-            return builder.toString()
-        }
+    companion object {
+        const val ARTIST_NAME_EXTRA = "artistName
     }
 }
