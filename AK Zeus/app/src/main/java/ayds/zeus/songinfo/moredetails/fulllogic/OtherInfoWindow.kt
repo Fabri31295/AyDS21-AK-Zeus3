@@ -48,13 +48,7 @@ class OtherInfoWindow : AppCompatActivity() {
                 try {
                     val snippet = getJsonElement("snippet")
                     val pageid = getJsonElement("pageid")
-                    if (snippet == null) {
-                        text = "No Results"
-                    } else {
-                        text = snippet.asString.replace("\\n", "\n")
-                        text = textToHtml(text, artistName)
-                        saveToDatabase(text)
-                    }
+                    getDescriptionArtistInfo(snippet, pageid)
                     val urlString = "https://en.wikipedia.org/?curid=$pageid"
                     openWikipediaPage(urlString)
                 } catch (e1: IOException) {
@@ -72,7 +66,16 @@ class OtherInfoWindow : AppCompatActivity() {
         }.start()
     }
 
-    private fun openWikipediaPage(urlString : String){
+    private fun getDescriptionArtistInfo(snippet: JsonElement, pageid: JsonElement): String {
+        var newText = "No Results"
+        if (snippet != null) {
+            newText = snippet.asString.replace("\\n", "\n")
+            newText = textToHtml(newText, artistName)
+            saveToDatabase(newText)
+        }
+        return newText
+    }
+    private fun openWikipediaPage(urlString: String) {
         findViewById<View>(R.id.openUrlButton).setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(urlString)
