@@ -48,7 +48,7 @@ class OtherInfoWindow : AppCompatActivity() {
                 try {
                     val snippet = getJsonElement("snippet")
                     val pageid = getJsonElement("pageid")
-                    getDescriptionArtistInfo(snippet, pageid)
+                    text = getDescriptionArtistInfo(snippet)
                     val urlString = "https://en.wikipedia.org/?curid=$pageid"
                     openWikipediaPage(urlString)
                 } catch (e1: IOException) {
@@ -66,7 +66,7 @@ class OtherInfoWindow : AppCompatActivity() {
         }.start()
     }
 
-    private fun getDescriptionArtistInfo(snippet: JsonElement, pageid: JsonElement): String {
+    private fun getDescriptionArtistInfo(snippet: JsonElement): String {
         var newText = "No Results"
         if (snippet != null) {
             newText = snippet.asString.replace("\\n", "\n")
