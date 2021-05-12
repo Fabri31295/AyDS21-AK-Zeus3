@@ -38,9 +38,10 @@ class OtherInfoWindow : AppCompatActivity() {
         getArtistInfo()
     }
 
-    fun getArtistInfo() {
+    private fun getArtistInfo() {
+        Log.e("TAG", "artistName $artistName")
         Thread {
-            var text = DataBase.getInfo(dataBase, artistName)
+            var text = DataBase.getInfo(dataBase!!, artistName!!)
             if (text != null) {
                 text = "[*]$text"
             } else {
@@ -52,14 +53,10 @@ class OtherInfoWindow : AppCompatActivity() {
                     } else {
                         text = snippet.asString.replace("\\n", "\n")
                         text = textToHtml(text, artistName)
-                        DataBase.saveArtist(dataBase, artistName, text)
+                        DataBase.saveArtist(dataBase!!, artistName!!, text)
                     }
                     val urlString = "https://en.wikipedia.org/?curid=$pageid"
-                    findViewById<View>(R.id.openUrlButton).setOnClickListener {
-                        val intent = Intent(Intent.ACTION_VIEW)
-                        intent.data = Uri.parse(urlString)
-                        startActivity(intent)
-                    }
+                    openWikipediaPage(urlString)
                 } catch (e1: IOException) {
                     Log.e("TAG", "Error $e1")
                     e1.printStackTrace()
@@ -75,7 +72,15 @@ class OtherInfoWindow : AppCompatActivity() {
         }.start()
     }
 
-    private fun getJsonElement(name: String): JsonElement {
+    private fun openWikipediaPage(urlString : String){
+        findViewById<View>(R.id.openUrlButton).setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(urlString)
+            startActivity(intent)
+        }
+    }
+
+    private fun getJsonElement(name: String): JsonElement{
         val callResponse = getCallResponse()
         println("JSON " + callResponse.body())
         val gson = Gson()
@@ -97,6 +102,7 @@ class OtherInfoWindow : AppCompatActivity() {
 
     companion object {
         const val ARTIST_NAME_EXTRA = "artistName"
+
         fun textToHtml(text: String, term: String?): String {
             val builder = StringBuilder()
             builder.append("<html><div width=400>")
