@@ -21,15 +21,15 @@ import java.io.IOException
 
 class OtherInfoWindow : AppCompatActivity() {
 
-    private var textPane2: TextView? = null
-    private var dataBase: DataBase? = null
-    private var artistName: String? = ""
+    private lateinit var textPane2: TextView
+    private lateinit var dataBase: DataBase
+    private lateinit var artistName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_other_info)
         textPane2 = findViewById(R.id.textPane2)
-        artistName = intent.getStringExtra("artistName")
+        artistName = intent.getStringExtra("artistName").toString()
         open()
     }
 
@@ -41,16 +41,14 @@ class OtherInfoWindow : AppCompatActivity() {
     private fun getArtistInfo() {
         Log.e("TAG", "artistName $artistName")
         Thread {
-            var text = DataBase.getInfo(dataBase!!, artistName!!)
+            var text = DataBase.getInfo(dataBase, artistName)
             if (text != null) {
                 text = "[*]$text"
             } else {
                 try {
                     val snippet = getJsonElement("snippet")
-                    val pageid = getJsonElement("pageid")
                     text = getDescriptionArtistInfo(snippet)
-                    val urlString = "https://en.wikipedia.org/?curid=$pageid"
-                    openWikipediaPage(urlString)
+                    openWikipediaPage()
                 } catch (e1: IOException) {
                     Log.e("TAG", "Error $e1")
                     e1.printStackTrace()
@@ -61,7 +59,7 @@ class OtherInfoWindow : AppCompatActivity() {
             val finalText = text
             runOnUiThread {
                 Picasso.get().load(imageUrl).into(findViewById<View>(R.id.imageView) as ImageView)
-                textPane2!!.text = Html.fromHtml(finalText)
+                textPane2.text = Html.fromHtml(finalText)
             }
         }.start()
     }
@@ -75,12 +73,18 @@ class OtherInfoWindow : AppCompatActivity() {
         }
         return newText
     }
-    private fun openWikipediaPage(urlString: String) {
+    private fun openWikipediaPage() {
         findViewById<View>(R.id.openUrlButton).setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(urlString)
+            intent.data = Uri.parse(getURL())
             startActivity(intent)
         }
+    }
+
+    private fun getURL(): String {
+        val pageid = getJsonElement("pageid")
+        val urlString = "https://en.wikipedia.org/?curid=$pageid"
+        return urlString
     }
 
     private fun getJsonElement(name: String): JsonElement{
@@ -104,7 +108,7 @@ class OtherInfoWindow : AppCompatActivity() {
     }
 
     private fun saveToDatabase(text: String){
-        DataBase.saveArtist(dataBase!!, artistName!!, text)
+        DataBase.saveArtist(dataBase, artistName, text)
     }
 
     companion object {
