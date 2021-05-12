@@ -12,7 +12,7 @@ class DataBase(context: Context): SQLiteOpenHelper(context,"dictionary.db", null
 
     fun saveArtist(artist: String, info: String) {
         val dataBase = this.writableDatabase
-        val contentValues = createArtistContentValues(artist, info)
+        val contentValues = getArtistContentValues(artist, info)
         dataBase.insert("artists", null, contentValues)
     }
 
@@ -26,7 +26,7 @@ class DataBase(context: Context): SQLiteOpenHelper(context,"dictionary.db", null
             items[0]
     }
 
-    private fun createArtistContentValues(artist: String, info: String) = ContentValues().apply {
+    private fun getArtistContentValues(artist: String, info: String) = ContentValues().apply {
         this.put("artist", artist)
         this.put("info", info)
         this.put("source", 1)
