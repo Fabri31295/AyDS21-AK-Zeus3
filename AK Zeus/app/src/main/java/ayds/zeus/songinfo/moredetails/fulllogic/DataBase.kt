@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 
-
 class DataBase(context: Context): SQLiteOpenHelper(context,"dictionary.db", null, 1) {
 
     fun saveArtist(artist: String, info: String) {
@@ -56,7 +55,6 @@ class DataBase(context: Context): SQLiteOpenHelper(context,"dictionary.db", null
             this.add(info)
         }
     }
-
 
     override fun onCreate(db: SQLiteDatabase){
         db.execSQL(
