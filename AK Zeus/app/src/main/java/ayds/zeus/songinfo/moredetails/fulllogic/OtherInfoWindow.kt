@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.util.*
 
 class OtherInfoWindow : AppCompatActivity() {
 
@@ -35,14 +36,14 @@ class OtherInfoWindow : AppCompatActivity() {
     private fun getArtistInfo() {
         Thread {
             var text = dataBase.getInfo(artistName)
-            if (text != null)
-                text = "[*]$text"
+            text = if (text != null)
+                "[*]$text"
             else
-                text = getDescriptionArtistInfo()
+                getDescriptionArtistInfo()
             openWikipediaPage()
             val finalText = text
             runOnUiThread {
-                finalText?.let { showInfo(it) }
+                showInfo(finalText)
             }
         }.start()
     }
@@ -50,13 +51,9 @@ class OtherInfoWindow : AppCompatActivity() {
     private fun getDescriptionArtistInfo(): String {
         val snippet = getJsonElement("snippet")
         var newText = ""
-        if (snippet == null) {
-            newText = "No Results"
-        } else {
-            newText = snippet.asString.replace("\\n", "\n")
-            newText = textToHtml(newText, artistName)
-            saveToDatabase(newText)
-        }
+        newText = snippet.asString.replace("\\n", "\n")
+        newText = textToHtml(newText, artistName)
+        saveToDatabase(newText)
         return newText
     }
 
@@ -85,8 +82,7 @@ class OtherInfoWindow : AppCompatActivity() {
         val gson = Gson()
         val jobj = gson.fromJson(callResponse.body(), JsonObject::class.java)
         val query = jobj["query"].asJsonObject
-        val element = query["search"].asJsonArray[0].asJsonObject[name]
-        return element
+        return query["search"].asJsonArray[0].asJsonObject[name]
     }
 
     private fun getCallResponse() : Response<String>{
@@ -96,9 +92,7 @@ class OtherInfoWindow : AppCompatActivity() {
             .build()
         val wikipediaAPI = retrofit.create(WikipediaAPI::class.java)
 
-            val callResponse = wikipediaAPI.getArtistInfo(artistName).execute()
-
-        return callResponse
+        return wikipediaAPI.getArtistInfo(artistName).execute()
     }
 
     private fun showInfo(text: String){
@@ -114,7 +108,7 @@ class OtherInfoWindow : AppCompatActivity() {
         val textWithBold = text
             .replace("'", " ")
             .replace("\n", "<br>")
-            .replace("(?i)" + term!!.toRegex(), "<b>" + term.toUpperCase() + "</b>")
+            .replace("(?i)" + term!!.toRegex(), "<b>" + term.toUpperCase(Locale.ROOT) + "</b>")
         builder.append(textWithBold)
         builder.append("</font></div></html>")
         return builder.toString()
