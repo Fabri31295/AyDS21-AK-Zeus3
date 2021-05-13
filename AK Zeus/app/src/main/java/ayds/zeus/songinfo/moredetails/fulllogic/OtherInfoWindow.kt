@@ -53,9 +53,9 @@ class OtherInfoWindow : AppCompatActivity() {
 
     private fun getDescriptionArtistInfo(): String {
         val snippet = getJsonElement("snippet")
-        var newText = ""
-        newText = snippet.asString.replace("\\n", "\n")
-        newText = textToHtml(newText, artistName)
+        var text = ""
+        text = snippet.asString.replace("\\n", "\n")
+        var newText = textToHtml(text, artistName)
         saveToDatabase(newText)
         return newText
     }
@@ -94,7 +94,6 @@ class OtherInfoWindow : AppCompatActivity() {
             .addConverterFactory(ScalarsConverterFactory.create())
             .build()
         val wikipediaAPI = retrofit.create(WikipediaAPI::class.java)
-
         return wikipediaAPI.getArtistInfo(artistName).execute()
     }
 
