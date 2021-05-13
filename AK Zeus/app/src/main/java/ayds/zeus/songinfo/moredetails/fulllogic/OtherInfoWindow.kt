@@ -35,11 +35,10 @@ class OtherInfoWindow : AppCompatActivity() {
     private fun getArtistInfo() {
         Thread {
             var text = dataBase.getInfo(artistName)
-            if (text != null) {
+            if (text != null)
                 text = "[*]$text"
-            } else {
+            else
                 text = getDescriptionArtistInfo()
-            }
             openWikipediaPage()
             val finalText = text
             runOnUiThread {
