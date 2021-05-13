@@ -3,11 +3,11 @@ package ayds.zeus.songinfo.moredetails.fulllogic
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.Html
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.text.HtmlCompat
 import ayds.zeus.songinfo.R
 import com.google.gson.Gson
 import com.google.gson.JsonElement
@@ -98,7 +98,7 @@ class OtherInfoWindow : AppCompatActivity() {
     private fun showInfo(text: String){
         val imageUrl = "https://upload.wikimedia.org/wikipedia/commons/8/8c/Wikipedia-logo-v2-es.png"
         Picasso.get().load(imageUrl).into(findViewById<View>(R.id.imageView) as ImageView)
-        textPane2.text = Html.fromHtml(text)
+        textPane2.text = HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
 
     private fun textToHtml(text: String, term: String?): String {
