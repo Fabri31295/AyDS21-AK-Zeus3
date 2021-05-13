@@ -16,7 +16,6 @@ import com.squareup.picasso.Picasso
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
-import java.io.IOException
 
 class OtherInfoWindow : AppCompatActivity() {
 
@@ -39,13 +38,9 @@ class OtherInfoWindow : AppCompatActivity() {
             if (text != null) {
                 text = "[*]$text"
             } else {
-                try {
-                    text = getDescriptionArtistInfo()
-                    openWikipediaPage()
-                } catch (e1: IOException) {
-                    e1.printStackTrace()
-                }
+                text = getDescriptionArtistInfo()
             }
+            openWikipediaPage()
             val finalText = text
             runOnUiThread {
                 finalText?.let { showInfo(it) }
@@ -55,8 +50,10 @@ class OtherInfoWindow : AppCompatActivity() {
 
     private fun getDescriptionArtistInfo(): String {
         val snippet = getJsonElement("snippet")
-        var newText = "No Results"
-        if (snippet != null) {
+        var newText = ""
+        if (snippet == null) {
+            newText = "No Results"
+        } else {
             newText = snippet.asString.replace("\\n", "\n")
             newText = textToHtml(newText, artistName)
             saveToDatabase(newText)
@@ -69,9 +66,10 @@ class OtherInfoWindow : AppCompatActivity() {
     }
 
     private fun openWikipediaPage() {
+        val urlString = getURL()
         findViewById<View>(R.id.openUrlButton).setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(getURL())
+            intent.data = Uri.parse(urlString)
             startActivity(intent)
         }
     }
@@ -98,7 +96,9 @@ class OtherInfoWindow : AppCompatActivity() {
             .addConverterFactory(ScalarsConverterFactory.create())
             .build()
         val wikipediaAPI = retrofit.create(WikipediaAPI::class.java)
-        val callResponse = wikipediaAPI.getArtistInfo(artistName).execute()
+
+            val callResponse = wikipediaAPI.getArtistInfo(artistName).execute()
+
         return callResponse
     }
 
