@@ -20,17 +20,22 @@ import java.util.*
 
 class OtherInfoActivity : AppCompatActivity() {
 
-    private lateinit var textPane2: TextView
+    private lateinit var artistDescriptionPane: TextView
     private lateinit var dataBase: DataBase
     private lateinit var artistName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_other_info)
-        textPane2 = findViewById(R.id.textPane2)
+
+        initProperties()
+        getArtistInfo()
+    }
+
+    private fun initProperties(){
+        artistDescriptionPane = findViewById(R.id.textPane2)
         artistName = intent.getStringExtra("artistName").toString()
         dataBase = DataBase(this)
-        getArtistInfo()
     }
 
     private fun getArtistInfo() {
@@ -100,7 +105,7 @@ class OtherInfoActivity : AppCompatActivity() {
     private fun showInfo(text: String){
         val imageUrl = "https://upload.wikimedia.org/wikipedia/commons/8/8c/Wikipedia-logo-v2-es.png"
         Picasso.get().load(imageUrl).into(findViewById<View>(R.id.imageView) as ImageView)
-        textPane2.text = HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        artistDescriptionPane.text = HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
 
     private fun textToHtml(text: String, term: String?): String {
