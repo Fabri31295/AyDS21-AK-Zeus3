@@ -18,7 +18,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.*
 
-class OtherInfoWindow : AppCompatActivity() {
+class OtherInfoActivity : AppCompatActivity() {
 
     private lateinit var textPane2: TextView
     private lateinit var dataBase: DataBase
