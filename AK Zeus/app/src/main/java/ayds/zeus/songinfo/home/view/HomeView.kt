@@ -16,7 +16,7 @@ import ayds.zeus.songinfo.home.model.entities.EmptySong
 import ayds.zeus.songinfo.home.model.entities.Song
 import ayds.zeus.songinfo.home.model.entities.SpotifySong
 import ayds.zeus.songinfo.home.view.HomeUiState.Companion.DEFAULT_IMAGE
-import ayds.zeus.songinfo.moredetails.fulllogic.OtherInfoWindow
+import ayds.zeus.songinfo.moredetails.fulllogic.OtherInfoActivity
 import ayds.zeus.songinfo.utils.UtilsModule
 import ayds.zeus.songinfo.utils.navigation.openExternalUrl
 import ayds.zeus.songinfo.utils.view.ImageLoader
@@ -49,8 +49,8 @@ class HomeViewActivity : AppCompatActivity(), HomeView {
     override var uiState: HomeUiState = HomeUiState()
 
     override fun navigateToOtherDetails(artistName: String) {
-        val intent = Intent(this, OtherInfoWindow::class.java)
-        intent.putExtra(OtherInfoWindow.ARTIST_NAME_EXTRA, artistName)
+        val intent = Intent(this, OtherInfoActivity::class.java)
+        intent.putExtra(OtherInfoActivity.ARTIST_NAME_EXTRA, artistName)
         startActivity(intent)
     }
 

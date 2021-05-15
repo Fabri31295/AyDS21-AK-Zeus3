@@ -18,19 +18,29 @@ import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.*
 
-class OtherInfoWindow : AppCompatActivity() {
+class OtherInfoActivity : AppCompatActivity() {
 
-    private lateinit var textPane2: TextView
+    private lateinit var artistDescriptionPane: TextView
     private lateinit var dataBase: ArtistInfoStorage
     private lateinit var artistName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_other_info)
-        textPane2 = findViewById(R.id.textPane2)
+
+        initProperties()
+        getArtistInfo()
+    }
+
+    private fun initProperties(){
+        artistDescriptionPane = findViewById(R.id.textPane2)
         artistName = intent.getStringExtra("artistName").toString()
+<<<<<<< HEAD:AK Zeus/app/src/main/java/ayds/zeus/songinfo/moredetails/fulllogic/OtherInfoWindow.kt
         dataBase = ArtistInfoStorage(this)
         getArtistInfo()
+=======
+        dataBase = DataBase(this)
+>>>>>>> bdb2669372da98037ecd53d7362931b665a6c1f5:AK Zeus/app/src/main/java/ayds/zeus/songinfo/moredetails/fulllogic/OtherInfoActivity.kt
     }
 
     private fun getArtistInfo() {
@@ -100,7 +110,7 @@ class OtherInfoWindow : AppCompatActivity() {
     private fun showInfo(text: String){
         val imageUrl = "https://upload.wikimedia.org/wikipedia/commons/8/8c/Wikipedia-logo-v2-es.png"
         Picasso.get().load(imageUrl).into(findViewById<View>(R.id.imageView) as ImageView)
-        textPane2.text = HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        artistDescriptionPane.text = HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
 
     private fun textToHtml(text: String, term: String?): String {
