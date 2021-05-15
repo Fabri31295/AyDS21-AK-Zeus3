@@ -21,7 +21,7 @@ import java.util.*
 class OtherInfoWindow : AppCompatActivity() {
 
     private lateinit var textPane2: TextView
-    private lateinit var dataBase: DataBase
+    private lateinit var dataBase: ArtistInfoStorage
     private lateinit var artistName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +29,7 @@ class OtherInfoWindow : AppCompatActivity() {
         setContentView(R.layout.activity_other_info)
         textPane2 = findViewById(R.id.textPane2)
         artistName = intent.getStringExtra("artistName").toString()
-        dataBase = DataBase(this)
+        dataBase = ArtistInfoStorage(this)
         getArtistInfo()
     }
 

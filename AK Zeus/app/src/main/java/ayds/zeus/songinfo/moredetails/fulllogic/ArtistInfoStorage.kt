@@ -20,7 +20,7 @@ private const val CREATE_ARTISTS_TABLE :String =
                 " info string," +
                 " source integer)"
 
-class DataBase(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+class ArtistInfoStorage(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     fun saveArtist(artist: String, info: String) {
         val dataBase = this.writableDatabase
