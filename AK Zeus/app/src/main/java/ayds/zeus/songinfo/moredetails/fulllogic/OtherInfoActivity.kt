@@ -35,12 +35,8 @@ class OtherInfoActivity : AppCompatActivity() {
     private fun initProperties(){
         artistDescriptionPane = findViewById(R.id.textPane2)
         artistName = intent.getStringExtra("artistName").toString()
-<<<<<<< HEAD:AK Zeus/app/src/main/java/ayds/zeus/songinfo/moredetails/fulllogic/OtherInfoWindow.kt
         dataBase = ArtistInfoStorage(this)
         getArtistInfo()
-=======
-        dataBase = DataBase(this)
->>>>>>> bdb2669372da98037ecd53d7362931b665a6c1f5:AK Zeus/app/src/main/java/ayds/zeus/songinfo/moredetails/fulllogic/OtherInfoActivity.kt
     }
 
     private fun getArtistInfo() {
