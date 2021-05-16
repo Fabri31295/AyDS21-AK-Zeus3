@@ -71,7 +71,7 @@ class OtherInfoActivity : AppCompatActivity() {
     }
 
     private fun openWikipediaPage() {
-        val urlString = getURL()
+        val urlString = getWikipediaURL()
         findViewById<View>(R.id.openUrlButton).setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(urlString)
@@ -79,7 +79,7 @@ class OtherInfoActivity : AppCompatActivity() {
         }
     }
 
-    private fun getURL(): String {
+    private fun getWikipediaURL(): String {
         val pageid = getJsonElement("pageid")
         val urlString = "https://en.wikipedia.org/?curid=$pageid"
         return urlString
@@ -87,7 +87,6 @@ class OtherInfoActivity : AppCompatActivity() {
 
     private fun getJsonElement(name: String): JsonElement{
         val callResponse = getCallResponse()
-        println("JSON " + callResponse.body())
         val gson = Gson()
         val jobj = gson.fromJson(callResponse.body(), JsonObject::class.java)
         val query = jobj["query"].asJsonObject
