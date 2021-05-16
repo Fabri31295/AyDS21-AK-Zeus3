@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -23,20 +24,29 @@ class OtherInfoActivity : AppCompatActivity() {
     private lateinit var artistDescriptionPane: TextView
     private lateinit var dataBase: ArtistInfoStorage
     private lateinit var artistName: String
+    private lateinit var openUrlButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_other_info)
 
         initProperties()
+        initListeners()
         getArtistInfo()
     }
 
     private fun initProperties(){
         artistDescriptionPane = findViewById(R.id.textPane2)
         artistName = intent.getStringExtra("artistName").toString()
+        openUrlButton = findViewById(R.id.openUrlButton)
         dataBase = ArtistInfoStorage(this)
         getArtistInfo()
+    }
+
+    private fun initListeners(){
+        openUrlButton.setOnClickListener {
+            openWikipediaPage()
+        }
     }
 
     private fun getArtistInfo() {
@@ -71,12 +81,10 @@ class OtherInfoActivity : AppCompatActivity() {
     }
 
     private fun openWikipediaPage() {
-        val urlString = getWikipediaURL()
-        findViewById<View>(R.id.openUrlButton).setOnClickListener {
+            val urlString = getWikipediaURL()
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(urlString)
             startActivity(intent)
-        }
     }
 
     private fun getWikipediaURL(): String {
