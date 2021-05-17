@@ -33,7 +33,7 @@ class OtherInfoActivity : AppCompatActivity() {
 
     private fun initProperties() {
         artistDescriptionPane = findViewById(R.id.textPane2)
-        artistName = intent.getStringExtra("artistName").toString()
+        artistName = intent.getStringExtra(ARTIST_NAME_EXTRA).toString()
         dataBase = ArtistInfoStorage(this)
     }
 
