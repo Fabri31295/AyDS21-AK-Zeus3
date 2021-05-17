@@ -25,7 +25,7 @@ private const val IMAGE_WIKIPEDIA = "https://upload.wikimedia.org/wikipedia/comm
 private const val URL_WIKIPEDIA = "https://en.wikipedia.org/w/"
 private const val WIKIPEDIA_SHORT_URL = "https://en.wikipedia.org/?curid="
 private const val JSON_QUERY = "query"
-private const val JSON_SERCH = "search"
+private const val JSON_SEARCH = "search"
 
 class OtherInfoActivity : AppCompatActivity() {
 
@@ -62,21 +62,17 @@ class OtherInfoActivity : AppCompatActivity() {
     }
 
     private fun showArtistInfo() {
-        val infoArtist = getArtistInfo()
-        urlString = updateWikipediaURL()
         Thread {
+            val infoArtist = getArtistInfo()
+            urlString = updateWikipediaURL()
             showArtistInfoActivity(infoArtist)
         }.start()
     }
 
     private fun showArtistInfoActivity(artistInfo: String) {
-        updateArtistInfo(artistInfo)
-    }
-
-    private fun updateArtistInfo(infoArtist: String) {
         runOnUiThread {
             showImageWikipedia()
-            showInfoArtist(infoArtist)
+            showInfoArtist(artistInfo)
         }
     }
 
@@ -100,7 +96,6 @@ class OtherInfoActivity : AppCompatActivity() {
         val descriptionArtist = snippet.asString.replace("\\n", "\n")
         return textToHtml(descriptionArtist, artistName)
     }
-
 
     private fun openWikipediaPage() {
         val intent = Intent(Intent.ACTION_VIEW)
@@ -126,7 +121,7 @@ class OtherInfoActivity : AppCompatActivity() {
 
     private fun getDataFromJson(jobj: JsonObject, name: String): JsonElement {
         val query = jobj[JSON_QUERY].asJsonObject
-        return query[JSON_SERCH].asJsonArray[0].asJsonObject[name]
+        return query[JSON_SEARCH].asJsonArray[0].asJsonObject[name]
     }
 
     private fun getCallResponse(): Response<String> {
