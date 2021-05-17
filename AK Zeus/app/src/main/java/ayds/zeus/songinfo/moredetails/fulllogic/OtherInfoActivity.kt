@@ -40,7 +40,7 @@ class OtherInfoActivity : AppCompatActivity() {
     private fun showArtistInfo() {
         Thread {
             val infoArtist = getArtistInfo()
-            openWikipediaPage()
+            openWikipediaPage(buildWikipediaURL())
             runOnUiThread {
                 showImageWikipedia()
                 showInfoArtist(infoArtist)
@@ -76,8 +76,7 @@ class OtherInfoActivity : AppCompatActivity() {
         dataBase.saveArtist(artistName, text)
     }
 
-    private fun openWikipediaPage() {
-        val urlString = buildWikipediaURL()
+    private fun openWikipediaPage(urlString: String) {
         findViewById<View>(R.id.openUrlButton).setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(urlString)
