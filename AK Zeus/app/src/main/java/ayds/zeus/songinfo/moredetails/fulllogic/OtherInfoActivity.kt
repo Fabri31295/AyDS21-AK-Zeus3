@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -23,24 +24,39 @@ class OtherInfoActivity : AppCompatActivity() {
     private lateinit var artistDescriptionPane: TextView
     private lateinit var dataBase: ArtistInfoStorage
     private lateinit var artistName: String
+    private lateinit var urlString: String
+    private lateinit var openUrlButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_other_info)
+
         initProperties()
+        initViewers()
+        initListeners()
         showArtistInfo()
     }
 
-    private fun initProperties() {
+    private fun initViewers(){
         artistDescriptionPane = findViewById(R.id.textPane2)
+        openUrlButton = findViewById(R.id.openUrlButton)
+    }
+
+    private fun initProperties() {
         artistName = intent.getStringExtra(ARTIST_NAME_EXTRA).toString()
         dataBase = ArtistInfoStorage(this)
+    }
+
+    private fun initListeners(){
+        openUrlButton.setOnClickListener {
+            openWikipediaPage()
+        }
     }
 
     private fun showArtistInfo() {
         Thread {
             val infoArtist = getArtistInfo()
-            openWikipediaPage(buildWikipediaURL())
+            urlString = updateWikipediaURL()
             runOnUiThread {
                 showImageWikipedia()
                 showInfoArtist(infoArtist)
@@ -76,15 +92,13 @@ class OtherInfoActivity : AppCompatActivity() {
         dataBase.saveArtist(artistName, text)
     }
 
-    private fun openWikipediaPage(urlString: String) {
-        findViewById<View>(R.id.openUrlButton).setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(urlString)
-            startActivity(intent)
-        }
+    private fun openWikipediaPage() {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(urlString)
+        startActivity(intent)
     }
 
-    private fun buildWikipediaURL(): String {
+    private fun updateWikipediaURL(): String {
         val pageid = getDataFromResponse(JSON_PAGE_ID)
         return "https://en.wikipedia.org/?curid=$pageid"
     }
