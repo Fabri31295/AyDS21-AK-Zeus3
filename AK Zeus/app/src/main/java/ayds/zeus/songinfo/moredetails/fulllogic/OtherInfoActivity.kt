@@ -10,10 +10,12 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import ayds.zeus.songinfo.R
+import ayds.zeus.songinfo.home.model.repository.external.spotify.auth.SpotifyAuthAPI
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.squareup.picasso.Picasso
+import com.squareup.picasso.RequestCreator
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
@@ -26,33 +28,49 @@ private const val URL_WIKIPEDIA = "https://en.wikipedia.org/w/"
 private const val WIKIPEDIA_SHORT_URL = "https://en.wikipedia.org/?curid="
 private const val JSON_QUERY = "query"
 private const val JSON_SEARCH = "search"
+private const val LITERAL = "[*]"
 
 class OtherInfoActivity : AppCompatActivity() {
 
     private lateinit var artistDescriptionPane: TextView
+    private lateinit var wikipediaImagePane: ImageView
+    private lateinit var wikipediaImage: RequestCreator
     private lateinit var dataBase: ArtistInfoStorage
     private lateinit var artistName: String
     private lateinit var urlString: String
     private lateinit var openUrlButton: Button
+    private lateinit var retrofit: Retrofit
+    private lateinit var wikipediaAPI: WikipediaAPI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_other_info)
 
         initProperties()
+        initStorage()
         initViewers()
         initListeners()
         showArtistInfo()
     }
 
+    private fun initProperties(){
+        artistName = intent.getStringExtra(ARTIST_NAME_EXTRA).toString()
+        retrofit = Retrofit.Builder()
+            .baseUrl(URL_WIKIPEDIA)
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .build()
+        wikipediaAPI = retrofit.create(WikipediaAPI::class.java)
+        wikipediaImage = Picasso.get().load(IMAGE_WIKIPEDIA)
+    }
+
+    private fun initStorage(){
+        dataBase = ArtistInfoStorage(this)
+    }
+
     private fun initViewers(){
         artistDescriptionPane = findViewById(R.id.textPane2)
         openUrlButton = findViewById(R.id.openUrlButton)
-    }
-
-    private fun initProperties() {
-        artistName = intent.getStringExtra(ARTIST_NAME_EXTRA).toString()
-        dataBase = ArtistInfoStorage(this)
+        wikipediaImagePane = findViewById(R.id.imageView)
     }
 
     private fun initListeners(){
@@ -79,7 +97,7 @@ class OtherInfoActivity : AppCompatActivity() {
     private fun getArtistInfo(): String {
         var infoArtistText = getArtistInfoDataBase()
         if (infoArtistText != null)
-            infoArtistText= "[*]$infoArtistText"
+            infoArtistText= LITERAL+"$infoArtistText"
         else{
             infoArtistText = getDescriptionArtistToHTML()
             dataBase.saveArtist(artistName, infoArtistText)
@@ -125,11 +143,6 @@ class OtherInfoActivity : AppCompatActivity() {
     }
 
     private fun getCallResponse(): Response<String> {
-        val retrofit = Retrofit.Builder()
-                .baseUrl(URL_WIKIPEDIA)
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .build()
-        val wikipediaAPI = retrofit.create(WikipediaAPI::class.java)
         return wikipediaAPI.getArtistInfo(artistName).execute()
     }
 
@@ -138,7 +151,8 @@ class OtherInfoActivity : AppCompatActivity() {
     }
 
     private fun showImageWikipedia() {
-        Picasso.get().load(IMAGE_WIKIPEDIA).into(findViewById<View>(R.id.imageView) as ImageView)
+        //Picasso.get().load(IMAGE_WIKIPEDIA).into(findViewById<View>(R.id.imageView) as ImageView)
+        wikipediaImage.into(wikipediaImagePane)
     }
 
     private fun textToHtml(text: String, term: String?): String {
