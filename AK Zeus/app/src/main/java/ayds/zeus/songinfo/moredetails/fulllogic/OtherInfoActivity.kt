@@ -3,14 +3,12 @@ package ayds.zeus.songinfo.moredetails.fulllogic
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import ayds.zeus.songinfo.R
-import ayds.zeus.songinfo.home.model.repository.external.spotify.auth.SpotifyAuthAPI
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
@@ -81,9 +79,8 @@ class OtherInfoActivity : AppCompatActivity() {
 
     private fun showArtistInfo() {
         Thread {
-            val infoArtist = getArtistInfo()
             urlString = updateWikipediaURL()
-            showArtistInfoActivity(infoArtist)
+            showArtistInfoActivity(getArtistInfo())
         }.start()
     }
 
@@ -151,7 +148,6 @@ class OtherInfoActivity : AppCompatActivity() {
     }
 
     private fun showImageWikipedia() {
-        //Picasso.get().load(IMAGE_WIKIPEDIA).into(findViewById<View>(R.id.imageView) as ImageView)
         wikipediaImage.into(wikipediaImagePane)
     }
 
