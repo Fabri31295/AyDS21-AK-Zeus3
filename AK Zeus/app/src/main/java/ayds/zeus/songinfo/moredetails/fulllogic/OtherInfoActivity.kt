@@ -46,19 +46,31 @@ class OtherInfoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_other_info)
 
         initProperties()
+        initRetrofit()
+        initWikipediaAPI()
+        initWikipediaImage()
         initStorage()
         initViewers()
         initListeners()
-        showArtistInfo()
+        showArtistInfoAsync()
     }
 
     private fun initProperties() {
         artistName = intent.getStringExtra(ARTIST_NAME_EXTRA).toString()
+    }
+
+    private fun initRetrofit() {
         retrofit = Retrofit.Builder()
-            .baseUrl(URL_WIKIPEDIA)
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .build()
+                .baseUrl(URL_WIKIPEDIA)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build()
+    }
+
+    private fun initWikipediaAPI() {
         wikipediaAPI = retrofit.create(WikipediaAPI::class.java)
+    }
+
+    private fun initWikipediaImage() {
         wikipediaImage = Picasso.get().load(IMAGE_WIKIPEDIA)
     }
 
@@ -78,11 +90,15 @@ class OtherInfoActivity : AppCompatActivity() {
         }
     }
 
-    private fun showArtistInfo() {
+    private fun showArtistInfoAsync() {
         Thread {
-            urlString = updateWikipediaURL()
-            showArtistInfoActivity(getArtistInfo())
+            showArtistInfo()
         }.start()
+    }
+
+    private fun showArtistInfo() {
+        urlString = getWikipediaURL()
+        showArtistInfoActivity(getArtistInfo())
     }
 
     private fun showArtistInfoActivity(artistInfo: String) {
@@ -119,7 +135,7 @@ class OtherInfoActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun updateWikipediaURL(): String {
+    private fun getWikipediaURL(): String {
         val pageid = getDataFromResponse(JSON_PAGE_ID)
         return WIKIPEDIA_SHORT_URL + "$pageid"
     }
