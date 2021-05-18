@@ -21,12 +21,13 @@ import java.util.*
 
 private const val JSON_SNIPPET = "snippet"
 private const val JSON_PAGE_ID = "pageid"
-private const val IMAGE_WIKIPEDIA = "https://upload.wikimedia.org/wikipedia/commons/8/8c/Wikipedia-logo-v2-es.png"
+private const val IMAGE_WIKIPEDIA =
+    "https://upload.wikimedia.org/wikipedia/commons/8/8c/Wikipedia-logo-v2-es.png"
 private const val URL_WIKIPEDIA = "https://en.wikipedia.org/w/"
 private const val WIKIPEDIA_SHORT_URL = "https://en.wikipedia.org/?curid="
 private const val JSON_QUERY = "query"
 private const val JSON_SEARCH = "search"
-private const val LITERAL = "[*]"
+private const val STORED_PREFIX = "[*]"
 
 class OtherInfoActivity : AppCompatActivity() {
 
@@ -51,7 +52,7 @@ class OtherInfoActivity : AppCompatActivity() {
         showArtistInfo()
     }
 
-    private fun initProperties(){
+    private fun initProperties() {
         artistName = intent.getStringExtra(ARTIST_NAME_EXTRA).toString()
         retrofit = Retrofit.Builder()
             .baseUrl(URL_WIKIPEDIA)
@@ -61,17 +62,17 @@ class OtherInfoActivity : AppCompatActivity() {
         wikipediaImage = Picasso.get().load(IMAGE_WIKIPEDIA)
     }
 
-    private fun initStorage(){
+    private fun initStorage() {
         dataBase = ArtistInfoStorage(this)
     }
 
-    private fun initViewers(){
+    private fun initViewers() {
         artistDescriptionPane = findViewById(R.id.textPane2)
         openUrlButton = findViewById(R.id.openUrlButton)
         wikipediaImagePane = findViewById(R.id.imageView)
     }
 
-    private fun initListeners(){
+    private fun initListeners() {
         openUrlButton.setOnClickListener {
             openWikipediaPage()
         }
@@ -94,8 +95,8 @@ class OtherInfoActivity : AppCompatActivity() {
     private fun getArtistInfo(): String {
         var infoArtistText = getArtistInfoDataBase()
         if (infoArtistText != null)
-            infoArtistText= LITERAL+"$infoArtistText"
-        else{
+            infoArtistText = STORED_PREFIX + "$infoArtistText"
+        else {
             infoArtistText = getDescriptionArtistToHTML()
             dataBase.saveArtist(artistName, infoArtistText)
         }
@@ -120,7 +121,7 @@ class OtherInfoActivity : AppCompatActivity() {
 
     private fun updateWikipediaURL(): String {
         val pageid = getDataFromResponse(JSON_PAGE_ID)
-        return WIKIPEDIA_SHORT_URL+"$pageid"
+        return WIKIPEDIA_SHORT_URL + "$pageid"
     }
 
     private fun getDataFromResponse(name: String): JsonElement {
@@ -156,9 +157,9 @@ class OtherInfoActivity : AppCompatActivity() {
         builder.append("<html><div width=400>")
         builder.append("<font face=\"arial\">")
         val textWithBold = text
-                .replace("'", " ")
-                .replace("\n", "<br>")
-                .replace("(?i)" + term!!.toRegex(), "<b>" + term.toUpperCase(Locale.ROOT) + "</b>")
+            .replace("'", " ")
+            .replace("\n", "<br>")
+            .replace("(?i)" + term!!.toRegex(), "<b>" + term.toUpperCase(Locale.ROOT) + "</b>")
         builder.append(textWithBold)
         builder.append("</font></div></html>")
         return builder.toString()
