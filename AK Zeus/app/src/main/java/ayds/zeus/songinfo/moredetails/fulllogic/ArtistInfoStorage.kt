@@ -14,7 +14,7 @@ private const val ARTIST_COLUMN = "artist"
 private const val INFO_COLUMN = "info"
 private const val SOURCE_COLUMN = "source"
 private const val CREATE_ARTISTS_TABLE :String =
-        "create table artists (" +
+        "create table $ARTISTS_TABLE (" +
                 " $ID_COLUMN INTEGER PRIMARY KEY AUTOINCREMENT," +
                 " $ARTIST_COLUMN string," +
                 " $INFO_COLUMN string," +
