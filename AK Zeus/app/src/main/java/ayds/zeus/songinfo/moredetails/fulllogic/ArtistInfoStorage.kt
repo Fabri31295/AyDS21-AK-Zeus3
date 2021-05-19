@@ -13,19 +13,18 @@ private const val ID_COLUMN = "id"
 private const val ARTIST_COLUMN = "artist"
 private const val INFO_COLUMN = "info"
 private const val SOURCE_COLUMN = "source"
-private const val CREATE_ARTISTS_TABLE :String =
-        "create table $ARTISTS_TABLE (" +
-                " $ID_COLUMN INTEGER PRIMARY KEY AUTOINCREMENT," +
-                " $ARTIST_COLUMN string," +
-                " $INFO_COLUMN string," +
-                " $SOURCE_COLUMN integer)"
+private const val CREATE_ARTISTS_TABLE: String =
+    "create table $ARTISTS_TABLE (" +
+            " $ID_COLUMN INTEGER PRIMARY KEY AUTOINCREMENT," +
+            " $ARTIST_COLUMN string," +
+            " $INFO_COLUMN string," +
+            " $SOURCE_COLUMN integer)"
 
 internal class ArtistInfoStorage(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     fun saveArtist(artist: String, info: String) {
-        val dataBase = this.writableDatabase
         val contentValues = getArtistContentValues(artist, info)
-        dataBase.insert(ARTISTS_TABLE, null, contentValues)
+        this.writableDatabase.insert(ARTISTS_TABLE, null, contentValues)
     }
 
     fun getInfo(artist: String): String? {
