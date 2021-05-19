@@ -50,7 +50,7 @@ class OtherInfoActivity : AppCompatActivity() {
         initWikipediaAPI()
         initWikipediaImage()
         initStorage()
-        initViewers()
+        initViews()
         initListeners()
         showArtistInfoAsync()
     }
@@ -78,7 +78,7 @@ class OtherInfoActivity : AppCompatActivity() {
         dataBase = ArtistInfoStorage(this)
     }
 
-    private fun initViewers() {
+    private fun initViews() {
         artistDescriptionPane = findViewById(R.id.textPane2)
         openUrlButton = findViewById(R.id.openUrlButton)
         wikipediaImagePane = findViewById(R.id.imageView)
