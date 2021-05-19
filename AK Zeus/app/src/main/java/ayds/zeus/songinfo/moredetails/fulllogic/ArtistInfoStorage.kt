@@ -15,10 +15,10 @@ private const val INFO_COLUMN = "info"
 private const val SOURCE_COLUMN = "source"
 private const val CREATE_ARTISTS_TABLE :String =
         "create table artists (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                " artist string," +
-                " info string," +
-                " source integer)"
+                " $ID_COLUMN INTEGER PRIMARY KEY AUTOINCREMENT," +
+                " $ARTIST_COLUMN string," +
+                " $INFO_COLUMN string," +
+                " $SOURCE_COLUMN integer)"
 
 internal class ArtistInfoStorage(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
