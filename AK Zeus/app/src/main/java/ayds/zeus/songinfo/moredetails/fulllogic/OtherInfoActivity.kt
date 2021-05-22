@@ -9,6 +9,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import ayds.zeus.songinfo.R
+import ayds.zeus.songinfo.moredetails.fulllogic.model.ArtistInfoStorage
+import ayds.zeus.songinfo.moredetails.fulllogic.model.ArtistInfoStorageImpl
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
@@ -75,7 +77,7 @@ class OtherInfoActivity : AppCompatActivity() {
     }
 
     private fun initStorage() {
-        dataBase = ArtistInfoStorage(this)
+        dataBase = ArtistInfoStorageImpl(this)
     }
 
     private fun initViews() {

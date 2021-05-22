@@ -1,10 +1,11 @@
-package ayds.zeus.songinfo.moredetails.fulllogic
+package ayds.zeus.songinfo.moredetails.fulllogic.model
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import ayds.zeus.songinfo.home.model.entities.Song
 
 private const val DATABASE_VERSION = 1
 private const val DATABASE_NAME = "dictionary.db"
@@ -20,14 +21,19 @@ private const val CREATE_ARTISTS_TABLE: String =
             " $INFO_COLUMN string," +
             " $SOURCE_COLUMN integer)"
 
-internal class ArtistInfoStorage(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+interface ArtistInfoStorage {
+    fun saveArtist(artist: String, info: String)
+    fun getInfo(artist: String): String?
+}
 
-    fun saveArtist(artist: String, info: String) {
+internal class ArtistInfoStorageImpl(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION), ArtistInfoStorage {
+
+    override fun saveArtist(artist: String, info: String) {
         val contentValues = getArtistContentValues(artist, info)
         this.writableDatabase.insert(ARTISTS_TABLE, null, contentValues)
     }
 
-    fun getInfo(artist: String): String? {
+    override fun getInfo(artist: String): String? {
         val cursor = getNewArtistCursor(artist)
         val items = getInfoItems(cursor)
         cursor.close()
