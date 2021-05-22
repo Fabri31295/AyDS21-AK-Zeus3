@@ -5,7 +5,6 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import ayds.zeus.songinfo.home.model.entities.Song
 
 private const val DATABASE_VERSION = 1
 private const val DATABASE_NAME = "dictionary.db"
