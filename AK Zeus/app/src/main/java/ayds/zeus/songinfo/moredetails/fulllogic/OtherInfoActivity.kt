@@ -58,7 +58,7 @@ class OtherInfoActivity : AppCompatActivity() {
     }
 
     private fun initProperties() {
-        artistName = intent.getStringExtra(ARTIST_NAME_EXTRA).toString()
+        artistName= intent.getStringExtra(ARTIST_NAME_EXTRA).toString()
     }
 
     private fun initRetrofit() {

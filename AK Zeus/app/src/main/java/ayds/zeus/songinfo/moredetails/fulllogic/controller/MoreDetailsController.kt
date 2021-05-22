@@ -1,10 +1,12 @@
 package ayds.zeus.songinfo.moredetails.fulllogic.controller
 
-interface FullLogicController{
+interface MoreDetailsController{
     fun setFullLogic()
 }
 
-internal class FullLogicControllerIMP{
+internal class MoreDE{
+
+
 
 }
 
