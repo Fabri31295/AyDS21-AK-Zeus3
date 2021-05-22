@@ -7,38 +7,28 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.text.HtmlCompat
 import ayds.observer.Observable
 import ayds.observer.Subject
 import ayds.zeus.songinfo.R
-import ayds.zeus.songinfo.home.view.HomeViewModule
+import ayds.zeus.songinfo.moredetails.fulllogic.*
 import ayds.zeus.songinfo.moredetails.fulllogic.OtherInfoActivity
-import ayds.zeus.songinfo.moredetails.fulllogic.WikipediaAPI
 import ayds.zeus.songinfo.moredetails.fulllogic.model.ArtistInfoStorage
 import ayds.zeus.songinfo.moredetails.fulllogic.model.ArtistInfoStorageImpl
-import com.google.gson.Gson
-import com.google.gson.JsonElement
-import com.google.gson.JsonObject
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.*
 
-private const val JSON_SNIPPET = "snippet"
-private const val JSON_PAGE_ID = "pageid"
 private const val IMAGE_WIKIPEDIA =
         "https://upload.wikimedia.org/wikipedia/commons/8/8c/Wikipedia-logo-v2-es.png"
 private const val URL_WIKIPEDIA = "https://en.wikipedia.org/w/"
-private const val WIKIPEDIA_SHORT_URL = "https://en.wikipedia.org/?curid="
-private const val JSON_QUERY = "query"
-private const val JSON_SEARCH = "search"
-private const val STORED_PREFIX = "[*]"
 
 interface MoreDetailsView{
     val uiState: MoreDetailsViewUiState
     val uiEventObservable: Observable<MoreDetailsViewUiEvent>
+
+    fun updateUrl(url: String)
 }
 
 class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
@@ -55,6 +45,10 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
     override var uiState: MoreDetailsViewUiState= MoreDetailsViewUiState()
     override val uiEventObservable: Observable<MoreDetailsViewUiEvent> = onActionSubject
+
+    override fun updateUrl(url: String) {
+        uiState = uiState.copy(urlString = url)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,10 +88,6 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         wikipediaImage = Picasso.get().load(IMAGE_WIKIPEDIA)
     }
 
-    private fun initStorage() {//va para controller
-        dataBase = ArtistInfoStorageImpl(this)
-    }
-
     private fun initViews() {
         artistDescriptionPane = findViewById(R.id.textPane2)
         openUrlButton = findViewById(R.id.openUrlButton)
@@ -112,7 +102,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     }
 
     private fun notifyShowArtistInfo(){
-        onActionSubject.notify(MoreDetailsViewUiEvent.showArtistInfo)
+        onActionSubject.notify(MoreDetailsViewUiEvent.ShowArtistInfo)
     }
 
     private fun showArtistInfoAction() {
@@ -125,90 +115,13 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         startActivity(intent)
     }
 
-    private fun showArtistInfoAsync() {//VA PARA CONTROLADOR
+    private fun initStorage() {//va para controller
+        dataBase = ArtistInfoStorageImpl(this)
+    }
+
+    private fun showArtistInfoAsync() {//va para cotroller
         Thread {
             showArtistInfo()
         }.start()
     }
-
-    private fun showArtistInfo() {
-        uiState = uiState.copy(urlString = getWikipediaURL())
-        showArtistInfoActivity(getArtistInfo())
-    }
-
-    private fun showArtistInfoActivity(artistInfo: String) {
-        runOnUiThread {
-            showImageWikipedia()
-            showInfoArtist(artistInfo)
-        }
-    }
-
-    private fun getArtistInfo(): String {
-        var infoArtistText = getArtistInfoDataBase()
-        if (infoArtistText != null)
-            infoArtistText = STORED_PREFIX + "$infoArtistText"
-        else {
-            infoArtistText = getDescriptionArtistToHTML()
-            dataBase.saveArtist(uiState.artistName, infoArtistText)
-        }
-        return infoArtistText
-    }
-
-    private fun getWikipediaURL(): String {
-        val pageid = getDataFromResponse(JSON_PAGE_ID)
-        return WIKIPEDIA_SHORT_URL + "$pageid"
-    }
-
-    private fun showImageWikipedia() {
-        wikipediaImage.into(wikipediaImagePane)
-    }
-
-    private fun showInfoArtist(text: String) {
-        artistDescriptionPane.text = HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY)
-    }
-
-    private fun getArtistInfoDataBase(): String? {
-        return dataBase.getInfo(uiState.artistName)
-    }
-
-    private fun getDescriptionArtistToHTML(): String {
-        val snippet = getDataFromResponse(JSON_SNIPPET)
-        val descriptionArtist = snippet.asString.replace("\\n", "\n")
-        return textToHtml(descriptionArtist, uiState.artistName)
-    }
-    private fun getDataFromResponse(name: String): JsonElement {
-        val jobj = getResponseJson()
-        return getDataFromJson(jobj, name)
-    }
-
-    private fun getResponseJson(): JsonObject {
-        val callResponse = getCallResponse()
-        val gson = Gson()
-        return gson.fromJson(callResponse.body(), JsonObject::class.java)
-    }
-
-    private fun getDataFromJson(jobj: JsonObject, name: String): JsonElement {
-        val query = jobj[JSON_QUERY].asJsonObject
-        return query[JSON_SEARCH].asJsonArray[0].asJsonObject[name]
-    }
-
-    private fun getCallResponse(): Response<String> {
-        return wikipediaAPI.getArtistInfo(uiState.artistName).execute()
-    }
-
-    private fun textToHtml(text: String, term: String): String {
-        val builder = StringBuilder()
-        builder.append("<html><div width=400>")
-        builder.append("<font face=\"arial\">")
-        val textWithBold = text
-                .replace("'", " ")
-                .replace("\n", "<br>")
-                .replace("(?i)" + term.toRegex(), "<b>" + term.toUpperCase(Locale.ROOT) + "</b>")
-        builder.append(textWithBold)
-        builder.append("</font></div></html>")
-        return builder.toString()
-    }
-
-
-
 }

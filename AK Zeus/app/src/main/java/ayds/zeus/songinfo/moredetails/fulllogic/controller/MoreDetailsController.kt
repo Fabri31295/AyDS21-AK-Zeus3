@@ -1,12 +1,27 @@
 package ayds.zeus.songinfo.moredetails.fulllogic.controller
 
+import ayds.zeus.songinfo.moredetails.fulllogic.model.MoreDetails
+import ayds.zeus.songinfo.moredetails.fulllogic.view.MoreDetailsView
+
 interface MoreDetailsController{
-    fun setFullLogic()
+    fun setMoreDetailsView(moreDetailsView: MoreDetailsView)
 }
 
-internal class MoreDE{
+internal class MoreDetailsControllerImpl(private val moreDetailsModel: MoreDetails) : MoreDetailsController {
 
+    private lateinit var moreDetailsView: MoreDetailsView
 
+    override fun setMoreDetailsView(moreDetailsView: MoreDetailsView) {
+        this.moreDetailsView = moreDetailsView
+    }
+
+    private fun viewFullArticle(){
+
+    }
+
+    private fun openWikipediaURL(){
+        
+    }
 
 }
 

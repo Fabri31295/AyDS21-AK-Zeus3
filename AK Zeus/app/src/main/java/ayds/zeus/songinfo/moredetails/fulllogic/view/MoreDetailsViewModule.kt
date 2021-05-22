@@ -1,8 +1,12 @@
 package ayds.zeus.songinfo.moredetails.fulllogic.view
 
-object MoreDetailsViewModule {
+import ayds.zeus.songinfo.moredetails.fulllogic.controller.MoreDetailsControllerModule
+import ayds.zeus.songinfo.moredetails.fulllogic.model.MoreDetailsModelModule
 
+object MoreDetailsViewModule {
     fun init(moreDetailsView: MoreDetailsView){
+        MoreDetailsControllerModule.init(moreDetailsView)
+        MoreDetailsModelModule.init(moreDetailsView)
 
     }
 }
