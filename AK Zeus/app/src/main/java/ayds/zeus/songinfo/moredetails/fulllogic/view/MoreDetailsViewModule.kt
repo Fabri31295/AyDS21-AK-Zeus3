@@ -7,6 +7,5 @@ object MoreDetailsViewModule {
     fun init(moreDetailsView: MoreDetailsView){
         MoreDetailsControllerModule.initMoreDetailsController(moreDetailsView)
         MoreDetailsModelModule.initMoreDetailsModule(moreDetailsView)
-
     }
 }

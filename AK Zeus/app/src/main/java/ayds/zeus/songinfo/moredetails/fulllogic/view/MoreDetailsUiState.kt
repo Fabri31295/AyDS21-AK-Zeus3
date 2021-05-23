@@ -1,6 +1,6 @@
 package ayds.zeus.songinfo.moredetails.fulllogic.view
 
-data class MoreDetailsViewUiState(
+data class MoreDetailsUiState(
         val artistName: String = "",
         val urlString: String = ""
 )
