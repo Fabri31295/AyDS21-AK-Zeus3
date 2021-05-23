@@ -12,13 +12,10 @@ import ayds.observer.Subject
 import ayds.zeus.songinfo.R
 import ayds.zeus.songinfo.moredetails.fulllogic.*
 import ayds.zeus.songinfo.moredetails.fulllogic.OtherInfoActivity
-import ayds.zeus.songinfo.moredetails.fulllogic.model.ArtistInfoStorage
-import ayds.zeus.songinfo.moredetails.fulllogic.model.ArtistInfoStorageImpl
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
-import java.util.*
 
 private const val IMAGE_WIKIPEDIA =
         "https://upload.wikimedia.org/wikipedia/commons/8/8c/Wikipedia-logo-v2-es.png"
