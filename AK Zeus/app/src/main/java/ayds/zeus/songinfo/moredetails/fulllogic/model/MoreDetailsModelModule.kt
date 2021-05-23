@@ -7,7 +7,7 @@ object MoreDetailsModelModule {
 
     private lateinit var moreDetailsModel: MoreDetailsModel
 
-    fun initMoreDetailsModule(moreDetailsView: MoreDetailsView){
+    fun onViewStarted(moreDetailsView: MoreDetailsView){
         val artistInfoStorage : ArtistInfoStorage = ArtistInfoStorageImpl(moreDetailsView as Context)
         moreDetailsModel = MoreDetailsModelImpl(artistInfoStorage);
     }

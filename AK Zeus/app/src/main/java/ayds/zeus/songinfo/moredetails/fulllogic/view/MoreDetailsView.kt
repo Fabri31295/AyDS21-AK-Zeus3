@@ -29,6 +29,7 @@ interface MoreDetailsView{
     val uiEventObservable: Observable<MoreDetailsUiEvent>
 
     fun updateUrl(url: String)
+    fun openWikipediaPage()
 }
 
 class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
@@ -47,6 +48,12 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
     override fun updateUrl(url: String) {
         uiState = uiState.copy(urlString = url)
+    }
+
+    override fun openWikipediaPage() {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(uiState.urlString)
+        startActivity(intent)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,12 +111,6 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
     private fun showArtistInfoAction() {
         notifyShowArtistInfo()
-    }
-
-    private fun openWikipediaPage() {
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = Uri.parse(uiState.urlString)
-        startActivity(intent)
     }
 
 }

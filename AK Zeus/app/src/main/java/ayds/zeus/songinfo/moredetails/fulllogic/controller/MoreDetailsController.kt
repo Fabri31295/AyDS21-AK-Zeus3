@@ -5,11 +5,12 @@ import ayds.zeus.songinfo.moredetails.fulllogic.view.MoreDetailsView
 import ayds.zeus.songinfo.moredetails.fulllogic.view.MoreDetailsUiEvent
 import ayds.observer.Observer
 
-interface MoreDetailsController{
+interface MoreDetailsController {
     fun setMoreDetailsView(moreDetailsView: MoreDetailsView)
 }
 
-internal class MoreDetailsControllerImpl(private val moreDetailsModel: MoreDetailsModel) : MoreDetailsController {
+internal class MoreDetailsControllerImpl(private val moreDetailsModel: MoreDetailsModel) :
+    MoreDetailsController {
 
     private lateinit var moreDetailsView: MoreDetailsView
 
@@ -22,13 +23,19 @@ internal class MoreDetailsControllerImpl(private val moreDetailsModel: MoreDetai
         Observer { value ->
             when (value) {
                 MoreDetailsUiEvent.ShowArtistInfo -> showArtistInfo()
+                is MoreDetailsUiEvent.OpenWikipediaUrl -> openWikipediaUrl()
             }
         }
 
-    private fun showArtistInfo(){
+    private fun showArtistInfo() {
         Thread {
-            moreDetailsView.showArtistArtistAction()
+            moreDetailsModel.getArtistInfo(moreDetailsView.uiState.artistName)
+            moreDetailsView.updateUrl(moreDetailsView.uiState.urlString)
         }.start()
+    }
+
+    private fun openWikipediaUrl() {
+        moreDetailsView.openWikipediaPage()
     }
 
 }
