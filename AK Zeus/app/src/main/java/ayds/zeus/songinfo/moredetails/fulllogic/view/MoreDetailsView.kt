@@ -25,15 +25,15 @@ private const val IMAGE_WIKIPEDIA =
 private const val URL_WIKIPEDIA = "https://en.wikipedia.org/w/"
 
 interface MoreDetailsView{
-    val uiState: MoreDetailsViewUiState
-    val uiEventObservable: Observable<MoreDetailsViewUiEvent>
+    val uiState: MoreDetailsUiState
+    val uiEventObservable: Observable<MoreDetailsUiEvent>
 
     fun updateUrl(url: String)
 }
 
 class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
-    private val onActionSubject = Subject<MoreDetailsViewUiEvent>()
+    private val onActionSubject = Subject<MoreDetailsUiEvent>()
 
     private lateinit var artistDescriptionPane: TextView
     private lateinit var wikipediaImagePane: ImageView
@@ -42,8 +42,8 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     private lateinit var retrofit: Retrofit
     private lateinit var wikipediaAPI: WikipediaAPI
 
-    override var uiState: MoreDetailsViewUiState= MoreDetailsViewUiState()
-    override val uiEventObservable: Observable<MoreDetailsViewUiEvent> = onActionSubject
+    override var uiState: MoreDetailsUiState= MoreDetailsUiState()
+    override val uiEventObservable: Observable<MoreDetailsUiEvent> = onActionSubject
 
     override fun updateUrl(url: String) {
         uiState = uiState.copy(urlString = url)
@@ -58,10 +58,8 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         initRetrofit()
         initWikipediaAPI()
         initWikipediaImage()
-        initStorage() //va para controller
         initViews()
         initListeners()
-        showArtistInfoAsync() //va para controller
     }
 
     private fun initModule() {
@@ -101,7 +99,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     }
 
     private fun notifyShowArtistInfo(){
-        onActionSubject.notify(MoreDetailsViewUiEvent.ShowArtistInfo)
+        onActionSubject.notify(MoreDetailsUiEvent.ShowArtistInfo)
     }
 
     private fun showArtistInfoAction() {

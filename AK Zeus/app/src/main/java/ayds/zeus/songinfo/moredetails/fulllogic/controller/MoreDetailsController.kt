@@ -18,7 +18,7 @@ internal class MoreDetailsControllerImpl(private val moreDetailsModel: MoreDetai
         moreDetailsView.uiEventObservable.subscribe(observer)
     }
 
-    private val observer: Observer<MoreDetailsUiEvent> = 
+    private val observer: Observer<MoreDetailsUiEvent> =
         Observer { value ->
             when (value) {
                 MoreDetailsUiEvent.ShowArtistInfo -> showArtistInfo()
