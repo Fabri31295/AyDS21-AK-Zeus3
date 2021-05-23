@@ -29,7 +29,7 @@ interface ArtistInfoStorage {
 internal class ArtistInfoStorageImpl(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION), ArtistInfoStorage {
 
     override fun saveArtist(artist: WikipediaArtist) {
-        val contentValues = getArtistContentValues(artist.artist_name, artist.artist_info)
+        val contentValues = getArtistContentValues(artist.name, artist.info)
         this.writableDatabase.insert(ARTISTS_TABLE, null, contentValues)
     }
 
