@@ -1,9 +1,16 @@
 package ayds.zeus.songinfo.moredetails.fulllogic.model
 
+import android.content.Context
 import ayds.zeus.songinfo.moredetails.fulllogic.view.MoreDetailsView
 
 object MoreDetailsModelModule {
-    fun init(moreDetailsView: MoreDetailsView){
 
+    private lateinit var moreDetailsModel: MoreDetailsModel
+
+    fun initMoreDetailsModule(moreDetailsView: MoreDetailsView){
+        val artistInfoStorage : ArtistInfoStorage = ArtistInfoStorageImpl(moreDetailsView as Context)
+        moreDetailsModel = MoreDetailsModelImpl(artistInfoStorage);
     }
+
+    fun getMoreDetailsModel(): MoreDetailsModel = moreDetailsModel
 }

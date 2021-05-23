@@ -12,11 +12,11 @@ private const val JSON_SNIPPET = "snippet"
 private const val JSON_QUERY = "query"
 private const val JSON_SEARCH = "search"
 
-interface MoreDetails{
+interface MoreDetailsModel{
     fun getArtistInfo(artistName: String):String
 }
 
-internal class MoreDetailsModelImpl(private val repository: ArtistInfoStorage) : MoreDetails{
+internal class MoreDetailsModelImpl(private val repository: ArtistInfoStorage) : MoreDetailsModel{
 
     override fun getArtistInfo(artistName: String): String {
         var infoArtistText = getArtistInfoDataBase(artistName)
