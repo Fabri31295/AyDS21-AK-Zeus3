@@ -29,7 +29,7 @@ internal class MoreDetailsControllerImpl(private val moreDetailsModel: MoreDetai
 
     private fun showArtistInfo() {
         Thread {
-            moreDetailsModel.getArtistInfo(moreDetailsView.uiState.artistName)
+            moreDetailsModel.getArtistByName(moreDetailsView.uiState.artistName)
             moreDetailsView.updateUrl(moreDetailsView.uiState.urlString)
         }.start()
     }
