@@ -14,7 +14,7 @@ object MoreDetailsModelModule {
     fun onViewStarted(moreDetailsView: MoreDetailsView){
         val artistInfoStorage: ArtistInfoStorage = ArtistInfoStorageImpl(moreDetailsView as Context)
         val artistRepository: ArtistRepository = ArtistRepositoryImpl(artistInfoStorage)
-        moreDetailsModel = MoreDetailsModelImpl(artistRepository);
+        moreDetailsModel = MoreDetailsModelImpl(artistRepository)
     }
 
     fun getMoreDetailsModel(): MoreDetailsModel = moreDetailsModel
