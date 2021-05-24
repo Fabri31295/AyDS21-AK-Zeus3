@@ -1,4 +1,4 @@
-package ayds.zeus.songinfo.moredetails.fulllogic
+package ayds.zeus.songinfo.moredetails
 
 import android.content.Intent
 import android.net.Uri
@@ -9,8 +9,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import ayds.zeus.songinfo.R
-import ayds.zeus.songinfo.moredetails.fulllogic.model.repository.ArtistInfoStorage
-import ayds.zeus.songinfo.moredetails.fulllogic.model.repository.ArtistInfoStorageImpl
+import ayds.zeus.songinfo.moredetails.model.repository.ArtistInfoStorage
+import ayds.zeus.songinfo.moredetails.model.repository.ArtistInfoStorageImpl
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
