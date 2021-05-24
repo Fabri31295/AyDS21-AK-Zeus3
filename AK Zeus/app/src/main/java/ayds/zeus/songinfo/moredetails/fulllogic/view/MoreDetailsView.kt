@@ -21,7 +21,7 @@ private const val IMAGE_WIKIPEDIA =
         "https://upload.wikimedia.org/wikipedia/commons/8/8c/Wikipedia-logo-v2-es.png"
 private const val URL_WIKIPEDIA = "https://en.wikipedia.org/w/"
 
-interface MoreDetailsView{
+interface MoreDetailsView {
     val uiState: MoreDetailsUiState
     val uiEventObservable: Observable<MoreDetailsUiEvent>
 
@@ -32,14 +32,12 @@ interface MoreDetailsView{
 class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
     private val onActionSubject = Subject<MoreDetailsUiEvent>()
-
     private lateinit var artistDescriptionPane: TextView
     private lateinit var wikipediaImagePane: ImageView
     private lateinit var wikipediaImage: RequestCreator
     private lateinit var openUrlButton: Button
     private lateinit var retrofit: Retrofit
     private lateinit var wikipediaAPI: WikipediaAPI
-
     override var uiState: MoreDetailsUiState= MoreDetailsUiState()
     override val uiEventObservable: Observable<MoreDetailsUiEvent> = onActionSubject
 
