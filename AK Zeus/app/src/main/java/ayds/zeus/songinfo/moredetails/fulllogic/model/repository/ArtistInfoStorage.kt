@@ -1,4 +1,4 @@
-package ayds.zeus.songinfo.moredetails.fulllogic.model
+package ayds.zeus.songinfo.moredetails.fulllogic.model.repository
 
 import android.content.ContentValues
 import android.content.Context
@@ -26,7 +26,8 @@ interface ArtistInfoStorage {
     fun getInfo(artist: String): String?
 }
 
-internal class ArtistInfoStorageImpl(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION), ArtistInfoStorage {
+internal class ArtistInfoStorageImpl(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION),
+    ArtistInfoStorage {
 
     override fun saveArtist(artist: WikipediaArtist) {
         val contentValues = getArtistContentValues(artist.name, artist.info)
