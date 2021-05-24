@@ -1,7 +1,7 @@
-package ayds.zeus.songinfo.moredetails.fulllogic.controller
+package ayds.zeus.songinfo.moredetails.controller
 
-import ayds.zeus.songinfo.moredetails.fulllogic.model.MoreDetailsModelModule
-import ayds.zeus.songinfo.moredetails.fulllogic.view.MoreDetailsView
+import ayds.zeus.songinfo.moredetails.model.MoreDetailsModelModule
+import ayds.zeus.songinfo.moredetails.view.MoreDetailsView
 
 object MoreDetailsControllerModule {
 

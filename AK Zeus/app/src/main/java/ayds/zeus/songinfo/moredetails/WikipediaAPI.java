@@ -1,4 +1,4 @@
-package ayds.zeus.songinfo.moredetails.fulllogic;
+package ayds.zeus.songinfo.moredetails;
 
 
 import retrofit2.Call;

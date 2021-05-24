@@ -1,4 +1,4 @@
-package ayds.zeus.songinfo.moredetails.fulllogic.view
+package ayds.zeus.songinfo.moredetails.view
 
 data class MoreDetailsUiState(
         val artistName: String = "",

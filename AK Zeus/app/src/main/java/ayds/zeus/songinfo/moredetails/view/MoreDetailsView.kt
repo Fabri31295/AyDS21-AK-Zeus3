@@ -1,4 +1,4 @@
-package ayds.zeus.songinfo.moredetails.fulllogic.view
+package ayds.zeus.songinfo.moredetails.view
 
 import android.content.Intent
 import android.net.Uri
@@ -10,8 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import ayds.observer.Observable
 import ayds.observer.Subject
 import ayds.zeus.songinfo.R
-import ayds.zeus.songinfo.moredetails.fulllogic.*
-import ayds.zeus.songinfo.moredetails.fulllogic.OtherInfoActivity
+import ayds.zeus.songinfo.moredetails.WikipediaAPI
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
 import retrofit2.Retrofit
@@ -30,6 +29,10 @@ interface MoreDetailsView {
 }
 
 class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
+
+    companion object {
+        const val ARTIST_NAME_EXTRA = "artistName"
+    }
 
     private val onActionSubject = Subject<MoreDetailsUiEvent>()
     private lateinit var artistDescriptionPane: TextView
@@ -69,7 +72,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     }
 
     private fun initProperties() {
-        uiState = uiState.copy(artistName = intent.getStringExtra(OtherInfoActivity.ARTIST_NAME_EXTRA).toString())
+        uiState = uiState.copy(artistName = intent.getStringExtra(ARTIST_NAME_EXTRA).toString())
     }
 
     private fun initRetrofit() {
