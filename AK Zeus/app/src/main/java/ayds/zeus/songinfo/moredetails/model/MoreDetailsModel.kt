@@ -10,6 +10,6 @@ interface MoreDetailsModel{
 internal class MoreDetailsModelImpl(private val repository: ArtistRepository) : MoreDetailsModel{
 
     override fun getArtistByName(artistName: String): WikipediaArticle {
-       return repository.getArtist(artistName)
+       return repository.getArticle(artistName)
     }
 }
