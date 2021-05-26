@@ -21,11 +21,12 @@ private const val IMAGE_WIKIPEDIA =
 private const val URL_WIKIPEDIA = "https://en.wikipedia.org/w/"
 
 interface MoreDetailsView {
-    val uiState: MoreDetailsUiState
+    var uiState: MoreDetailsUiState
     val uiEventObservable: Observable<MoreDetailsUiEvent>
 
     fun updateUrl(url: String)
     fun openWikipediaPage()
+    fun getArtistInfoText(text: String, term: String): String
 }
 
 class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
@@ -41,6 +42,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     private lateinit var openUrlButton: Button
     private lateinit var retrofit: Retrofit
     private lateinit var wikipediaAPI: WikipediaAPI
+    private val artistInfo: ArtistInfoHelperImpl= ArtistInfoHelperImpl()
     override var uiState: MoreDetailsUiState= MoreDetailsUiState()
     override val uiEventObservable: Observable<MoreDetailsUiEvent> = onActionSubject
 
@@ -111,4 +113,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         notifyShowArtistInfo()
     }
 
+    override fun getArtistInfoText(text: String, term: String): String {
+        return artistInfo.getArtistInfoText(text, term)
+    }
 }
