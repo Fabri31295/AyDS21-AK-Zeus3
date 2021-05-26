@@ -8,10 +8,10 @@ interface ArticleRepository {
 }
 
 internal class ArticleRepositoryImpl(
-        private val artistInfoStorage: ArtistInfoStorage
+        private val wikipediaLocalStorage: WikipediaLocalStorage
 ): ArticleRepository{
     override fun getArticle(artistName: String): WikipediaArticle {
-        val info = artistInfoStorage.getInfo(artistName)
+        val info = wikipediaLocalStorage.getInfo(artistName)
         return WikipediaArticle(artistName, info)
     }
 }

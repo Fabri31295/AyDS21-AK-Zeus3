@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import ayds.observer.Observable
 import ayds.observer.Subject
 import ayds.zeus.songinfo.R
-import ayds.zeus.songinfo.moredetails.WikipediaAPI
+import ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.tracks.WikipediaAPI
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
 import retrofit2.Retrofit

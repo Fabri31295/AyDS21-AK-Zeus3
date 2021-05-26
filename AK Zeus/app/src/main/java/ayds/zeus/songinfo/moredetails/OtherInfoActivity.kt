@@ -9,8 +9,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import ayds.zeus.songinfo.R
-import ayds.zeus.songinfo.moredetails.model.repository.ArtistInfoStorage
-import ayds.zeus.songinfo.moredetails.model.repository.ArtistInfoStorageImpl
+import ayds.zeus.songinfo.moredetails.model.repository.WikipediaLocalStorage
+import ayds.zeus.songinfo.moredetails.model.repository.WikipediaLocalStorageImpl
+import ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.tracks.WikipediaAPI
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
@@ -36,7 +37,7 @@ class OtherInfoActivity : AppCompatActivity() {
     private lateinit var artistDescriptionPane: TextView
     private lateinit var wikipediaImagePane: ImageView
     private lateinit var wikipediaImage: RequestCreator
-    private lateinit var dataBase: ArtistInfoStorage
+    private lateinit var dataBase: WikipediaLocalStorage
     private lateinit var artistName: String
     private lateinit var urlString: String
     private lateinit var openUrlButton: Button
@@ -77,7 +78,7 @@ class OtherInfoActivity : AppCompatActivity() {
     }
 
     private fun initStorage() {
-        dataBase = ArtistInfoStorageImpl(this)
+        dataBase = WikipediaLocalStorageImpl(this)
     }
 
     private fun initViews() {

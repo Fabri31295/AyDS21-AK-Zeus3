@@ -21,16 +21,16 @@ private const val CREATE_ARTISTS_TABLE: String =
             " $INFO_COLUMN string," +
             " $SOURCE_COLUMN integer)"
 
-interface ArtistInfoStorage {
+interface WikipediaLocalStorage {
     fun saveArtist(article: WikipediaArticle)
     fun getInfo(artist: String): String?
 }
 
-internal class ArtistInfoStorageImpl(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION),
-    ArtistInfoStorage {
+internal class WikipediaLocalStorageImpl(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION),
+    WikipediaLocalStorage {
 
     override fun saveArtist(article: WikipediaArticle) {
-        val contentValues = getArtistContentValues(article.name, article.info)
+        val contentValues = article.info?.let { getArtistContentValues(article.name, it) }
         this.writableDatabase.insert(ARTISTS_TABLE, null, contentValues)
     }
 
