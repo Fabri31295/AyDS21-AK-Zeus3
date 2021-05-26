@@ -9,8 +9,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import ayds.zeus.songinfo.R
-import ayds.zeus.songinfo.moredetails.model.repository.ArtistInfoStorage
-import ayds.zeus.songinfo.moredetails.model.repository.ArtistInfoStorageImpl
+import ayds.zeus.songinfo.moredetails.model.repository.WikipediaLocalStorage
+import ayds.zeus.songinfo.moredetails.model.repository.WikipediaLocalStorageImpl
+import ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.tracks.WikipediaAPI
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
@@ -24,7 +25,7 @@ import java.util.*
 private const val JSON_SNIPPET = "snippet"
 private const val JSON_PAGE_ID = "pageid"
 private const val IMAGE_WIKIPEDIA =
-    "https://upload.wikimedia.org/wikipedia/commons/8/8c/Wikipedia-logo-v2-es.png"
+        "https://upload.wikimedia.org/wikipedia/commons/8/8c/Wikipedia-logo-v2-es.png"
 private const val URL_WIKIPEDIA = "https://en.wikipedia.org/w/"
 private const val WIKIPEDIA_SHORT_URL = "https://en.wikipedia.org/?curid="
 private const val JSON_QUERY = "query"
@@ -36,7 +37,7 @@ class OtherInfoActivity : AppCompatActivity() {
     private lateinit var artistDescriptionPane: TextView
     private lateinit var wikipediaImagePane: ImageView
     private lateinit var wikipediaImage: RequestCreator
-    private lateinit var dataBase: ArtistInfoStorage
+    private lateinit var dataBase: WikipediaLocalStorage
     private lateinit var artistName: String
     private lateinit var urlString: String
     private lateinit var openUrlButton: Button
@@ -47,12 +48,49 @@ class OtherInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_other_info)
 
+        initProperties()
+        initRetrofit()
+        initWikipediaAPI()
+        initWikipediaImage()
         initStorage()
+        initViews()
+        initListeners()
         showArtistInfoAsync()
     }
 
+    private fun initProperties() {
+        artistName= intent.getStringExtra(ARTIST_NAME_EXTRA).toString()
+    }
+
+    private fun initRetrofit() {
+        retrofit = Retrofit.Builder()
+                .baseUrl(URL_WIKIPEDIA)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build()
+    }
+
+    private fun initWikipediaAPI() {
+        wikipediaAPI = retrofit.create(WikipediaAPI::class.java)
+    }
+
+    private fun initWikipediaImage() {
+        wikipediaImage = Picasso.get().load(IMAGE_WIKIPEDIA)
+    }
+
     private fun initStorage() {
-        dataBase = ArtistInfoStorageImpl(this)
+        dataBase = WikipediaLocalStorageImpl(this)
+    }
+
+    private fun initViews() {
+        artistDescriptionPane = findViewById(R.id.textPane2)
+        openUrlButton = findViewById(R.id.openUrlButton)
+        wikipediaImagePane = findViewById(R.id.imageView)
+    }
+
+    private fun initListeners() {
+        openUrlButton.setOnClickListener {
+            openWikipediaPage()
+        }
     }
 
     private fun showArtistInfoAsync() {
@@ -66,14 +104,14 @@ class OtherInfoActivity : AppCompatActivity() {
         showArtistInfoActivity(getArtistInfo())
     }
 
-    private fun showArtistInfoActivity(artistInfo: String) { //Falta esto
+    private fun showArtistInfoActivity(artistInfo: String) {
         runOnUiThread {
             showImageWikipedia()
             showInfoArtist(artistInfo)
         }
     }
 
-    private fun getArtistInfo(): String { //FALTA ESTO
+    private fun getArtistInfo(): String {
         var infoArtistText = getArtistInfoDataBase()
         if (infoArtistText != null)
             infoArtistText = STORED_PREFIX + "$infoArtistText"
@@ -133,20 +171,7 @@ class OtherInfoActivity : AppCompatActivity() {
         wikipediaImage.into(wikipediaImagePane)
     }
 
-    private fun textToHtml(text: String, term: String): String {
-        val builder = StringBuilder()
-        builder.append("<html><div width=400>")
-        builder.append("<font face=\"arial\">")
-        val textWithBold = text
-            .replace("'", " ")
-            .replace("\n", "<br>")
-            .replace("(?i)" + term.toRegex(), "<b>" + term.toUpperCase(Locale.ROOT) + "</b>")
-        builder.append(textWithBold)
-        builder.append("</font></div></html>")
-        return builder.toString()
-    }
-
-    companion object { //FALTA ESTO
+    companion object {
         const val ARTIST_NAME_EXTRA = "artistName"
     }
 }

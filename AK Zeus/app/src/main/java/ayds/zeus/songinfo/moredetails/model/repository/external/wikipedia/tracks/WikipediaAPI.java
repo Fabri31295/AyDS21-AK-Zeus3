@@ -1,4 +1,4 @@
-package ayds.zeus.songinfo.moredetails;
+package ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.tracks;
 
 
 import retrofit2.Call;
