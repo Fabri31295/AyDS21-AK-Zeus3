@@ -3,13 +3,13 @@ package ayds.zeus.songinfo.moredetails.model.repository
 import ayds.zeus.songinfo.moredetails.model.entities.WikipediaArticle
 
 
-interface ArtistRepository {
+interface ArticleRepository {
     fun getArticle(artistName: String): WikipediaArticle
 }
 
-internal class ArtistRepositoryImpl(
+internal class ArticleRepositoryImpl(
         private val artistInfoStorage: ArtistInfoStorage
-): ArtistRepository{
+): ArticleRepository{
     override fun getArticle(artistName: String): WikipediaArticle {
         val info = artistInfoStorage.getInfo(artistName)
         return WikipediaArticle(artistName, info)
