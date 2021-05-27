@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.text.HtmlCompat
 import ayds.observer.Observable
 import ayds.observer.Subject
 import ayds.zeus.songinfo.R
@@ -31,7 +32,7 @@ interface MoreDetailsView {
 
 class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
-    companion object {
+    companion object { //no creo que vaya ahi
         const val ARTIST_NAME_EXTRA = "artistName"
     }
 
@@ -112,6 +113,22 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     private fun showArtistInfoAction() {
         notifyShowArtistInfo()
     }
+
+    private fun showArtistInfoActivity(artistInfo: String) {
+        runOnUiThread {
+            showImageWikipedia()
+            showInfoArtist(artistInfo)
+        }
+    }
+
+    private fun showImageWikipedia() {
+        wikipediaImage.into(wikipediaImagePane)
+    }
+
+    private fun showInfoArtist(text: String) {
+        artistDescriptionPane.text = HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY)
+    }
+
 
     override fun getArtistInfoText(text: String, term: String): String {
         return articleInfo.getTextToHtml(text,term)

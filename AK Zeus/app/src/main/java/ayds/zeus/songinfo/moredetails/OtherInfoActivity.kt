@@ -67,13 +67,6 @@ class OtherInfoActivity : AppCompatActivity() {
         showArtistInfoActivity(getArtistInfo())
     }
 
-    private fun showArtistInfoActivity(artistInfo: String) {
-        runOnUiThread {
-            showImageWikipedia()
-            showInfoArtist(artistInfo)
-        }
-    }
-
     private fun getArtistInfo(): String {
         var infoArtistText = getArtistInfoDataBase()
         if (infoArtistText != null)
@@ -93,12 +86,6 @@ class OtherInfoActivity : AppCompatActivity() {
         val snippet = getDataFromResponse(JSON_SNIPPET)
         val descriptionArtist = snippet.asString.replace("\\n", "\n")
         return textToHtml(descriptionArtist, artistName)
-    }
-
-    private fun openWikipediaPage() {
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = Uri.parse(urlString)
-        startActivity(intent)
     }
 
     private fun getWikipediaURL(): String {
@@ -126,15 +113,4 @@ class OtherInfoActivity : AppCompatActivity() {
         return wikipediaAPI.getArtistInfo(artistName).execute()
     }
 
-    private fun showInfoArtist(text: String) {
-        artistDescriptionPane.text = HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY)
-    }
-
-    private fun showImageWikipedia() {
-        wikipediaImage.into(wikipediaImagePane)
-    }
-
-    companion object {
-        const val ARTIST_NAME_EXTRA = "artistName"
-    }
 }
