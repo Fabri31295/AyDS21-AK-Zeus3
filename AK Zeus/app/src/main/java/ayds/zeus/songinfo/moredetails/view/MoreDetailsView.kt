@@ -42,7 +42,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     private lateinit var openUrlButton: Button
     private lateinit var retrofit: Retrofit
     private lateinit var wikipediaAPI: WikipediaAPI
-    private val artistInfo: ArtistInfoHelperImpl= ArtistInfoHelperImpl()
+    private val articleInfo: ArticleDescriptionHelperImpl= ArticleDescriptionHelperImpl()
     override var uiState: MoreDetailsUiState= MoreDetailsUiState()
     override val uiEventObservable: Observable<MoreDetailsUiEvent> = onActionSubject
 
@@ -114,6 +114,6 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     }
 
     override fun getArtistInfoText(text: String, term: String): String {
-        return artistInfo.getArtistInfoText(text, term)
+        return articleInfo.getTextToHtml(text,term)
     }
 }

@@ -48,49 +48,12 @@ class OtherInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_other_info)
 
-        initProperties()
-        initRetrofit()
-        initWikipediaAPI()
-        initWikipediaImage()
         initStorage()
-        initViews()
-        initListeners()
         showArtistInfoAsync()
-    }
-
-    private fun initProperties() {
-        artistName= intent.getStringExtra(ARTIST_NAME_EXTRA).toString()
-    }
-
-    private fun initRetrofit() {
-        retrofit = Retrofit.Builder()
-                .baseUrl(URL_WIKIPEDIA)
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .build()
-    }
-
-    private fun initWikipediaAPI() {
-        wikipediaAPI = retrofit.create(WikipediaAPI::class.java)
-    }
-
-    private fun initWikipediaImage() {
-        wikipediaImage = Picasso.get().load(IMAGE_WIKIPEDIA)
     }
 
     private fun initStorage() {
         dataBase = WikipediaLocalStorageImpl(this)
-    }
-
-    private fun initViews() {
-        artistDescriptionPane = findViewById(R.id.textPane2)
-        openUrlButton = findViewById(R.id.openUrlButton)
-        wikipediaImagePane = findViewById(R.id.imageView)
-    }
-
-    private fun initListeners() {
-        openUrlButton.setOnClickListener {
-            openWikipediaPage()
-        }
     }
 
     private fun showArtistInfoAsync() {

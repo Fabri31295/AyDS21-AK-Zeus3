@@ -5,12 +5,12 @@ import ayds.zeus.songinfo.home.model.entities.Song
 import java.util.*
 
 interface ArticleDescriptionHelper {
-    fun textToHtml(text: String, term: String): String
+    fun getTextToHtml(text: String, term: String): String
 }
 
 internal class ArticleDescriptionHelperImpl() : ArticleDescriptionHelper {
 
-    override fun textToHtml(text: String, term: String): String {
+    override fun getTextToHtml(text: String, term: String): String {
         val builder = StringBuilder()
         builder.append("<html><div width=400>")
         builder.append("<font face=\"arial\">")
