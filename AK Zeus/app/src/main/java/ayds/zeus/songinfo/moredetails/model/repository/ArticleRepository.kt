@@ -3,6 +3,7 @@ package ayds.zeus.songinfo.moredetails.model.repository
 import ayds.zeus.songinfo.moredetails.model.entities.WikipediaArticle
 import ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.WikipediaService
 import ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia.WikipediaLocalStorage
+import ayds.zeus.songinfo.moredetails.model.entities.EmptyArticle
 
 
 interface ArticleRepository {
@@ -20,7 +21,7 @@ internal class ArticleRepositoryImpl(
             markArticleAsLocal(articleInfo)
         else
             wikipediaService.getArticle(artistName)
-        return articleInfo
+        return articleInfo ?: EmptyArticle
     }
 
     private fun markArticleAsLocal(articleInfo: WikipediaArticle){
