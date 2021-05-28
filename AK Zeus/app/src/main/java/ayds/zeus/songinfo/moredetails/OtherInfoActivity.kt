@@ -38,27 +38,29 @@ class OtherInfoActivity : AppCompatActivity() {
     }
 
     private fun initStorage() {
-        dataBase = WikipediaLocalStorageImpl(this)
+        //dataBase = WikipediaLocalStorageImpl(this)
     }
 
 
     private fun getArtistInfo(): String {// es para el model/repository
-        var infoArtistText = getArtistInfoDataBase()
+       /*var infoArtistText = getArtistInfoDataBase()
         if (infoArtistText != null)
             infoArtistText = STORED_PREFIX + "$infoArtistText"
         else {
             infoArtistText = getDescriptionArtistToHTML()
             dataBase.saveArticle(artistName, infoArtistText)
         }
-        return infoArtistText
+        return infoArtistText*/
+        return ""
     }
 
 
 
     private fun getDescriptionArtistToHTML(): String {
-        val snippet = getDataFromResponse(JSON_SNIPPET)
+       /* val snippet = getDataFromResponse(JSON_SNIPPET)
         val descriptionArtist = snippet.asString.replace("\\n", "\n")
-        return textToHtml(descriptionArtist, artistName)
+        return textToHtml(descriptionArtist, artistName)*/
+        return ""
     }
 
     private fun getWikipediaURL(): String {

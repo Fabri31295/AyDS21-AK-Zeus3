@@ -11,7 +11,6 @@ import androidx.core.text.HtmlCompat
 import ayds.observer.Observable
 import ayds.observer.Subject
 import ayds.zeus.songinfo.R
-import ayds.zeus.songinfo.home.controller.HomeController
 import ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.tracks.WikipediaAPI
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
@@ -68,12 +67,16 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         initListeners()
     }
 
+    override fun getArtistInfoText(text: String, term: String): String {
+        return articleInfo.getTextToHtml(text,term)
+    }
+
     private fun initModule() {
         MoreDetailsViewModule.init(this)
     }
 
     private fun initProperties() {
-        uiState = uiState.copy(artistName = intent.getStringExtra(HomeController.ARTIST_NAME_EXTRA).toString())
+        uiState = uiState.copy(artistName = intent.getStringExtra(ARTIST_NAME_EXTRA).toString())
     }
 
     private fun initRetrofit() {
@@ -127,8 +130,8 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         artistDescriptionPane.text = HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
 
-
-    override fun getArtistInfoText(text: String, term: String): String {
-        return articleInfo.getTextToHtml(text,term)
+    companion object {
+        const val ARTIST_NAME_EXTRA = "artistName"
     }
+
 }

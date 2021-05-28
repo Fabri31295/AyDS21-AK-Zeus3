@@ -16,12 +16,12 @@ import ayds.zeus.songinfo.home.model.entities.EmptySong
 import ayds.zeus.songinfo.home.model.entities.Song
 import ayds.zeus.songinfo.home.model.entities.SpotifySong
 import ayds.zeus.songinfo.home.view.HomeUiState.Companion.DEFAULT_IMAGE
-import ayds.zeus.songinfo.moredetails.OtherInfoActivity
 import ayds.zeus.songinfo.utils.UtilsModule
 import ayds.zeus.songinfo.utils.navigation.openExternalUrl
 import ayds.zeus.songinfo.utils.view.ImageLoader
 import ayds.observer.Observable
 import ayds.observer.Subject
+import ayds.zeus.songinfo.moredetails.view.OtherInfoActivity
 
 interface HomeView {
     val uiEventObservable: Observable<HomeUiEvent>
