@@ -3,8 +3,8 @@ package ayds.zeus.songinfo.moredetails
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import ayds.zeus.songinfo.R
-import ayds.zeus.songinfo.moredetails.model.repository.WikipediaLocalStorage
-import ayds.zeus.songinfo.moredetails.model.repository.WikipediaLocalStorageImpl
+import ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia.WikipediaLocalStorage
+import ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia.WikipediaLocalStorageImpl
 import ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.tracks.WikipediaAPI
 import com.google.gson.Gson
 import com.google.gson.JsonElement
@@ -48,7 +48,7 @@ class OtherInfoActivity : AppCompatActivity() {
             infoArtistText = STORED_PREFIX + "$infoArtistText"
         else {
             infoArtistText = getDescriptionArtistToHTML()
-            dataBase.saveArtist(artistName, infoArtistText)
+            dataBase.saveArticle(artistName, infoArtistText)
         }
         return infoArtistText
     }

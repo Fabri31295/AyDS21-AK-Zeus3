@@ -2,6 +2,7 @@ package ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.track
 
 import ayds.zeus.songinfo.moredetails.model.entities.WikipediaArticle
 import com.google.gson.Gson
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 
 interface WikipediaToArticleResolver{
@@ -20,8 +21,12 @@ private const val JSON_SEARCH = "search"
 internal class JsonToArticleResolver : WikipediaToArticleResolver{
     override fun getArticleFromExternalData(serviceData: String?): WikipediaArticle? =
         try{
-            serviceData?.getResponseJson().let {
-                TODO("FALTA CREAR EL ARTICLE")
+            serviceData?.getResponseJson()?.let { item ->
+                WikipediaArticle(
+                        item.getName(),
+                        item.getInfo(),
+                        getWikipediaURL()
+                )
             }
         }catch(e: Exception){
             null
@@ -32,4 +37,16 @@ internal class JsonToArticleResolver : WikipediaToArticleResolver{
         return gson.fromJson(this, JsonObject::class.java)
     }
 
+    private fun JsonObject.getName(): String{
+
+    }
+
+    private fun getWikipediaURL(): String {
+        val pageID = getDataFromResponse(JSON_PAGE_ID)
+        return WIKIPEDIA_SHORT_URL + "$pageID"
+    }
+    private fun getDataFromResponse(name: String): JsonElement {
+        val jobj = getResponseJson()
+        return getDataFromJson(jobj, name)
+    }
 }

@@ -1,8 +1,8 @@
 package ayds.zeus.songinfo.moredetails.model
 
 import android.content.Context
-import ayds.zeus.songinfo.moredetails.model.repository.WikipediaLocalStorage
-import ayds.zeus.songinfo.moredetails.model.repository.WikipediaLocalStorageImpl
+import ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia.WikipediaLocalStorage
+import ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia.WikipediaLocalStorageImpl
 import ayds.zeus.songinfo.moredetails.model.repository.ArticleRepository
 import ayds.zeus.songinfo.moredetails.model.repository.ArticleRepositoryImpl
 import ayds.zeus.songinfo.moredetails.view.MoreDetailsView
