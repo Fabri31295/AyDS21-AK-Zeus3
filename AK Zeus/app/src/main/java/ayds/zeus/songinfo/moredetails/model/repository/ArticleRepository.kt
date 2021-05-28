@@ -1,6 +1,7 @@
 package ayds.zeus.songinfo.moredetails.model.repository
 
 import ayds.zeus.songinfo.moredetails.model.entities.WikipediaArticle
+import ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.WikipediaService
 
 
 interface ArticleRepository {
@@ -8,10 +9,20 @@ interface ArticleRepository {
 }
 
 internal class ArticleRepositoryImpl(
-        private val wikipediaLocalStorage: WikipediaLocalStorage
+        private val wikipediaLocalStorage: WikipediaLocalStorage,
+        private val wikipediaService: WikipediaService
 ): ArticleRepository{
     override fun getArticle(artistName: String): WikipediaArticle {
-        val info = wikipediaLocalStorage.getInfo(artistName)
-        return WikipediaArticle(artistName, info)
+        //aca es un wikipediaArticle
+        val articleInfo = wikipediaLocalStorage.getArticleInfo(artistName)
+        if (articleInfo != null)
+            markArticleAsLocal(articleInfo)
+        else
+            wikipediaService.getArticle(artistName)
+        return articleInfo
+    }
+
+    private fun markArticleAsLocal(articleInfo: WikipediaArticle){
+        articleInfo.isLocallyStoraged = true
     }
 }

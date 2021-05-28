@@ -14,6 +14,10 @@ internal class HomeControllerImpl(
     private val homeModel: HomeModel
 ) : HomeController {
 
+    companion object {
+        const val ARTIST_NAME_EXTRA = "artistName"
+    }
+
     private lateinit var homeView: HomeView
 
     override fun setHomeView(homeView: HomeView) {

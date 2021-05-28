@@ -23,7 +23,7 @@ private const val CREATE_ARTISTS_TABLE: String =
 
 interface WikipediaLocalStorage {
     fun saveArtist(article: WikipediaArticle)
-    fun getInfo(artist: String): String?
+    fun getArticleInfo(artist: String): String?
 }
 
 internal class WikipediaLocalStorageImpl(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION),
@@ -34,7 +34,7 @@ internal class WikipediaLocalStorageImpl(context: Context): SQLiteOpenHelper(con
         this.writableDatabase.insert(ARTISTS_TABLE, null, contentValues)
     }
 
-    override fun getInfo(artist: String): String? {
+    override fun getArticleInfo(artist: String): String? {
         val cursor = getNewArtistCursor(artist)
         val items = getInfoItems(cursor)
         cursor.close()

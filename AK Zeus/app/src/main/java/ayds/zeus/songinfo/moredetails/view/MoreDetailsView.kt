@@ -11,6 +11,7 @@ import androidx.core.text.HtmlCompat
 import ayds.observer.Observable
 import ayds.observer.Subject
 import ayds.zeus.songinfo.R
+import ayds.zeus.songinfo.home.controller.HomeController
 import ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.tracks.WikipediaAPI
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
@@ -28,13 +29,10 @@ interface MoreDetailsView {
     fun updateUrl(url: String)
     fun openWikipediaPage()
     fun getArtistInfoText(text: String, term: String): String
+    fun showArtistInfoActivity(artistInfo: String)
 }
 
 class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
-
-    companion object { //no creo que vaya ahi
-        const val ARTIST_NAME_EXTRA = "artistName"
-    }
 
     private val onActionSubject = Subject<MoreDetailsUiEvent>()
     private lateinit var artistDescriptionPane: TextView
@@ -75,7 +73,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     }
 
     private fun initProperties() {
-        uiState = uiState.copy(artistName = intent.getStringExtra(ARTIST_NAME_EXTRA).toString())
+        uiState = uiState.copy(artistName = intent.getStringExtra(HomeController.ARTIST_NAME_EXTRA).toString())
     }
 
     private fun initRetrofit() {
@@ -114,7 +112,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         notifyShowArtistInfo()
     }
 
-    private fun showArtistInfoActivity(artistInfo: String) {
+    override fun showArtistInfoActivity(artistInfo: String) {
         runOnUiThread {
             showImageWikipedia()
             showInfoArtist(artistInfo)

@@ -1,7 +1,5 @@
 package ayds.zeus.songinfo.moredetails.view
 
-import ayds.zeus.songinfo.home.model.entities.EmptySong
-import ayds.zeus.songinfo.home.model.entities.Song
 import java.util.*
 
 interface ArticleDescriptionHelper {

@@ -22,16 +22,21 @@ internal class MoreDetailsControllerImpl(private val moreDetailsModel: MoreDetai
     private val observer: Observer<MoreDetailsUiEvent> =
         Observer { value ->
             when (value) {
-                MoreDetailsUiEvent.ShowArtistInfo -> showArtistInfo()
+                MoreDetailsUiEvent.ShowArtistInfo -> showArtistInfoAsync()
                 is MoreDetailsUiEvent.OpenWikipediaUrl -> openWikipediaUrl()
             }
         }
 
-    private fun showArtistInfo() {
+    private fun showArtistInfoAsync() {
         Thread {
-            moreDetailsModel.getArtistByName(moreDetailsView.uiState.artistName)
-            moreDetailsView.updateUrl(moreDetailsView.uiState.urlString)
+            showArtistInfo()
         }.start()
+    }
+
+    private fun showArtistInfo() {
+        val wikipediaArticle = moreDetailsModel.getArtistByName(moreDetailsView.uiState.artistName)
+        moreDetailsView.updateUrl(wikipediaArticle.url)
+        moreDetailsView.showArtistInfoActivity(wikipediaArticle.name)
     }
 
     private fun openWikipediaUrl() {
