@@ -5,6 +5,10 @@ import ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia.Wikipedia
 import ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia.WikipediaLocalStorageImpl
 import ayds.zeus.songinfo.moredetails.model.repository.ArticleRepository
 import ayds.zeus.songinfo.moredetails.model.repository.ArticleRepositoryImpl
+import ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.WikipediaModule
+import ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.WikipediaService
+import ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.tracks.WikipediaServiceImpl
+import ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia.CursorToWikipediaArticleMapperImpl
 import ayds.zeus.songinfo.moredetails.view.MoreDetailsView
 
 object MoreDetailsModelModule {
@@ -12,8 +16,12 @@ object MoreDetailsModelModule {
     private lateinit var moreDetailsModel: MoreDetailsModel
 
     fun onViewStarted(moreDetailsView: MoreDetailsView){
-        val wikipediaLocalStorage: WikipediaLocalStorage = WikipediaLocalStorageImpl(moreDetailsView as Context)
-        val articleRepository: ArticleRepository = ArticleRepositoryImpl(wikipediaLocalStorage)
+        val wikipediaLocalStorage: WikipediaLocalStorage = WikipediaLocalStorageImpl(
+                moreDetailsView as Context,
+                CursorToWikipediaArticleMapperImpl()
+        )
+        val wikipediaService: WikipediaService = WikipediaModule.wikipediaService
+        val articleRepository: ArticleRepository = ArticleRepositoryImpl(wikipediaLocalStorage, wikipediaService)
         moreDetailsModel = MoreDetailsModelImpl(articleRepository)
     }
 
