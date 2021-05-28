@@ -16,7 +16,7 @@ import ayds.zeus.songinfo.home.model.entities.EmptySong
 import ayds.zeus.songinfo.home.model.entities.Song
 import ayds.zeus.songinfo.home.model.entities.SpotifySong
 import ayds.zeus.songinfo.home.view.HomeUiState.Companion.DEFAULT_IMAGE
-import ayds.zeus.songinfo.moredetails.fulllogic.OtherInfoActivity
+import ayds.zeus.songinfo.moredetails.OtherInfoActivity
 import ayds.zeus.songinfo.utils.UtilsModule
 import ayds.zeus.songinfo.utils.navigation.openExternalUrl
 import ayds.zeus.songinfo.utils.view.ImageLoader
