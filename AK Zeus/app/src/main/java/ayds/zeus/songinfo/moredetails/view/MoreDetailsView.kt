@@ -60,7 +60,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         initWikipediaImage()
         initViews()
         initListeners()
-        showArtistInfoAction()
+        notifyShowArtistInfo()
     }
 
     override fun getArtistInfoText(text: String, term: String): String {
@@ -91,10 +91,6 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         openUrlButton.setOnClickListener {
             openWikipediaPage()
         }
-    }
-
-    private fun showArtistInfoAction() {
-        notifyShowArtistInfo()
     }
 
     private fun notifyShowArtistInfo(){
