@@ -18,6 +18,7 @@ import com.squareup.picasso.RequestCreator
 
 private const val IMAGE_WIKIPEDIA =
     "https://upload.wikimedia.org/wikipedia/commons/8/8c/Wikipedia-logo-v2-es.png"
+private const val PREFIX = "[*]"
 
 interface MoreDetailsView {
     var uiState: MoreDetailsUiState
@@ -26,7 +27,7 @@ interface MoreDetailsView {
     fun updateUrl(url: String)
     fun openWikipediaPage()
     fun getArtistInfoText(text: String, term: String): String
-    fun showArtistInfoActivity(artistInfo: String)
+    fun showArtistInfoActivity(artistInfo: String, locallyStoraged: Boolean)
 }
 
 class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
@@ -96,10 +97,10 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         onActionSubject.notify(MoreDetailsUiEvent.ShowArtistInfo)
     }
 
-    override fun showArtistInfoActivity(artistInfo: String) {
+    override fun showArtistInfoActivity(artistInfo: String, locallyStoraged: Boolean) {
         runOnUiThread {
             showImageWikipedia()
-            showInfoArtist(artistInfo)
+            showInfoArtist(getTextWtihPrefix(artistInfo, locallyStoraged) + artistInfo)
         }
     }
 
@@ -109,7 +110,12 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
     private fun showInfoArtist(text: String) {
         artistDescriptionPane.text = HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY)
+
     }
+
+    private fun getTextWtihPrefix(text: String, wPrefix: Boolean) =
+        if (wPrefix) PREFIX + text
+        else text
 
     companion object {
         const val ARTIST_NAME_EXTRA = "artistName"

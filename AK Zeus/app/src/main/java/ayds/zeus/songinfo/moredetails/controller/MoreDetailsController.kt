@@ -35,9 +35,11 @@ internal class MoreDetailsControllerImpl(private val moreDetailsModel: MoreDetai
 
     private fun showArtistInfo() {
         val wikipediaArticle = moreDetailsModel.getArtistByName(moreDetailsView.uiState.artistName)
+        //VV Esto no hace nada (??) VV
         moreDetailsView.getArtistInfoText(wikipediaArticle.info, wikipediaArticle.name)
+        //^^ ---------------------- ^^
         moreDetailsView.updateUrl(wikipediaArticle.url)
-        moreDetailsView.showArtistInfoActivity(wikipediaArticle.info)
+        moreDetailsView.showArtistInfoActivity(wikipediaArticle.info, wikipediaArticle.isLocallyStoraged)
     }
 
     private fun openWikipediaUrl() {
