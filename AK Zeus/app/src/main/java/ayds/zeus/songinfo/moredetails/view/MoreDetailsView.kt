@@ -11,6 +11,8 @@ import androidx.core.text.HtmlCompat
 import ayds.observer.Observable
 import ayds.observer.Subject
 import ayds.zeus.songinfo.R
+import ayds.zeus.songinfo.moredetails.model.MoreDetailsModel
+import ayds.zeus.songinfo.moredetails.model.MoreDetailsModelModule
 import ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.tracks.WikipediaAPI
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
@@ -41,6 +43,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     private lateinit var retrofit: Retrofit
     private lateinit var wikipediaAPI: WikipediaAPI
     private val articleInfo: ArticleDescriptionHelperImpl= ArticleDescriptionHelperImpl()
+    private lateinit var moreDetailsModel: MoreDetailsModel
     override var uiState: MoreDetailsUiState= MoreDetailsUiState()
     override val uiEventObservable: Observable<MoreDetailsUiEvent> = onActionSubject
 
@@ -73,6 +76,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
     private fun initModule() {
         MoreDetailsViewModule.init(this)
+        moreDetailsModel = MoreDetailsModelModule.getMoreDetailsModel()
     }
 
     private fun initProperties() {
