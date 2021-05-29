@@ -11,5 +11,5 @@ const val CREATE_ARTISTS_TABLE: String =
             " $ID_COLUMN INTEGER PRIMARY KEY AUTOINCREMENT," +
             " $ARTIST_COLUMN string," +
             " $INFO_COLUMN string," +
-            " $URL_COLUMN string" +
+            " $URL_COLUMN string," +
             " $SOURCE_COLUMN integer)"

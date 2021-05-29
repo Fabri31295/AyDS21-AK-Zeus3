@@ -22,8 +22,7 @@ internal class WikipediaLocalStorageImpl(
     WikipediaLocalStorage {
 
     override fun saveArticle(article: WikipediaArticle) {
-        val contentValues =
-            article.info?.let { getArtistContentValues(article.name, it, article.url) }
+        val contentValues = getArtistContentValues(article.name, article.info, article.url)
         this.writableDatabase.insert(ARTISTS_TABLE, null, contentValues)
     }
 
