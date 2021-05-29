@@ -57,14 +57,6 @@ internal class WikipediaLocalStorageImpl(
         )
     }
 
-    private fun getInfoItems(cursor: Cursor) = ArrayList<String>().apply {
-        while (cursor.moveToNext()) {
-            val columnIndex = cursor.getColumnIndexOrThrow(INFO_COLUMN)
-            val info = cursor.getString(columnIndex)
-            this.add(info)
-        }
-    }
-
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(CREATE_ARTISTS_TABLE)
     }
