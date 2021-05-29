@@ -12,13 +12,15 @@ private const val JSON_SNIPPET = "snippet"
 private const val JSON_PAGE_ID = "pageid"
 private const val WIKIPEDIA_SHORT_URL = "https://en.wikipedia.org/?curid="
 private const val JSON_TITLE = "title"
+private const val JSON_QUERY = "query"
+private const val JSON_SEARCH = "search"
 
 internal class JsonToArticleResolver : WikipediaToArticleResolver{
 
 
     override fun getArticleFromExternalData(serviceData: String?): WikipediaArticle? =
         try{
-            serviceData?.getResponseJson()?.let { item ->
+            serviceData?.getResponseJson()?.getArtistJson()?.let { item ->
                 WikipediaArticle(
                     item.getName(),
                     item.getInfo(),
@@ -44,6 +46,11 @@ internal class JsonToArticleResolver : WikipediaToArticleResolver{
 
     private fun JsonObject.getUrl(): String {
         return WIKIPEDIA_SHORT_URL + this[JSON_PAGE_ID].asString
+    }
+
+    private fun JsonObject.getArtistJson(): JsonObject {
+        val query = this[JSON_QUERY].asJsonObject
+        return query[JSON_SEARCH].asJsonArray[0].asJsonObject
     }
 }
 
