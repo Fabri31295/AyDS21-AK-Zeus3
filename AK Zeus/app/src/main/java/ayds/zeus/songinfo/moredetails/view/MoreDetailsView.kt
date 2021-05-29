@@ -17,7 +17,7 @@ import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
 
 private const val IMAGE_WIKIPEDIA =
-        "https://upload.wikimedia.org/wikipedia/commons/8/8c/Wikipedia-logo-v2-es.png"
+    "https://upload.wikimedia.org/wikipedia/commons/8/8c/Wikipedia-logo-v2-es.png"
 
 interface MoreDetailsView {
     var uiState: MoreDetailsUiState
@@ -36,9 +36,9 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     private lateinit var wikipediaImagePane: ImageView
     private lateinit var wikipediaImage: RequestCreator
     private lateinit var openUrlButton: Button
-    private val articleInfo: ArticleDescriptionHelperImpl= ArticleDescriptionHelperImpl()
+    private val articleInfo: ArticleDescriptionHelperImpl = ArticleDescriptionHelperImpl()
     private lateinit var moreDetailsModel: MoreDetailsModel
-    override var uiState: MoreDetailsUiState= MoreDetailsUiState()
+    override var uiState: MoreDetailsUiState = MoreDetailsUiState()
     override val uiEventObservable: Observable<MoreDetailsUiEvent> = onActionSubject
 
     override fun updateUrl(url: String) {
@@ -64,7 +64,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     }
 
     override fun getArtistInfoText(text: String, term: String): String {
-        return articleInfo.getTextToHtml(text,term)
+        return articleInfo.getTextToHtml(text, term)
     }
 
     private fun initModule() {
@@ -75,7 +75,6 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     private fun initProperties() {
         uiState = uiState.copy(artistName = intent.getStringExtra(ARTIST_NAME_EXTRA).toString())
     }
-
 
     private fun initWikipediaImage() {
         wikipediaImage = Picasso.get().load(IMAGE_WIKIPEDIA)
@@ -97,7 +96,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         notifyShowArtistInfo()
     }
 
-    private fun notifyShowArtistInfo(){
+    private fun notifyShowArtistInfo() {
         onActionSubject.notify(MoreDetailsUiEvent.ShowArtistInfo)
     }
 

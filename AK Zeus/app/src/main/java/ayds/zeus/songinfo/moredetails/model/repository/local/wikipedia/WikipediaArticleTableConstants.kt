@@ -7,9 +7,9 @@ const val INFO_COLUMN = "info"
 const val URL_COLUMN = "url"
 const val SOURCE_COLUMN = "source"
 const val CREATE_ARTISTS_TABLE: String =
-        "create table $ARTISTS_TABLE (" +
-                " $ID_COLUMN INTEGER PRIMARY KEY AUTOINCREMENT," +
-                " $ARTIST_COLUMN string," +
-                " $INFO_COLUMN string," +
-                " $URL_COLUMN string" +
-                " $SOURCE_COLUMN integer)"
+    "create table $ARTISTS_TABLE (" +
+            " $ID_COLUMN INTEGER PRIMARY KEY AUTOINCREMENT," +
+            " $ARTIST_COLUMN string," +
+            " $INFO_COLUMN string," +
+            " $URL_COLUMN string" +
+            " $SOURCE_COLUMN integer)"

@@ -5,7 +5,7 @@ import ayds.zeus.songinfo.moredetails.view.MoreDetailsView
 
 object MoreDetailsControllerModule {
 
-    fun onViewStarted(moreDetailsView: MoreDetailsView){
+    fun onViewStarted(moreDetailsView: MoreDetailsView) {
         MoreDetailsControllerImpl(MoreDetailsModelModule.getMoreDetailsModel()).apply {
             setMoreDetailsView(moreDetailsView)
         }

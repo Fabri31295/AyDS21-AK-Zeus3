@@ -16,13 +16,14 @@ interface WikipediaLocalStorage {
 }
 
 internal class WikipediaLocalStorageImpl(
-        context: Context,
-        private val cursorToWikipediaArticleMapper: CursorToWikipediaArticleMapper,
-): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION),
-        WikipediaLocalStorage {
+    context: Context,
+    private val cursorToWikipediaArticleMapper: CursorToWikipediaArticleMapper,
+) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION),
+    WikipediaLocalStorage {
 
     override fun saveArticle(article: WikipediaArticle) {
-        val contentValues = article.info?.let { getArtistContentValues(article.name, it, article.url) }
+        val contentValues =
+            article.info?.let { getArtistContentValues(article.name, it, article.url) }
         this.writableDatabase.insert(ARTISTS_TABLE, null, contentValues)
     }
 
@@ -31,12 +32,13 @@ internal class WikipediaLocalStorageImpl(
         return cursorToWikipediaArticleMapper.map(cursor)
     }
 
-    private fun getArtistContentValues(artist: String, info: String, url: String) = ContentValues().apply {
-        this.put(ARTIST_COLUMN, artist)
-        this.put(INFO_COLUMN, info)
-        this.put(URL_COLUMN, url)
-        this.put(SOURCE_COLUMN, 1)
-    }
+    private fun getArtistContentValues(artist: String, info: String, url: String) =
+        ContentValues().apply {
+            this.put(ARTIST_COLUMN, artist)
+            this.put(INFO_COLUMN, info)
+            this.put(URL_COLUMN, url)
+            this.put(SOURCE_COLUMN, 1)
+        }
 
     private fun getNewArtistCursor(artist: String): Cursor {
         val dataBase = this.readableDatabase
@@ -45,27 +47,27 @@ internal class WikipediaLocalStorageImpl(
         val selectionArgs = arrayOf(artist)
         val sortOrder = "$ARTIST_COLUMN DESC"
         return dataBase.query(
-                ARTISTS_TABLE,
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                sortOrder
+            ARTISTS_TABLE,
+            projection,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            sortOrder
         )
     }
 
     private fun getInfoItems(cursor: Cursor) = ArrayList<String>().apply {
-        while (cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             val columnIndex = cursor.getColumnIndexOrThrow(INFO_COLUMN)
             val info = cursor.getString(columnIndex)
             this.add(info)
         }
     }
 
-    override fun onCreate(db: SQLiteDatabase){
+    override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(CREATE_ARTISTS_TABLE)
     }
 
-    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int){}
+    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {}
 }
