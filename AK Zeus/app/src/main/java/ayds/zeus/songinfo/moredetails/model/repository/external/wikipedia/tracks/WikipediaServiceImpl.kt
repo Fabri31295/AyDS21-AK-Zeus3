@@ -5,10 +5,10 @@ import ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.Wikipe
 import retrofit2.Response
 
 internal class WikipediaServiceImpl(
-        private val wikipediaToArticleResolver : WikipediaToArticleResolver,
-        private val wikipediaAPI: WikipediaAPI
+    private val wikipediaToArticleResolver: WikipediaToArticleResolver,
+    private val wikipediaAPI: WikipediaAPI
 ) : WikipediaService {
-    override fun getArticle(artistName : String): WikipediaArticle?{
+    override fun getArticle(artistName: String): WikipediaArticle? {
         val callResponse = getArticleFromService(artistName)
         return wikipediaToArticleResolver.getArticleFromExternalData(callResponse.body())
     }

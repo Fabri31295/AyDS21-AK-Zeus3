@@ -4,9 +4,10 @@ import android.database.Cursor
 import ayds.zeus.songinfo.moredetails.model.entities.WikipediaArticle
 import java.sql.SQLException
 
-interface CursorToWikipediaArticleMapper{
+interface CursorToWikipediaArticleMapper {
     fun map(cursor: Cursor): WikipediaArticle?
 }
+
 internal class CursorToWikipediaArticleMapperImpl : CursorToWikipediaArticleMapper {
 
     override fun map(cursor: Cursor): WikipediaArticle? =
@@ -14,9 +15,9 @@ internal class CursorToWikipediaArticleMapperImpl : CursorToWikipediaArticleMapp
             with(cursor) {
                 if (moveToNext()) {
                     WikipediaArticle(
-                            name = getString(getColumnIndexOrThrow(ARTIST_COLUMN)),
-                            info = getString(getColumnIndexOrThrow(INFO_COLUMN)),
-                            url = getString(getColumnIndexOrThrow(URL_COLUMN))
+                        name = getString(getColumnIndexOrThrow(ARTIST_COLUMN)),
+                        info = getString(getColumnIndexOrThrow(INFO_COLUMN)),
+                        url = getString(getColumnIndexOrThrow(URL_COLUMN))
                     )
                 } else {
                     null

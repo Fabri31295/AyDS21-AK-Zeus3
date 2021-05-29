@@ -4,7 +4,7 @@ import ayds.zeus.songinfo.moredetails.model.entities.WikipediaArticle
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 
-interface WikipediaToArticleResolver{
+interface WikipediaToArticleResolver {
     fun getArticleFromExternalData(serviceData: String?): WikipediaArticle?
 }
 
@@ -15,11 +15,10 @@ private const val JSON_TITLE = "title"
 private const val JSON_QUERY = "query"
 private const val JSON_SEARCH = "search"
 
-internal class JsonToArticleResolver : WikipediaToArticleResolver{
-
+internal class JsonToArticleResolver : WikipediaToArticleResolver {
 
     override fun getArticleFromExternalData(serviceData: String?): WikipediaArticle? =
-        try{
+        try {
             serviceData?.getResponseJson()?.getArtistJson()?.let { item ->
                 WikipediaArticle(
                     item.getName(),
@@ -27,7 +26,7 @@ internal class JsonToArticleResolver : WikipediaToArticleResolver{
                     item.getUrl()
                 )
             }
-        }catch(e: Exception){
+        } catch (e: Exception) {
             null
         }
 
