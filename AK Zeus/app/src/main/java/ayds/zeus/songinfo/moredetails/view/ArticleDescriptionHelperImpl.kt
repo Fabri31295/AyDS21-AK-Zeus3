@@ -6,7 +6,7 @@ interface ArticleDescriptionHelper {
     fun getTextToHtml(text: String, term: String): String
 }
 
-internal class ArticleDescriptionHelperImpl() : ArticleDescriptionHelper {
+internal class ArticleDescriptionHelperImpl : ArticleDescriptionHelper {
 
     override fun getTextToHtml(text: String, term: String): String {
         val builder = StringBuilder()
