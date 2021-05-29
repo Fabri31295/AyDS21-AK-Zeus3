@@ -13,15 +13,11 @@ import ayds.observer.Subject
 import ayds.zeus.songinfo.R
 import ayds.zeus.songinfo.moredetails.model.MoreDetailsModel
 import ayds.zeus.songinfo.moredetails.model.MoreDetailsModelModule
-import ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.tracks.WikipediaAPI
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
-import retrofit2.Retrofit
-import retrofit2.converter.scalars.ScalarsConverterFactory
 
 private const val IMAGE_WIKIPEDIA =
         "https://upload.wikimedia.org/wikipedia/commons/8/8c/Wikipedia-logo-v2-es.png"
-private const val URL_WIKIPEDIA = "https://en.wikipedia.org/w/"
 
 interface MoreDetailsView {
     var uiState: MoreDetailsUiState
@@ -40,8 +36,6 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     private lateinit var wikipediaImagePane: ImageView
     private lateinit var wikipediaImage: RequestCreator
     private lateinit var openUrlButton: Button
-    private lateinit var retrofit: Retrofit
-    private lateinit var wikipediaAPI: WikipediaAPI
     private val articleInfo: ArticleDescriptionHelperImpl= ArticleDescriptionHelperImpl()
     private lateinit var moreDetailsModel: MoreDetailsModel
     override var uiState: MoreDetailsUiState= MoreDetailsUiState()
@@ -63,11 +57,10 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
         initModule()
         initProperties()
-        initRetrofit()
-        initWikipediaAPI()
         initWikipediaImage()
         initViews()
         initListeners()
+        showArtistInfoAction()
     }
 
     override fun getArtistInfoText(text: String, term: String): String {
@@ -83,16 +76,6 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         uiState = uiState.copy(artistName = intent.getStringExtra(ARTIST_NAME_EXTRA).toString())
     }
 
-    private fun initRetrofit() {
-        retrofit = Retrofit.Builder()
-                .baseUrl(URL_WIKIPEDIA)
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .build()
-    }
-
-    private fun initWikipediaAPI() {
-        wikipediaAPI = retrofit.create(WikipediaAPI::class.java)
-    }
 
     private fun initWikipediaImage() {
         wikipediaImage = Picasso.get().load(IMAGE_WIKIPEDIA)
@@ -107,16 +90,15 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     private fun initListeners() {
         openUrlButton.setOnClickListener {
             openWikipediaPage()
-            showArtistInfoAction()
         }
-    }
-
-    private fun notifyShowArtistInfo(){
-        onActionSubject.notify(MoreDetailsUiEvent.ShowArtistInfo)
     }
 
     private fun showArtistInfoAction() {
         notifyShowArtistInfo()
+    }
+
+    private fun notifyShowArtistInfo(){
+        onActionSubject.notify(MoreDetailsUiEvent.ShowArtistInfo)
     }
 
     override fun showArtistInfoActivity(artistInfo: String) {
