@@ -1,7 +1,5 @@
 package ayds.zeus.songinfo.moredetails.view
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
@@ -13,11 +11,11 @@ import ayds.observer.Subject
 import ayds.zeus.songinfo.R
 import ayds.zeus.songinfo.moredetails.model.MoreDetailsModel
 import ayds.zeus.songinfo.moredetails.model.MoreDetailsModelModule
+import ayds.zeus.songinfo.moredetails.view.MoreDetailsUiState.Companion.IMAGE_WIKIPEDIA
+import ayds.zeus.songinfo.utils.navigation.openExternalUrl
 import com.squareup.picasso.Picasso
-import com.squareup.picasso.RequestCreator
 
-private const val IMAGE_WIKIPEDIA =
-    "https://upload.wikimedia.org/wikipedia/commons/8/8c/Wikipedia-logo-v2-es.png"
+
 private const val PREFIX = "[*]"
 
 interface MoreDetailsView {
@@ -35,7 +33,6 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     private val onActionSubject = Subject<MoreDetailsUiEvent>()
     private lateinit var artistDescriptionPane: TextView
     private lateinit var wikipediaImagePane: ImageView
-    private lateinit var wikipediaImage: RequestCreator
     private lateinit var openUrlButton: Button
     private val articleInfo: ArticleDescriptionHelperImpl = ArticleDescriptionHelperImpl()
     private lateinit var moreDetailsModel: MoreDetailsModel
@@ -47,9 +44,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     }
 
     override fun openWikipediaPage() {
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = Uri.parse(uiState.urlString)
-        startActivity(intent)
+        openExternalUrl(uiState.urlString)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +53,6 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
         initModule()
         initProperties()
-        initWikipediaImage()
         initViews()
         initListeners()
         notifyShowArtistInfo()
@@ -75,10 +69,6 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
     private fun initProperties() {
         uiState = uiState.copy(artistName = intent.getStringExtra(ARTIST_NAME_EXTRA).toString())
-    }
-
-    private fun initWikipediaImage() {
-        wikipediaImage = Picasso.get().load(IMAGE_WIKIPEDIA)
     }
 
     private fun initViews() {
@@ -100,12 +90,12 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     override fun showArtistInfoActivity(artistInfo: String, locallyStoraged: Boolean) {
         runOnUiThread {
             showImageWikipedia()
-            showInfoArtist(getTextWtihPrefix(artistInfo, locallyStoraged) + artistInfo)
+            showInfoArtist(getTextWithPrefix(artistInfo, locallyStoraged) + artistInfo)
         }
     }
 
     private fun showImageWikipedia() {
-        wikipediaImage.into(wikipediaImagePane)
+        Picasso.get().load(IMAGE_WIKIPEDIA).into(wikipediaImagePane)
     }
 
     private fun showInfoArtist(text: String) {
@@ -113,7 +103,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
     }
 
-    private fun getTextWtihPrefix(text: String, wPrefix: Boolean) =
+    private fun getTextWithPrefix(text: String, wPrefix: Boolean) =
         if (wPrefix) PREFIX + text
         else text
 
