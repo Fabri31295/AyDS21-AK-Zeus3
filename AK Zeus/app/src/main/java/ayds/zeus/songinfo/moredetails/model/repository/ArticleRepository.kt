@@ -15,6 +15,7 @@ internal class ArticleRepositoryImpl(
     private val wikipediaLocalStorage: WikipediaLocalStorage,
     private val wikipediaService: WikipediaService
 ) : ArticleRepository {
+
     override fun getArticle(artistName: String): Article {
         var articleInfo = wikipediaLocalStorage.getArticle(artistName)
 
