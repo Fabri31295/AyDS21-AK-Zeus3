@@ -8,17 +8,16 @@ interface ArticleDescriptionHelper {
 
 internal class ArticleDescriptionHelperImpl : ArticleDescriptionHelper {
 
-    override fun getTextToHtml(text: String, term: String): String {
-        val builder = StringBuilder()
-        builder.append("<html><div width=400>")
-        builder.append("<font face=\"arial\">")
-        val textWithBold = text
+    override fun getTextToHtml(text: String, term: String) = StringBuilder().apply{
+        append("<html><div width=400>")
+        append("<font face=\"arial\">")
+        append(textWithBold(text,term))
+        append("</font></div></html>")
+    } .toString()
+    
+    private fun textWithBold(text: String, term: String): String = 
+        text
             .replace("'", " ")
             .replace("\n", "<br>")
             .replace("(?i)" + term.toRegex(), "<b>" + term.toUpperCase(Locale.ROOT) + "</b>")
-        builder.append(textWithBold)
-        builder.append("</font></div></html>")
-        return builder.toString()
-    }
-
 }
