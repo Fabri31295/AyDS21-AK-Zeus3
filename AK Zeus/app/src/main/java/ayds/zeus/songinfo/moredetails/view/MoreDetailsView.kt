@@ -23,10 +23,7 @@ interface MoreDetailsView {
     var uiState: MoreDetailsUiState
     val uiEventObservable: Observable<MoreDetailsUiEvent>
 
-    fun updateUrl(url: String)
     fun openWikipediaPage()
-    fun getArtistInfoText(text: String, term: String): String
-    fun showArtistInfoActivity(artistInfo: String, locallyStoraged: Boolean)
 }
 
 class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
@@ -39,10 +36,6 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     private lateinit var moreDetailsModel: MoreDetailsModel
     override var uiState: MoreDetailsUiState = MoreDetailsUiState()
     override val uiEventObservable: Observable<MoreDetailsUiEvent> = onActionSubject
-
-    override fun updateUrl(url: String) {
-        uiState = uiState.copy(urlString = url)
-    }
 
     override fun openWikipediaPage() {
         openExternalUrl(uiState.urlString)
@@ -70,7 +63,11 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         showArtistInfoActivity(article.info, article.isLocallyStoraged)
     }
 
-    override fun getArtistInfoText(text: String, term: String): String {
+    private fun updateUrl(url: String) {
+        uiState = uiState.copy(urlString = url)
+    }
+
+    private fun getArtistInfoText(text: String, term: String): String {
         return articleInfo.getTextToHtml(text, term)
     }
 
@@ -99,7 +96,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         onActionSubject.notify(MoreDetailsUiEvent.ShowArtistInfo)
     }
 
-    override fun showArtistInfoActivity(artistInfo: String, locallyStoraged: Boolean) {
+    private fun showArtistInfoActivity(artistInfo: String, locallyStoraged: Boolean) {
         runOnUiThread {
             showImageWikipedia()
             showInfoArtist(getTextWithPrefix(artistInfo, locallyStoraged) + artistInfo)
