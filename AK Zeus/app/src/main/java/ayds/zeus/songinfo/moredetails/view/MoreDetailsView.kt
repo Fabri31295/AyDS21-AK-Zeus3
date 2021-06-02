@@ -55,12 +55,21 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
     private fun initObservers() {
         moreDetailsModel.articleObservable()
-                .subscribe { value -> updateInfoArtist(value) }
+                .subscribe { value -> updateArticleInfo(value) }
     }
 
-    private fun updateInfoArtist(article: Article) {
-        updateUrl(article.url)
-        showArtistInfoActivity(article.info, article.isLocallyStoraged)
+    private fun updateArticleInfo(article: Article){
+        updateArticleUiState(article)
+        showArticleInfoActivity()
+    }
+
+    private fun updateArticleUiState(article: Article) {
+        uiState = uiState.copy(
+            artistName = article.name,
+            urlString = article.url,
+            articleInfo = article.info,
+            isLocallyStoraged = article.isLocallyStoraged
+        )
     }
 
     private fun updateUrl(url: String) {
@@ -96,10 +105,10 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         onActionSubject.notify(MoreDetailsUiEvent.ShowArtistInfo)
     }
 
-    private fun showArtistInfoActivity(artistInfo: String, locallyStoraged: Boolean) {
+    private fun showArticleInfoActivity() {
         runOnUiThread {
             showImageWikipedia()
-            showInfoArtist(getTextWithPrefix(artistInfo, locallyStoraged) + artistInfo)
+            showInfoArticle(getTextWithPrefix(uiState.articleInfo, uiState.isLocallyStoraged) + uiState.articleInfo)
         }
     }
 
@@ -107,7 +116,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         Picasso.get().load(IMAGE_WIKIPEDIA).into(wikipediaImagePane)
     }
 
-    private fun showInfoArtist(text: String) {
+    private fun showInfoArticle(text: String) {
         artistDescriptionPane.text = HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY)
 
     }
