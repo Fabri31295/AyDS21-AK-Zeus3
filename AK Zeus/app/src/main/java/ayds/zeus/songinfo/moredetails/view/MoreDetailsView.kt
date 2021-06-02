@@ -11,6 +11,7 @@ import ayds.observer.Subject
 import ayds.zeus.songinfo.R
 import ayds.zeus.songinfo.moredetails.model.MoreDetailsModel
 import ayds.zeus.songinfo.moredetails.model.MoreDetailsModelModule
+import ayds.zeus.songinfo.moredetails.model.entities.Article
 import ayds.zeus.songinfo.moredetails.view.MoreDetailsUiState.Companion.IMAGE_WIKIPEDIA
 import ayds.zeus.songinfo.utils.navigation.openExternalUrl
 import com.squareup.picasso.Picasso
@@ -55,7 +56,18 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         initProperties()
         initViews()
         initListeners()
+        initObservers()
         notifyShowArtistInfo()
+    }
+
+    private fun initObservers() {
+        moreDetailsModel.articleObservable()
+                .subscribe { value -> updateInfoArtist(value) }
+    }
+
+    private fun updateInfoArtist(article: Article) {
+        updateUrl(article.url)
+        showArtistInfoActivity(article.info, article.isLocallyStoraged)
     }
 
     override fun getArtistInfoText(text: String, term: String): String {

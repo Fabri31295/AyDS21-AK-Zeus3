@@ -7,7 +7,7 @@ import ayds.zeus.songinfo.moredetails.model.repository.ArticleRepository
 
 interface MoreDetailsModel {
 
-    fun getArticle(artistName: String)
+    fun searchArticle(artistName: String)
 
     fun articleObservable(): Observable<Article>
 }
@@ -16,7 +16,7 @@ internal class MoreDetailsModelImpl(private val repository: ArticleRepository) :
 
     private val articleSubject = Subject<Article>()
 
-    override fun getArticle(artistName: String){
+    override fun searchArticle(artistName: String){
         repository.getArticle(artistName).let {
             articleSubject.notify(it)
         }

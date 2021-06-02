@@ -29,14 +29,8 @@ internal class MoreDetailsControllerImpl(private val moreDetailsModel: MoreDetai
 
     private fun showArtistInfoAsync() {
         Thread {
-            showArtistInfo()
+            moreDetailsModel.searchArticle(moreDetailsView.uiState.artistName)
         }.start()
-    }
-
-    private fun showArtistInfo() {
-        val wikipediaArticle = moreDetailsModel.getArticle(moreDetailsView.uiState.artistName)
-        moreDetailsView.updateUrl(wikipediaArticle.url)
-        moreDetailsView.showArtistInfoActivity(wikipediaArticle.info, wikipediaArticle.isLocallyStoraged)
     }
 
     private fun openWikipediaUrl() {
