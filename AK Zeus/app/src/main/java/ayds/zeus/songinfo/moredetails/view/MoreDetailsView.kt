@@ -72,10 +72,6 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         )
     }
 
-    private fun updateUrl(url: String) {
-        uiState = uiState.copy(urlString = url)
-    }
-
     private fun getArtistInfoText(text: String, term: String): String {
         return articleInfo.getTextToHtml(text, term)
     }
