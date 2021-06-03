@@ -28,11 +28,13 @@ interface MoreDetailsView {
 class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
     private val onActionSubject = Subject<MoreDetailsUiEvent>()
+    private val articleInfoHelper: ArticleDescriptionHelperImpl = ArticleDescriptionHelperImpl()
+    private lateinit var moreDetailsModel: MoreDetailsModel
+
     private lateinit var artistDescriptionPane: TextView
     private lateinit var wikipediaImagePane: ImageView
     private lateinit var openUrlButton: Button
-    private val articleInfoHelper: ArticleDescriptionHelperImpl = ArticleDescriptionHelperImpl()
-    private lateinit var moreDetailsModel: MoreDetailsModel
+
     override var uiState: MoreDetailsUiState = MoreDetailsUiState()
     override val uiEventObservable: Observable<MoreDetailsUiEvent> = onActionSubject
 
