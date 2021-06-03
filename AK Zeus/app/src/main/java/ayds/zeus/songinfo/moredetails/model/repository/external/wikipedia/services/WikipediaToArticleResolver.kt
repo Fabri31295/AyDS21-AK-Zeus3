@@ -1,4 +1,4 @@
-package ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.tracks
+package ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.services
 
 import ayds.zeus.songinfo.moredetails.model.entities.WikipediaArticle
 import com.google.gson.Gson

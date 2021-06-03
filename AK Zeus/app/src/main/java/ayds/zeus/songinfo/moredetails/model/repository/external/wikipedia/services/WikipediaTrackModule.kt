@@ -1,4 +1,4 @@
-package ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.tracks
+package ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.services
 
 import ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.WikipediaService
 import retrofit2.Retrofit
