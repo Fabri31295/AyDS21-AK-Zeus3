@@ -12,12 +12,11 @@ import ayds.zeus.songinfo.R
 import ayds.zeus.songinfo.moredetails.model.MoreDetailsModel
 import ayds.zeus.songinfo.moredetails.model.MoreDetailsModelModule
 import ayds.zeus.songinfo.moredetails.model.entities.Article
+import ayds.zeus.songinfo.moredetails.model.entities.EmptyArticle
 import ayds.zeus.songinfo.moredetails.view.MoreDetailsUiState.Companion.IMAGE_WIKIPEDIA
 import ayds.zeus.songinfo.utils.navigation.openExternalUrl
 import com.squareup.picasso.Picasso
 
-
-private const val PREFIX = "[*]"
 
 interface MoreDetailsView {
     var uiState: MoreDetailsUiState
@@ -32,7 +31,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     private lateinit var artistDescriptionPane: TextView
     private lateinit var wikipediaImagePane: ImageView
     private lateinit var openUrlButton: Button
-    private val articleInfo: ArticleDescriptionHelperImpl = ArticleDescriptionHelperImpl()
+    private val articleInfoHelper: ArticleDescriptionHelperImpl = ArticleDescriptionHelperImpl()
     private lateinit var moreDetailsModel: MoreDetailsModel
     override var uiState: MoreDetailsUiState = MoreDetailsUiState()
     override val uiEventObservable: Observable<MoreDetailsUiEvent> = onActionSubject
@@ -50,7 +49,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         initViews()
         initListeners()
         initObservers()
-        notifyShowArtistInfo()
+        notifyShowArticleInfo()
     }
 
     private fun initObservers() {
@@ -59,21 +58,33 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     }
 
     private fun updateArticleInfo(article: Article){
-        updateArticleUiState(article)
+        updateUiState(article)
         showArticleInfoActivity()
+    }
+
+    private fun updateUiState(article: Article) {
+        when (article) {
+            EmptyArticle -> updateNoResultUiState()
+            else -> updateArticleUiState(article)
+        }
     }
 
     private fun updateArticleUiState(article: Article) {
         uiState = uiState.copy(
             artistName = article.name,
             urlString = article.url,
-            articleInfo = article.info,
-            isLocallyStoraged = article.isLocallyStoraged
+            articleInfo = articleInfoHelper.getArticleInfoText(article),
+            actionsEnabled = true
         )
     }
 
-    private fun getArtistInfoText(text: String, term: String): String {
-        return articleInfo.getTextToHtml(text, term)
+    private fun updateNoResultUiState() {
+        uiState = uiState.copy(
+            artistName = "",
+            urlString = "",
+            articleInfo = articleInfoHelper.getArticleInfoText(),
+            actionsEnabled = false
+        )
     }
 
     private fun initModule() {
@@ -97,14 +108,14 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         }
     }
 
-    private fun notifyShowArtistInfo() {
-        onActionSubject.notify(MoreDetailsUiEvent.ShowArtistInfo)
+    private fun notifyShowArticleInfo() {
+        onActionSubject.notify(MoreDetailsUiEvent.ShowArticleInfo)
     }
 
     private fun showArticleInfoActivity() {
         runOnUiThread {
             showImageWikipedia()
-            showInfoArticle(getTextWithPrefix(uiState.articleInfo, uiState.isLocallyStoraged) + uiState.articleInfo)
+            showInfoArticle(uiState.articleInfo)
         }
     }
 
@@ -116,10 +127,6 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         artistDescriptionPane.text = HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY)
 
     }
-
-    private fun getTextWithPrefix(text: String, wPrefix: Boolean) =
-        if (wPrefix) PREFIX + text
-        else text
 
     companion object {
         const val ARTIST_NAME_EXTRA = "artistName"

@@ -4,7 +4,7 @@ data class MoreDetailsUiState(
     val artistName: String = "",
     val urlString: String = "",
     val articleInfo: String = "",
-    val isLocallyStoraged: Boolean = false
+    val actionsEnabled: Boolean = false
 ) {
     companion object{
         const val IMAGE_WIKIPEDIA =
