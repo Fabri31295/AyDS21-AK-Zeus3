@@ -4,7 +4,7 @@ import ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.Wikipe
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
-object WikipediaTrackModule {
+object WikipediaServiceModule {
     private const val URL_WIKIPEDIA = "https://en.wikipedia.org/w/"
     private val wikipediaAPIretrofit = Retrofit.Builder()
         .baseUrl(URL_WIKIPEDIA)
