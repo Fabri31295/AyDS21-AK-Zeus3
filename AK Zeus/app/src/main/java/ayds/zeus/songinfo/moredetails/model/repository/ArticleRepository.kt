@@ -24,22 +24,13 @@ internal class ArticleRepositoryImpl(
             else -> {
                 try {
                     articleInfo = wikipediaService.getArticle(artistName)
-
-                    articleInfo?.let {
-                        when {
-                            !(it.isSavedArticle()) -> wikipediaLocalStorage.saveArticle(articleInfo)
-                        }
-                    }
                 } catch (e: Exception) {
                     Log.w("Wikipedia article", "ERROR : $e")
                 }
             }
         }
-
         return articleInfo ?: EmptyArticle
     }
-
-    private fun WikipediaArticle.isSavedArticle() = wikipediaLocalStorage.getArticle(name) != null
 
     private fun markArticleAsLocal(articleInfo: Article) {
         articleInfo.isLocallyStoraged = true
