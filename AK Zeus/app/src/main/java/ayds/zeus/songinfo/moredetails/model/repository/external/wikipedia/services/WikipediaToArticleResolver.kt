@@ -21,7 +21,6 @@ internal class JsonToArticleResolver : WikipediaToArticleResolver {
         try {
             serviceData?.getResponseJson()?.getArtistJson()?.let { item ->
                 WikipediaArticle(
-                    item.getName(),
                     item.getInfo(),
                     item.getUrl()
                 )
@@ -33,10 +32,6 @@ internal class JsonToArticleResolver : WikipediaToArticleResolver {
     private fun String?.getResponseJson(): JsonObject {
         val gson = Gson()
         return gson.fromJson(this, JsonObject::class.java)
-    }
-
-    private fun JsonObject.getName(): String {
-        return this[JSON_TITLE].asString
     }
 
     private fun JsonObject.getInfo(): String {

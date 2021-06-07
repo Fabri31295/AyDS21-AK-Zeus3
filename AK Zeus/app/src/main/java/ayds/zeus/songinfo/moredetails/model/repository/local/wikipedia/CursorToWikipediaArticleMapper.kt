@@ -15,7 +15,6 @@ internal class CursorToWikipediaArticleMapperImpl : CursorToWikipediaArticleMapp
             with(cursor) {
                 if (moveToNext()) {
                     WikipediaArticle(
-                        name = getString(getColumnIndexOrThrow(ARTIST_COLUMN)),
                         info = getString(getColumnIndexOrThrow(INFO_COLUMN)),
                         url = getString(getColumnIndexOrThrow(URL_COLUMN))
                     )

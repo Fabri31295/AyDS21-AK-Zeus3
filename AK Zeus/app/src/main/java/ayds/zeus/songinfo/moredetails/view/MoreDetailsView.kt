@@ -73,18 +73,16 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
     private fun updateArticleUiState(article: Article) {
         uiState = uiState.copy(
-            artistName = article.name,
             urlString = article.url,
-            articleInfo = articleInfoHelper.getArticleInfoText(article),
+            articleInfo = articleInfoHelper.getArticleInfoText(article, uiState.artistName),
             actionsEnabled = true
         )
     }
 
     private fun updateNoResultUiState() {
         uiState = uiState.copy(
-            artistName = "",
             urlString = "",
-            articleInfo = articleInfoHelper.getArticleInfoText(),
+            articleInfo = articleInfoHelper.getArticleInfoText(artistName = ""),
             actionsEnabled = false
         )
     }

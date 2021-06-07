@@ -7,15 +7,15 @@ import java.util.*
 private const val PREFIX = "[*]"
 
 interface ArticleDescriptionHelper {
-    fun getArticleInfoText(article: Article = EmptyArticle): String
+    fun getArticleInfoText(article: Article = EmptyArticle, artistName: String): String = ""
 }
 
 internal class ArticleDescriptionHelperImpl : ArticleDescriptionHelper {
 
-    override fun getArticleInfoText(article: Article): String =
+    override fun getArticleInfoText(article: Article, artistName: String): String =
         getTextToHtml(
             getTextWithPrefix(article.info, article.isLocallyStoraged),
-            article.name)
+            artistName)
 
     private fun getTextToHtml(text: String, term: String) = StringBuilder().apply{
         append("<html><div width=400>")

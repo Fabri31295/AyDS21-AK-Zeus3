@@ -5,7 +5,6 @@ import ayds.zeus.songinfo.moredetails.model.entities.Article
 import ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.WikipediaService
 import ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia.WikipediaLocalStorage
 import ayds.zeus.songinfo.moredetails.model.entities.EmptyArticle
-import ayds.zeus.songinfo.moredetails.model.entities.WikipediaArticle
 
 interface ArticleRepository {
     fun getArticle(artistName: String): Article
@@ -24,6 +23,8 @@ internal class ArticleRepositoryImpl(
             else -> {
                 try {
                     articleInfo = wikipediaService.getArticle(artistName)
+                    if (articleInfo != null)
+                        wikipediaLocalStorage.saveArticle(articleInfo, artistName)
                 } catch (e: Exception) {
                     Log.w("Wikipedia article", "ERROR : $e")
                 }

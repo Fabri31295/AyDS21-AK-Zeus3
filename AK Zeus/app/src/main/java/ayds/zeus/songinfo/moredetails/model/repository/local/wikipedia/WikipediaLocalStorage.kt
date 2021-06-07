@@ -11,7 +11,7 @@ private const val DATABASE_VERSION = 1
 private const val DATABASE_NAME = "dictionary.db"
 
 interface WikipediaLocalStorage {
-    fun saveArticle(article: WikipediaArticle)
+    fun saveArticle(article: WikipediaArticle, artistName: String)
     fun getArticle(artist: String): WikipediaArticle?
 }
 
@@ -21,8 +21,8 @@ internal class WikipediaLocalStorageImpl(
 ) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION),
     WikipediaLocalStorage {
 
-    override fun saveArticle(article: WikipediaArticle) {
-        val contentValues = getArtistContentValues(article.name, article.info, article.url)
+    override fun saveArticle(article: WikipediaArticle, artistName: String) {
+        val contentValues = getArtistContentValues(artistName, article.info, article.url)
         this.writableDatabase.insert(ARTISTS_TABLE, null, contentValues)
     }
 
