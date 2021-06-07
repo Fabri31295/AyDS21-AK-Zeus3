@@ -31,6 +31,5 @@ internal class ArticleDescriptionHelperImpl : ArticleDescriptionHelper {
             .replace("(?i)" + term.toRegex(), "<b>" + term.toUpperCase(Locale.ROOT) + "</b>")
 
     private fun getTextWithPrefix(text: String, wPrefix: Boolean) =
-        if (wPrefix) PREFIX + text
-        else text
+        "${if (wPrefix) PREFIX else ""} $text"
 }
