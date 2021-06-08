@@ -28,7 +28,7 @@ interface MoreDetailsView {
 class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
     private val onActionSubject = Subject<MoreDetailsUiEvent>()
-    private val articleInfoHelper: ArticleDescriptionHelperImpl = ArticleDescriptionHelperImpl()
+    private val articleInfoHelper: ArticleDescriptionHelper = MoreDetailsViewModule.articleInfoHelper
     private lateinit var moreDetailsModel: MoreDetailsModel
 
     private lateinit var artistDescriptionPane: TextView
