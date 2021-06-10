@@ -4,11 +4,11 @@ import android.database.Cursor
 import ayds.zeus.songinfo.moredetails.model.entities.WikipediaCard
 import java.sql.SQLException
 
-interface CursorToWikipediaArticleMapper {
+interface CursorToCardMapper {
     fun map(cursor: Cursor): WikipediaCard?
 }
 
-internal class CursorToWikipediaArticleMapperImpl : CursorToWikipediaArticleMapper {
+internal class CursorToCardMapperImpl : CursorToCardMapper {
 
     override fun map(cursor: Cursor): WikipediaCard? =
         try {

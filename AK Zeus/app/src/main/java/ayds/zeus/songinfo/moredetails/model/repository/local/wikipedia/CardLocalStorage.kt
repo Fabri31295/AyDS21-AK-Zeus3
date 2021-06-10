@@ -10,16 +10,16 @@ import ayds.zeus.songinfo.moredetails.model.entities.WikipediaCard
 private const val DATABASE_VERSION = 1
 private const val DATABASE_NAME = "dictionary.db"
 
-interface WikipediaLocalStorage {
+interface CardLocalStorage {
     fun saveArticle(article: WikipediaCard, artistName: String)
     fun getArticle(artist: String): WikipediaCard?
 }
 
-internal class WikipediaLocalStorageImpl(
+internal class CardLocalStorageImpl(
     context: Context,
-    private val cursorToWikipediaArticleMapper: CursorToWikipediaArticleMapper,
+    private val cursorToCardMapper: CursorToCardMapper,
 ) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION),
-    WikipediaLocalStorage {
+    CardLocalStorage {
 
     override fun saveArticle(article: WikipediaCard, artistName: String) {
         val contentValues = getArtistContentValues(artistName, article.info, article.url)
@@ -28,7 +28,7 @@ internal class WikipediaLocalStorageImpl(
 
     override fun getArticle(artist: String): WikipediaCard? {
         val cursor = getNewArtistCursor(artist)
-        return cursorToWikipediaArticleMapper.map(cursor)
+        return cursorToCardMapper.map(cursor)
     }
 
     private fun getArtistContentValues(artist: String, info: String, url: String) =

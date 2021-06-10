@@ -3,7 +3,7 @@ package ayds.zeus.songinfo.moredetails.model
 import ayds.observer.Observable
 import ayds.observer.Subject
 import ayds.zeus.songinfo.moredetails.model.entities.Card
-import ayds.zeus.songinfo.moredetails.model.repository.ArticleRepository
+import ayds.zeus.songinfo.moredetails.model.repository.CardRepository
 
 interface MoreDetailsModel {
 
@@ -12,7 +12,7 @@ interface MoreDetailsModel {
     fun articleObservable(): Observable<Card>
 }
 
-internal class MoreDetailsModelImpl(private val repository: ArticleRepository) : MoreDetailsModel {
+internal class MoreDetailsModelImpl(private val repository: CardRepository) : MoreDetailsModel {
 
     private val articleSubject = Subject<Card>()
 

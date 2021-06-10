@@ -3,20 +3,20 @@ package ayds.zeus.songinfo.moredetails.model.repository
 import android.util.Log
 import ayds.zeus.songinfo.moredetails.model.entities.Card
 import ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.WikipediaService
-import ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia.WikipediaLocalStorage
+import ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia.CardLocalStorage
 import ayds.zeus.songinfo.moredetails.model.entities.EmptyCard
 
-interface ArticleRepository {
+interface CardRepository {
     fun getArticle(artistName: String): Card
 }
 
-internal class ArticleRepositoryImpl(
-    private val wikipediaLocalStorage: WikipediaLocalStorage,
+internal class CardRepositoryImpl(
+    private val cardLocalStorage: CardLocalStorage,
     private val wikipediaService: WikipediaService
-) : ArticleRepository {
+) : CardRepository {
 
     override fun getArticle(artistName: String): Card {
-        var articleInfo = wikipediaLocalStorage.getArticle(artistName)
+        var articleInfo = cardLocalStorage.getArticle(artistName)
 
         when {
             articleInfo != null -> markArticleAsLocal(articleInfo)
@@ -24,7 +24,7 @@ internal class ArticleRepositoryImpl(
                 try {
                     articleInfo = wikipediaService.getArticle(artistName)
                     if (articleInfo != null)
-                        wikipediaLocalStorage.saveArticle(articleInfo, artistName)
+                        cardLocalStorage.saveArticle(articleInfo, artistName)
                 } catch (e: Exception) {
                     Log.w("Wikipedia article", "ERROR : $e")
                 }
