@@ -24,6 +24,8 @@ interface MoreDetailsView {
     fun openWikipediaPage()
 }
 
+private const val SOURCE_WIKIPEDIA = 1
+
 class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
     private val onActionSubject = Subject<MoreDetailsUiEvent>()
@@ -31,7 +33,8 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     private lateinit var moreDetailsModel: MoreDetailsModel
 
     private lateinit var artistDescriptionPane: TextView
-    private lateinit var wikipediaImagePane: ImageView
+    private lateinit var descriptionSourcePane: TextView
+    private lateinit var sourceImagePane: ImageView
     private lateinit var openUrlButton: Button
 
     override var uiState: MoreDetailsUiState = MoreDetailsUiState()
@@ -101,8 +104,9 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
     private fun initViews() {
         artistDescriptionPane = findViewById(R.id.textPane2)
+        descriptionSourcePane = findViewById(R.id.textPaneSource)
         openUrlButton = findViewById(R.id.openUrlButton)
-        wikipediaImagePane = findViewById(R.id.imageView)
+        sourceImagePane = findViewById(R.id.imageView)
     }
 
     private fun initListeners() {
@@ -117,17 +121,26 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
     private fun showArticleInfoActivity() {
         runOnUiThread {
-            showImageWikipedia()
-            showInfoArticle(uiState.articleInfo)
+            showSourceImage()
+            showSource()
+            showInfo()
         }
     }
 
-    private fun showImageWikipedia() {
-        Picasso.get().load(uiState.urlLogoImage).into(wikipediaImagePane)
+    private fun showSourceImage() {
+        Picasso.get().load(uiState.urlLogoImage).into(sourceImagePane)
     }
 
-    private fun showInfoArticle(text: String) {
-        artistDescriptionPane.text = HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY)
+    private fun showSource() {
+        descriptionSourcePane.text =
+            when (uiState.source) {
+                SOURCE_WIKIPEDIA -> "From Wikipedia.org"
+                else -> "Invalid source"
+            }
+    }
+
+    private fun showInfo() {
+        artistDescriptionPane.text = HtmlCompat.fromHtml(uiState.articleInfo, HtmlCompat.FROM_HTML_MODE_LEGACY)
 
     }
 
