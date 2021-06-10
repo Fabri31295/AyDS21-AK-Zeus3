@@ -1,11 +1,11 @@
 package ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.services
 
-import ayds.zeus.songinfo.moredetails.model.entities.WikipediaArticle
+import ayds.zeus.songinfo.moredetails.model.entities.WikipediaCard
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 
 interface WikipediaToArticleResolver {
-    fun getArticleFromExternalData(serviceData: String?): WikipediaArticle?
+    fun getArticleFromExternalData(serviceData: String?): WikipediaCard?
 }
 
 private const val JSON_SNIPPET = "snippet"
@@ -17,10 +17,10 @@ private const val JSON_SEARCH = "search"
 
 internal class JsonToArticleResolver : WikipediaToArticleResolver {
 
-    override fun getArticleFromExternalData(serviceData: String?): WikipediaArticle? =
+    override fun getArticleFromExternalData(serviceData: String?): WikipediaCard? =
         try {
             serviceData?.getResponseJson()?.getArtistJson()?.let { item ->
-                WikipediaArticle(
+                WikipediaCard(
                     item.getInfo(),
                     item.getUrl()
                 )

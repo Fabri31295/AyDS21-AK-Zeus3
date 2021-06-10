@@ -5,14 +5,14 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import ayds.zeus.songinfo.moredetails.model.entities.WikipediaArticle
+import ayds.zeus.songinfo.moredetails.model.entities.WikipediaCard
 
 private const val DATABASE_VERSION = 1
 private const val DATABASE_NAME = "dictionary.db"
 
 interface WikipediaLocalStorage {
-    fun saveArticle(article: WikipediaArticle, artistName: String)
-    fun getArticle(artist: String): WikipediaArticle?
+    fun saveArticle(article: WikipediaCard, artistName: String)
+    fun getArticle(artist: String): WikipediaCard?
 }
 
 internal class WikipediaLocalStorageImpl(
@@ -21,12 +21,12 @@ internal class WikipediaLocalStorageImpl(
 ) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION),
     WikipediaLocalStorage {
 
-    override fun saveArticle(article: WikipediaArticle, artistName: String) {
+    override fun saveArticle(article: WikipediaCard, artistName: String) {
         val contentValues = getArtistContentValues(artistName, article.info, article.url)
         this.writableDatabase.insert(ARTISTS_TABLE, null, contentValues)
     }
 
-    override fun getArticle(artist: String): WikipediaArticle? {
+    override fun getArticle(artist: String): WikipediaCard? {
         val cursor = getNewArtistCursor(artist)
         return cursorToWikipediaArticleMapper.map(cursor)
     }

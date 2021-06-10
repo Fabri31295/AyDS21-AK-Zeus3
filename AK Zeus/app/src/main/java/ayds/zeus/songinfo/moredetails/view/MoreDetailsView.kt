@@ -11,9 +11,8 @@ import ayds.observer.Subject
 import ayds.zeus.songinfo.R
 import ayds.zeus.songinfo.moredetails.model.MoreDetailsModel
 import ayds.zeus.songinfo.moredetails.model.MoreDetailsModelModule
-import ayds.zeus.songinfo.moredetails.model.entities.Article
-import ayds.zeus.songinfo.moredetails.model.entities.EmptyArticle
-import ayds.zeus.songinfo.moredetails.view.MoreDetailsUiState.Companion.IMAGE_WIKIPEDIA
+import ayds.zeus.songinfo.moredetails.model.entities.Card
+import ayds.zeus.songinfo.moredetails.model.entities.EmptyCard
 import ayds.zeus.songinfo.utils.navigation.openExternalUrl
 import com.squareup.picasso.Picasso
 
@@ -59,23 +58,25 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
                 .subscribe { value -> updateArticleInfo(value) }
     }
 
-    private fun updateArticleInfo(article: Article){
-        updateUiState(article)
+    private fun updateArticleInfo(card: Card){
+        updateUiState(card)
         showArticleInfoActivity()
     }
 
-    private fun updateUiState(article: Article) {
-        when (article) {
-            EmptyArticle -> updateNoResultUiState()
-            else -> updateArticleUiState(article)
+    private fun updateUiState(card: Card) {
+        when (card) {
+            EmptyCard -> updateNoResultUiState()
+            else -> updateArticleUiState(card)
         }
     }
 
-    private fun updateArticleUiState(article: Article) {
+    private fun updateArticleUiState(card: Card) {
         uiState = uiState.copy(
-            urlString = article.url,
-            articleInfo = articleInfoHelper.getArticleInfoText(article, uiState.artistName),
-            actionsEnabled = true
+            urlString = card.url,
+            articleInfo = articleInfoHelper.getArticleInfoText(card, uiState.artistName),
+            actionsEnabled = true,
+            urlLogoImage = card.sourceLogo,
+            source = card.source
         )
     }
 
@@ -83,7 +84,9 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         uiState = uiState.copy(
             urlString = "",
             articleInfo = articleInfoHelper.getArticleInfoText(artistName = ""),
-            actionsEnabled = false
+            actionsEnabled = false,
+            urlLogoImage = "",
+            source = -1
         )
     }
 
@@ -120,7 +123,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     }
 
     private fun showImageWikipedia() {
-        Picasso.get().load(IMAGE_WIKIPEDIA).into(wikipediaImagePane)
+        Picasso.get().load(uiState.urlLogoImage).into(wikipediaImagePane)
     }
 
     private fun showInfoArticle(text: String) {
