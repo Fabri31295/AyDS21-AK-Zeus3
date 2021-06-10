@@ -1,6 +1,6 @@
 package ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.services
 
-import ayds.zeus.songinfo.moredetails.model.entities.WikipediaCard
+import ayds.zeus.songinfo.moredetails.model.entities.CardImpl
 import ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.WikipediaService
 import retrofit2.Response
 
@@ -8,7 +8,7 @@ internal class WikipediaServiceImpl(
     private val wikipediaToArticleResolver: WikipediaToArticleResolver,
     private val wikipediaAPI: WikipediaAPI
 ) : WikipediaService {
-    override fun getArticle(artistName: String): WikipediaCard? {
+    override fun getArticle(artistName: String): CardImpl? {
         val callResponse = getArticleFromService(artistName)
         return wikipediaToArticleResolver.getArticleFromExternalData(callResponse.body())
     }

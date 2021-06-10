@@ -75,7 +75,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
             urlString = card.url,
             articleInfo = articleInfoHelper.getArticleInfoText(card, uiState.artistName),
             actionsEnabled = true,
-            urlLogoImage = card.sourceLogo,
+            urlLogoImage = card.logo_url,
             source = card.source
         )
     }

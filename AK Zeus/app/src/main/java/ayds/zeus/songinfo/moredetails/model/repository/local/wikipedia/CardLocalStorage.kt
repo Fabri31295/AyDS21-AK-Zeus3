@@ -5,14 +5,14 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import ayds.zeus.songinfo.moredetails.model.entities.WikipediaCard
+import ayds.zeus.songinfo.moredetails.model.entities.CardImpl
 
 private const val DATABASE_VERSION = 1
 private const val DATABASE_NAME = "dictionary.db"
 
 interface CardLocalStorage {
-    fun saveArticle(article: WikipediaCard, artistName: String)
-    fun getArticle(artist: String): WikipediaCard?
+    fun saveArticle(card: CardImpl, artistName: String)
+    fun getArticle(card: String): CardImpl?
 }
 
 internal class CardLocalStorageImpl(
@@ -21,27 +21,28 @@ internal class CardLocalStorageImpl(
 ) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION),
     CardLocalStorage {
 
-    override fun saveArticle(article: WikipediaCard, artistName: String) {
-        val contentValues = getArtistContentValues(artistName, article.info, article.url)
+    override fun saveArticle(card: CardImpl, artistName: String) {
+        val contentValues = getArtistContentValues(artistName, card.info, card.url,card.source,card.logo_url)
         this.writableDatabase.insert(ARTISTS_TABLE, null, contentValues)
     }
 
-    override fun getArticle(artist: String): WikipediaCard? {
-        val cursor = getNewArtistCursor(artist)
+    override fun getArticle(card: String): CardImpl? {
+        val cursor = getNewArtistCursor(card)
         return cursorToCardMapper.map(cursor)
     }
 
-    private fun getArtistContentValues(artist: String, info: String, url: String) =
+    private fun getArtistContentValues(artist: String, info: String, url: String, source: Int, logoUrl: String) =
         ContentValues().apply {
             this.put(ARTIST_COLUMN, artist)
             this.put(INFO_COLUMN, info)
             this.put(URL_COLUMN, url)
-            this.put(SOURCE_COLUMN, 1)
+            this.put(SOURCE_COLUMN, source)
+            this.put(LOGO_URL_COLUMN,logoUrl)
         }
 
     private fun getNewArtistCursor(artist: String): Cursor {
         val dataBase = this.readableDatabase
-        val projection = arrayOf(ID_COLUMN, ARTIST_COLUMN, INFO_COLUMN, URL_COLUMN)
+        val projection = arrayOf(ID_COLUMN, ARTIST_COLUMN, INFO_COLUMN, URL_COLUMN, SOURCE_COLUMN, LOGO_URL_COLUMN)
         val selection = "$ARTIST_COLUMN = ?"
         val selectionArgs = arrayOf(artist)
         val sortOrder = "$ARTIST_COLUMN DESC"
