@@ -7,7 +7,7 @@ import ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia.CardLocal
 import ayds.zeus.songinfo.moredetails.model.entities.EmptyCard
 
 interface CardRepository {
-    fun getArticle(artistName: String): Card
+    fun getCard(artistName: String): Card
 }
 
 internal class CardRepositoryImpl(
@@ -15,25 +15,25 @@ internal class CardRepositoryImpl(
     private val wikipediaService: WikipediaService
 ) : CardRepository {
 
-    override fun getArticle(artistName: String): Card {
-        var articleInfo = cardLocalStorage.getArticle(artistName)
+    override fun getCard(artistName: String): Card {
+        var cardInfo = cardLocalStorage.getCard(artistName)
 
         when {
-            articleInfo != null -> markArticleAsLocal(articleInfo)
+            cardInfo != null -> markCardAsLocal(cardInfo)
             else -> {
                 try {
-                    articleInfo = wikipediaService.getArticle(artistName)
-                    if (articleInfo != null)
-                        cardLocalStorage.saveArticle(articleInfo, artistName)
+                    cardInfo = wikipediaService.getCard(artistName)
+                    if (cardInfo != null)
+                        cardLocalStorage.saveCard(cardInfo, artistName)
                 } catch (e: Exception) {
-                    Log.w("Wikipedia article", "ERROR : $e")
+                    Log.w("Wikipedia card", "ERROR : $e")
                 }
             }
         }
-        return articleInfo ?: EmptyCard
+        return cardInfo ?: EmptyCard
     }
 
-    private fun markArticleAsLocal(cardInfo: Card) {
+    private fun markCardAsLocal(cardInfo: Card) {
         cardInfo.isLocallyStoraged = true
     }
 }

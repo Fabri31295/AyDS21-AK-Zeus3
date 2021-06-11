@@ -23,18 +23,18 @@ internal class MoreDetailsControllerImpl(private val moreDetailsModel: MoreDetai
         Observer { value ->
             when (value) {
                 MoreDetailsUiEvent.ShowArticleInfo -> showArtistInfoAsync()
-                is MoreDetailsUiEvent.OpenWikipediaUrl -> openWikipediaUrl()
+                is MoreDetailsUiEvent.OpenFullArticle -> openSourcePage()
             }
         }
 
     private fun showArtistInfoAsync() {
         Thread {
-            moreDetailsModel.searchArticle(moreDetailsView.uiState.artistName)
+            moreDetailsModel.searchCard(moreDetailsView.uiState.artistName)
         }.start()
     }
 
-    private fun openWikipediaUrl() {
-        moreDetailsView.openWikipediaPage()
+    private fun openSourcePage() {
+        moreDetailsView.openSourcePage()
     }
 
 }

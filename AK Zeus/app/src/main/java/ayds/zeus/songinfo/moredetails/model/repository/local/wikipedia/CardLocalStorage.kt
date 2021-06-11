@@ -11,8 +11,8 @@ private const val DATABASE_VERSION = 1
 private const val DATABASE_NAME = "dictionary.db"
 
 interface CardLocalStorage {
-    fun saveArticle(card: CardImpl, artistName: String)
-    fun getArticle(card: String): CardImpl?
+    fun saveCard(card: CardImpl, artistName: String)
+    fun getCard(card: String): CardImpl?
 }
 
 internal class CardLocalStorageImpl(
@@ -21,12 +21,12 @@ internal class CardLocalStorageImpl(
 ) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION),
     CardLocalStorage {
 
-    override fun saveArticle(card: CardImpl, artistName: String) {
+    override fun saveCard(card: CardImpl, artistName: String) {
         val contentValues = getArtistContentValues(artistName, card.info, card.url,card.source,card.logo_url)
         this.writableDatabase.insert(ARTISTS_TABLE, null, contentValues)
     }
 
-    override fun getArticle(card: String): CardImpl? {
+    override fun getCard(card: String): CardImpl? {
         val cursor = getNewArtistCursor(card)
         return cursorToCardMapper.map(cursor)
     }

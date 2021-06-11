@@ -21,7 +21,7 @@ interface MoreDetailsView {
     var uiState: MoreDetailsUiState
     val uiEventObservable: Observable<MoreDetailsUiEvent>
 
-    fun openWikipediaPage()
+    fun openSourcePage()
 }
 
 private const val SOURCE_WIKIPEDIA = 1
@@ -29,7 +29,7 @@ private const val SOURCE_WIKIPEDIA = 1
 class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
     private val onActionSubject = Subject<MoreDetailsUiEvent>()
-    private val articleInfoHelper: ArticleDescriptionHelper = MoreDetailsViewModule.articleInfoHelper
+    private val cardInfoHelper: CardDescriptionHelper = MoreDetailsViewModule.cardInfoHelper
     private lateinit var moreDetailsModel: MoreDetailsModel
 
     private lateinit var artistDescriptionPane: TextView
@@ -40,7 +40,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     override var uiState: MoreDetailsUiState = MoreDetailsUiState()
     override val uiEventObservable: Observable<MoreDetailsUiEvent> = onActionSubject
 
-    override fun openWikipediaPage() {
+    override fun openSourcePage() {
         openExternalUrl(uiState.urlString)
     }
 
@@ -57,26 +57,26 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     }
 
     private fun initObservers() {
-        moreDetailsModel.articleObservable()
-                .subscribe { value -> updateArticleInfo(value) }
+        moreDetailsModel.cardObservable()
+                .subscribe { value -> updateWithNewCard(value) }
     }
 
-    private fun updateArticleInfo(card: Card){
+    private fun updateWithNewCard(card: Card){
         updateUiState(card)
-        showArticleInfoActivity()
+        showCardInfoActivity()
     }
 
     private fun updateUiState(card: Card) {
         when (card) {
             EmptyCard -> updateNoResultUiState()
-            else -> updateArticleUiState(card)
+            else -> updateCardUiState(card)
         }
     }
 
-    private fun updateArticleUiState(card: Card) {
+    private fun updateCardUiState(card: Card) {
         uiState = uiState.copy(
             urlString = card.url,
-            articleInfo = articleInfoHelper.getArticleInfoText(card, uiState.artistName),
+            cardInfo = cardInfoHelper.getCardInfoText(card, uiState.artistName),
             actionsEnabled = true,
             urlLogoImage = card.logo_url,
             source = card.source
@@ -86,7 +86,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     private fun updateNoResultUiState() {
         uiState = uiState.copy(
             urlString = "",
-            articleInfo = articleInfoHelper.getArticleInfoText(artistName = ""),
+            cardInfo = cardInfoHelper.getCardInfoText(artistName = ""),
             actionsEnabled = false,
             urlLogoImage = "",
             source = -1
@@ -111,7 +111,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
     private fun initListeners() {
         openUrlButton.setOnClickListener {
-            openWikipediaPage()
+            openSourcePage()
         }
     }
 
@@ -119,10 +119,10 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         onActionSubject.notify(MoreDetailsUiEvent.ShowArticleInfo)
     }
 
-    private fun showArticleInfoActivity() {
+    private fun showCardInfoActivity() {
         runOnUiThread {
             showSourceImage()
-            showSource()
+            showSourceLabel()
             showInfo()
         }
     }
@@ -131,7 +131,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         Picasso.get().load(uiState.urlLogoImage).into(sourceImagePane)
     }
 
-    private fun showSource() {
+    private fun showSourceLabel() {
         descriptionSourcePane.text =
             when (uiState.source) {
                 SOURCE_WIKIPEDIA -> "From Wikipedia.org"
@@ -140,7 +140,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     }
 
     private fun showInfo() {
-        artistDescriptionPane.text = HtmlCompat.fromHtml(uiState.articleInfo, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        artistDescriptionPane.text = HtmlCompat.fromHtml(uiState.cardInfo, HtmlCompat.FROM_HTML_MODE_LEGACY)
 
     }
 

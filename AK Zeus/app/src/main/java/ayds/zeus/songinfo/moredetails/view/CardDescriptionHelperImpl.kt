@@ -6,13 +6,13 @@ import java.util.*
 
 private const val PREFIX = "[*]"
 
-interface ArticleDescriptionHelper {
-    fun getArticleInfoText(card: Card = EmptyCard, artistName: String): String = ""
+interface CardDescriptionHelper {
+    fun getCardInfoText(card: Card = EmptyCard, artistName: String): String = ""
 }
 
-internal class ArticleDescriptionHelperImpl : ArticleDescriptionHelper {
+internal class CardDescriptionHelperImpl : CardDescriptionHelper {
 
-    override fun getArticleInfoText(card: Card, artistName: String): String =
+    override fun getCardInfoText(card: Card, artistName: String): String =
         getTextToHtml(
             getTextWithPrefix(card.info, card.isLocallyStoraged),
             artistName)
