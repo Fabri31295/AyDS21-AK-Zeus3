@@ -1,10 +1,10 @@
 package ayds.zeus.songinfo.moredetails.model.repository
 
 import android.util.Log
-import ayds.zeus.songinfo.moredetails.model.entities.Card
-import ayds.zeus.songinfo.moredetails.model.repository.external.wikipedia.WikipediaService
+import ayds.zeus3.wikipedia.Card
 import ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia.CardLocalStorage
-import ayds.zeus.songinfo.moredetails.model.entities.EmptyCard
+import ayds.zeus3.wikipedia.EmptyCard
+import ayds.zeus3.wikipedia.WikipediaService
 
 interface CardRepository {
     fun getCard(artistName: String): Card

@@ -11,9 +11,9 @@ import ayds.observer.Subject
 import ayds.zeus.songinfo.R
 import ayds.zeus.songinfo.moredetails.model.MoreDetailsModel
 import ayds.zeus.songinfo.moredetails.model.MoreDetailsModelModule
-import ayds.zeus.songinfo.moredetails.model.entities.Card
-import ayds.zeus.songinfo.moredetails.model.entities.EmptyCard
 import ayds.zeus.songinfo.utils.navigation.openExternalUrl
+import ayds.zeus3.wikipedia.Card
+import ayds.zeus3.wikipedia.EmptyCard
 import com.squareup.picasso.Picasso
 
 

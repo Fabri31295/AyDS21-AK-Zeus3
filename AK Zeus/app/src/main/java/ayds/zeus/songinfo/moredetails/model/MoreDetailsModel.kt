@@ -2,8 +2,8 @@ package ayds.zeus.songinfo.moredetails.model
 
 import ayds.observer.Observable
 import ayds.observer.Subject
-import ayds.zeus.songinfo.moredetails.model.entities.Card
 import ayds.zeus.songinfo.moredetails.model.repository.CardRepository
+import ayds.zeus3.wikipedia.Card
 
 interface MoreDetailsModel {
 
