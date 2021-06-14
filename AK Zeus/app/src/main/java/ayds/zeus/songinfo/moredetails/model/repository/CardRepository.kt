@@ -1,13 +1,13 @@
 package ayds.zeus.songinfo.moredetails.model.repository
 
 import android.util.Log
-import ayds.zeus3.wikipedia.Card
+import ayds.zeus3.wikipedia.Article
 import ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia.CardLocalStorage
-import ayds.zeus3.wikipedia.EmptyCard
+import ayds.zeus3.wikipedia.EmptyArticle
 import ayds.zeus3.wikipedia.WikipediaService
 
 interface CardRepository {
-    fun getCard(artistName: String): Card
+    fun getCard(artistName: String): Article
 }
 
 internal class CardRepositoryImpl(
@@ -15,14 +15,14 @@ internal class CardRepositoryImpl(
     private val wikipediaService: WikipediaService
 ) : CardRepository {
 
-    override fun getCard(artistName: String): Card {
+    override fun getCard(artistName: String): Article {
         var cardInfo = cardLocalStorage.getCard(artistName)
 
         when {
             cardInfo != null -> markCardAsLocal(cardInfo)
             else -> {
                 try {
-                    cardInfo = wikipediaService.getCard(artistName)
+                    cardInfo = wikipediaService.getArticle(artistName)
                     if (cardInfo != null)
                         cardLocalStorage.saveCard(cardInfo, artistName)
                 } catch (e: Exception) {
@@ -30,10 +30,10 @@ internal class CardRepositoryImpl(
                 }
             }
         }
-        return cardInfo ?: EmptyCard
+        return cardInfo ?: EmptyArticle
     }
 
-    private fun markCardAsLocal(cardInfo: Card) {
+    private fun markCardAsLocal(cardInfo: Article) {
         cardInfo.isLocallyStoraged = true
     }
 }

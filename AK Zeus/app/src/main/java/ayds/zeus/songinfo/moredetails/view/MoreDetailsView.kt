@@ -12,8 +12,8 @@ import ayds.zeus.songinfo.R
 import ayds.zeus.songinfo.moredetails.model.MoreDetailsModel
 import ayds.zeus.songinfo.moredetails.model.MoreDetailsModelModule
 import ayds.zeus.songinfo.utils.navigation.openExternalUrl
-import ayds.zeus3.wikipedia.Card
-import ayds.zeus3.wikipedia.EmptyCard
+import ayds.zeus3.wikipedia.Article
+import ayds.zeus3.wikipedia.EmptyArticle
 import com.squareup.picasso.Picasso
 
 
@@ -61,19 +61,19 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
                 .subscribe { value -> updateWithNewCard(value) }
     }
 
-    private fun updateWithNewCard(card: Card){
+    private fun updateWithNewCard(card: Article){
         updateUiState(card)
         showCardInfoActivity()
     }
 
-    private fun updateUiState(card: Card) {
+    private fun updateUiState(card: Article) {
         when (card) {
-            EmptyCard -> updateNoResultUiState()
+            EmptyArticle -> updateNoResultUiState()
             else -> updateCardUiState(card)
         }
     }
 
-    private fun updateCardUiState(card: Card) {
+    private fun updateCardUiState(card: Article) {
         uiState = uiState.copy(
             urlString = card.url,
             cardInfo = cardInfoHelper.getCardInfoText(card, uiState.artistName),

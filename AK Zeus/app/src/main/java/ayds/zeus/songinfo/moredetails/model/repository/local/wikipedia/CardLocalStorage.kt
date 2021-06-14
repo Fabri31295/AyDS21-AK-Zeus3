@@ -5,14 +5,14 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import ayds.zeus3.wikipedia.CardImpl
+import ayds.zeus3.wikipedia.ArticleImpl
 
 private const val DATABASE_VERSION = 1
 private const val DATABASE_NAME = "dictionary.db"
 
 interface CardLocalStorage {
-    fun saveCard(card: CardImpl, artistName: String)
-    fun getCard(card: String): CardImpl?
+    fun saveCard(card: ArticleImpl, artistName: String)
+    fun getCard(card: String): ArticleImpl?
 }
 
 internal class CardLocalStorageImpl(
@@ -21,12 +21,12 @@ internal class CardLocalStorageImpl(
 ) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION),
     CardLocalStorage {
 
-    override fun saveCard(card: CardImpl, artistName: String) {
+    override fun saveCard(card: ArticleImpl, artistName: String) {
         val contentValues = getArtistContentValues(artistName, card.info, card.url,card.source,card.logo_url)
         this.writableDatabase.insert(ARTISTS_TABLE, null, contentValues)
     }
 
-    override fun getCard(card: String): CardImpl? {
+    override fun getCard(card: String): ArticleImpl? {
         val cursor = getNewArtistCursor(card)
         return cursorToCardMapper.map(cursor)
     }
