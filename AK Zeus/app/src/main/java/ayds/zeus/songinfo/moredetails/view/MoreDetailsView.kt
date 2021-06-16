@@ -13,9 +13,8 @@ import ayds.zeus.songinfo.moredetails.model.MoreDetailsModel
 import ayds.zeus.songinfo.moredetails.model.MoreDetailsModelModule
 import ayds.zeus.songinfo.moredetails.model.repository.Source
 import ayds.zeus.songinfo.moredetails.model.repository.entities.Card
+import ayds.zeus.songinfo.moredetails.model.repository.entities.EmptyCard
 import ayds.zeus.songinfo.utils.navigation.openExternalUrl
-import ayds.zeus3.wikipedia.Article
-import ayds.zeus3.wikipedia.EmptyArticle
 import com.squareup.picasso.Picasso
 
 
@@ -68,7 +67,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
     private fun updateUiState(card: Card) {
         when (card) {
-            EmptyArticle -> updateNoResultUiState()
+            is EmptyCard -> updateNoResultUiState()
             else -> updateCardUiState(card)
         }
     }

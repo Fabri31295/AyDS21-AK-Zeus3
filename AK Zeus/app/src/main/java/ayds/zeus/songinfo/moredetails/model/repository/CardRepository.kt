@@ -2,37 +2,39 @@ package ayds.zeus.songinfo.moredetails.model.repository
 
 import android.util.Log
 import ayds.zeus.songinfo.moredetails.model.repository.entities.Card
+import ayds.zeus.songinfo.moredetails.model.repository.local.ArticleToCardMapper
+import ayds.zeus.songinfo.moredetails.model.repository.local.ArticleToCardMapperImpl
 import ayds.zeus3.wikipedia.Article
 import ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia.CardLocalStorage
 import ayds.zeus3.wikipedia.EmptyArticle
 import ayds.zeus3.wikipedia.WikipediaService
 
 interface CardRepository {
-    fun getCard(artistName: String): Card
+    fun getCard(artistName: String): Card?
 }
 
 internal class CardRepositoryImpl(
     private val cardLocalStorage: CardLocalStorage,
-    private val wikipediaService: WikipediaService
+    private val wikipediaService: WikipediaService,
+    private val articleToCardMapper: ArticleToCardMapper,
 ) : CardRepository {
 
-    override fun getCard(artistName: String): Card {
-        var cardInfo = cardLocalStorage.getCard(artistName)
+    override fun getCard(artistName: String): Card? {
+        var cardInfo: Card? = cardLocalStorage.getCard(artistName)
 
         when {
             cardInfo != null -> markCardAsLocal(cardInfo)
             else -> {
                 try {
-                    cardInfo = wikipediaService.getArticle(artistName)
-
-                    if (cardInfo != null)
-                        cardLocalStorage.saveCard(cardInfo, artistName)
+                    val article = wikipediaService.getArticle(artistName)
+                    article?.let { cardInfo = articleToCardMapper.map(it) }
+                    cardInfo?.let { cardLocalStorage.saveCard(it, artistName) }
                 } catch (e: Exception) {
                     Log.w("Wikipedia card", "ERROR : $e")
                 }
             }
         }
-        return cardInfo ?: EmptyCard
+        return cardInfo
     }
 
     private fun markCardAsLocal(cardInfo: Card) {

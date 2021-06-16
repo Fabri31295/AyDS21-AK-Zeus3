@@ -5,14 +5,15 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import ayds.zeus3.wikipedia.ArticleImpl
+import ayds.zeus.songinfo.moredetails.model.repository.entities.Card
+import ayds.zeus.songinfo.moredetails.model.repository.local.CursorToCardMapper
 
 private const val DATABASE_VERSION = 1
 private const val DATABASE_NAME = "dictionary.db"
 
 interface CardLocalStorage {
-    fun saveCard(card: ArticleImpl, artistName: String)
-    fun getCard(card: String): ArticleImpl?
+    fun saveCard(card: Card, artistName: String)
+    fun getCard(card: String): Card?
 }
 
 internal class CardLocalStorageImpl(
@@ -21,17 +22,17 @@ internal class CardLocalStorageImpl(
 ) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION),
     CardLocalStorage {
 
-    override fun saveCard(card: ArticleImpl, artistName: String) {
-        val contentValues = getArtistContentValues(artistName, card.info, card.url,card.source,card.logo_url)
+    override fun saveCard(card: Card, artistName: String) {
+        val contentValues = getArtistContentValues(artistName, card.info, card.url, card.source.name, card.logoUrl)
         this.writableDatabase.insert(ARTISTS_TABLE, null, contentValues)
     }
 
-    override fun getCard(card: String): ArticleImpl? {
+    override fun getCard(card: String): Card? {
         val cursor = getNewArtistCursor(card)
         return cursorToCardMapper.map(cursor)
     }
 
-    private fun getArtistContentValues(artist: String, info: String, url: String, source: Int, logoUrl: String) =
+    private fun getArtistContentValues(artist: String, info: String, url: String, source: String, logoUrl: String) =
         ContentValues().apply {
             this.put(ARTIST_COLUMN, artist)
             this.put(INFO_COLUMN, info)

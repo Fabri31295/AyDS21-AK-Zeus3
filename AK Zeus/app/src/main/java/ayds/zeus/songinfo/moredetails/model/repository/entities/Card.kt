@@ -6,7 +6,7 @@ open class Card(
     val url: String,
     val logoUrl: String,
     val source: Source,
-    var isLocallyStoraged: Boolean
+    var isLocallyStoraged: Boolean = false
 )
 
 class EmptyCard : Card(

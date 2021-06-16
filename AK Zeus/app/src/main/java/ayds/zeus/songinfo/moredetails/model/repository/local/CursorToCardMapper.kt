@@ -1,24 +1,29 @@
-package ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia
+package ayds.zeus.songinfo.moredetails.model.repository.local
 
 import android.database.Cursor
-import ayds.zeus3.wikipedia.ArticleImpl
+import ayds.zeus.songinfo.moredetails.model.repository.Source
+import ayds.zeus.songinfo.moredetails.model.repository.entities.Card
+import ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia.INFO_COLUMN
+import ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia.LOGO_URL_COLUMN
+import ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia.SOURCE_COLUMN
+import ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia.URL_COLUMN
 import java.sql.SQLException
 
 interface CursorToCardMapper {
-    fun map(cursor: Cursor): ArticleImpl?
+    fun map(cursor: Cursor): Card?
 }
 
 internal class CursorToCardMapperImpl : CursorToCardMapper {
 
-    override fun map(cursor: Cursor): ArticleImpl? =
+    override fun map(cursor: Cursor): Card? =
         try {
             with(cursor) {
                 if (moveToNext()) {
-                    ArticleImpl(
+                    Card(
                         info = getString(getColumnIndexOrThrow(INFO_COLUMN)),
                         url = getString(getColumnIndexOrThrow(URL_COLUMN)),
-                        logo_url = getString(getColumnIndexOrThrow(LOGO_URL_COLUMN)),
-                        source = getInt(getColumnIndexOrThrow(SOURCE_COLUMN)),
+                        logoUrl = getString(getColumnIndexOrThrow(LOGO_URL_COLUMN)),
+                        source = Source.valueOf(getInt(getColumnIndexOrThrow(SOURCE_COLUMN)).toString()),
                     )
                 } else {
                     null
