@@ -3,10 +3,7 @@ package ayds.zeus.songinfo.moredetails.model.repository
 import android.util.Log
 import ayds.zeus.songinfo.moredetails.model.repository.entities.Card
 import ayds.zeus.songinfo.moredetails.model.repository.local.ArticleToCardMapper
-import ayds.zeus.songinfo.moredetails.model.repository.local.ArticleToCardMapperImpl
-import ayds.zeus3.wikipedia.Article
 import ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia.CardLocalStorage
-import ayds.zeus3.wikipedia.EmptyArticle
 import ayds.zeus3.wikipedia.WikipediaService
 
 interface CardRepository {

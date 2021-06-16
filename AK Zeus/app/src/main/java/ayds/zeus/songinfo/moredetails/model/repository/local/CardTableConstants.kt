@@ -1,4 +1,4 @@
-package ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia
+package ayds.zeus.songinfo.moredetails.model.repository.local
 
 const val ARTISTS_TABLE = "artists"
 const val ID_COLUMN = "id"

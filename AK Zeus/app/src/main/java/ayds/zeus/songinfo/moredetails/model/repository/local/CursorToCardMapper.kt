@@ -3,10 +3,6 @@ package ayds.zeus.songinfo.moredetails.model.repository.local
 import android.database.Cursor
 import ayds.zeus.songinfo.moredetails.model.repository.Source
 import ayds.zeus.songinfo.moredetails.model.repository.entities.Card
-import ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia.INFO_COLUMN
-import ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia.LOGO_URL_COLUMN
-import ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia.SOURCE_COLUMN
-import ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia.URL_COLUMN
 import java.sql.SQLException
 
 interface CursorToCardMapper {
@@ -23,7 +19,7 @@ internal class CursorToCardMapperImpl : CursorToCardMapper {
                         info = getString(getColumnIndexOrThrow(INFO_COLUMN)),
                         url = getString(getColumnIndexOrThrow(URL_COLUMN)),
                         logoUrl = getString(getColumnIndexOrThrow(LOGO_URL_COLUMN)),
-                        source = Source.valueOf(getInt(getColumnIndexOrThrow(SOURCE_COLUMN)).toString()),
+                        source = Source.valueOf(getString(getColumnIndexOrThrow(SOURCE_COLUMN))),
                     )
                 } else {
                     null
