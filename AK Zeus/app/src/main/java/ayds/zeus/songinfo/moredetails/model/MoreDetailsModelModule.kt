@@ -5,8 +5,8 @@ import ayds.zeus.songinfo.moredetails.model.repository.CardRepository
 import ayds.zeus.songinfo.moredetails.model.repository.CardRepositoryImpl
 import ayds.zeus.songinfo.moredetails.model.repository.local.ArticleToCardMapperImpl
 import ayds.zeus.songinfo.moredetails.model.repository.local.CursorToCardMapperImpl
-import ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia.CardLocalStorage
-import ayds.zeus.songinfo.moredetails.model.repository.local.wikipedia.CardLocalStorageImpl
+import ayds.zeus.songinfo.moredetails.model.repository.local.CardLocalStorage
+import ayds.zeus.songinfo.moredetails.model.repository.local.CardLocalStorageImpl
 import ayds.zeus.songinfo.moredetails.view.MoreDetailsView
 import ayds.zeus3.wikipedia.WikipediaModule.wikipediaService
 

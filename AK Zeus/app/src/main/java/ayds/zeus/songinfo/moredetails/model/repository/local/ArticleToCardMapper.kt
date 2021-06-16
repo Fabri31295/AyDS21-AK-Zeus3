@@ -13,8 +13,7 @@ internal class ArticleToCardMapperImpl : ArticleToCardMapper {
         article.info,
         article.url,
         article.logoUrl,
-        Source.WIKIPEDIA,
-        false
+        Source.WIKIPEDIA
     )
 
 }
