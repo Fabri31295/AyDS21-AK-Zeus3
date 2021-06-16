@@ -1,20 +1,19 @@
 package ayds.zeus.songinfo.moredetails.model
-
 import ayds.observer.Observable
 import ayds.observer.Subject
 import ayds.zeus.songinfo.moredetails.model.repository.CardRepository
-import ayds.zeus3.wikipedia.Article
+import ayds.zeus.songinfo.moredetails.model.repository.entities.Card
 
 interface MoreDetailsModel {
 
     fun searchCard(artistName: String)
 
-    fun cardObservable(): Observable<Article>
+    fun cardObservable(): Observable<Card>
 }
 
 internal class MoreDetailsModelImpl(private val repository: CardRepository) : MoreDetailsModel {
 
-    private val cardSubject = Subject<Article>()
+    private val cardSubject = Subject<Card>()
 
     override fun searchCard(artistName: String){
         repository.getCard(artistName).let {
@@ -22,5 +21,5 @@ internal class MoreDetailsModelImpl(private val repository: CardRepository) : Mo
         }
     }
 
-    override fun cardObservable(): Observable<Article> = cardSubject
+    override fun cardObservable(): Observable<Card> = cardSubject
 }

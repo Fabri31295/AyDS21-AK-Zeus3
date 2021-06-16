@@ -1,19 +1,17 @@
 package ayds.zeus.songinfo.moredetails.view
-
-
-import ayds.zeus3.wikipedia.Article
-import ayds.zeus3.wikipedia.EmptyArticle
+import ayds.zeus.songinfo.moredetails.model.repository.entities.Card
+import ayds.zeus.songinfo.moredetails.model.repository.entities.EmptyCard
 import java.util.*
 
 private const val PREFIX = "[*]"
 
 interface CardDescriptionHelper {
-    fun getCardInfoText(card: Article = EmptyArticle, artistName: String): String = ""
+    fun getCardInfoText(card: Card = EmptyCard(), artistName: String): String = ""
 }
 
 internal class CardDescriptionHelperImpl : CardDescriptionHelper {
 
-    override fun getCardInfoText(card: Article, artistName: String): String =
+    override fun getCardInfoText(card: Card, artistName: String): String =
         getTextToHtml(
             getTextWithPrefix(card.info, card.isLocallyStoraged),
             artistName)

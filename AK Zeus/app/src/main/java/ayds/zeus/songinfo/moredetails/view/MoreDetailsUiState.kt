@@ -1,4 +1,5 @@
 package ayds.zeus.songinfo.moredetails.view
+import ayds.zeus.songinfo.moredetails.model.repository.Source
 
 data class MoreDetailsUiState(
     val artistName: String = "",
@@ -6,5 +7,5 @@ data class MoreDetailsUiState(
     val cardInfo: String = "",
     val actionsEnabled: Boolean = false,
     val urlLogoImage: String = "",
-    val source: Int = -1
+    val source: Source = Source.EMPTY
 )

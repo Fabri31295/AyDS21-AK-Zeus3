@@ -11,6 +11,8 @@ import ayds.observer.Subject
 import ayds.zeus.songinfo.R
 import ayds.zeus.songinfo.moredetails.model.MoreDetailsModel
 import ayds.zeus.songinfo.moredetails.model.MoreDetailsModelModule
+import ayds.zeus.songinfo.moredetails.model.repository.Source
+import ayds.zeus.songinfo.moredetails.model.repository.entities.Card
 import ayds.zeus.songinfo.utils.navigation.openExternalUrl
 import ayds.zeus3.wikipedia.Article
 import ayds.zeus3.wikipedia.EmptyArticle
@@ -23,8 +25,6 @@ interface MoreDetailsView {
 
     fun openSourcePage()
 }
-
-private const val SOURCE_WIKIPEDIA = 1
 
 class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
@@ -61,24 +61,24 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
                 .subscribe { value -> updateWithNewCard(value) }
     }
 
-    private fun updateWithNewCard(card: Article){
+    private fun updateWithNewCard(card: Card){
         updateUiState(card)
         showCardInfoActivity()
     }
 
-    private fun updateUiState(card: Article) {
+    private fun updateUiState(card: Card) {
         when (card) {
             EmptyArticle -> updateNoResultUiState()
             else -> updateCardUiState(card)
         }
     }
 
-    private fun updateCardUiState(card: Article) {
+    private fun updateCardUiState(card: Card) {
         uiState = uiState.copy(
             urlString = card.url,
             cardInfo = cardInfoHelper.getCardInfoText(card, uiState.artistName),
             actionsEnabled = true,
-            urlLogoImage = card.logo_url,
+            urlLogoImage = card.logoUrl,
             source = card.source
         )
     }
@@ -89,7 +89,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
             cardInfo = cardInfoHelper.getCardInfoText(artistName = ""),
             actionsEnabled = false,
             urlLogoImage = "",
-            source = -1
+            source = Source.EMPTY
         )
     }
 
@@ -134,7 +134,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     private fun showSourceLabel() {
         descriptionSourcePane.text =
             when (uiState.source) {
-                SOURCE_WIKIPEDIA -> "From Wikipedia.org"
+                Source.WIKIPEDIA -> "From Wikipedia.org"
                 else -> "Invalid source"
             }
     }
