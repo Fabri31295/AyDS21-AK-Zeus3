@@ -12,7 +12,7 @@ private const val DATABASE_NAME = "dictionary.db"
 
 interface CardLocalStorage {
     fun saveCard(card: Card, artistName: String)
-    fun getCard(card: String): Card?
+    fun getCard(artistName: String): Card?
 }
 
 internal class CardLocalStorageImpl(
@@ -22,22 +22,22 @@ internal class CardLocalStorageImpl(
     CardLocalStorage {
 
     override fun saveCard(card: Card, artistName: String) {
-        val contentValues = getArtistContentValues(artistName, card.info, card.url, card.source.name, card.logoUrl)
+        val contentValues = getArtistContentValues(artistName, card)
         this.writableDatabase.insert(ARTISTS_TABLE, null, contentValues)
     }
 
-    override fun getCard(card: String): Card? {
-        val cursor = getNewArtistCursor(card)
+    override fun getCard(artistName: String): Card? {
+        val cursor = getNewArtistCursor(artistName)
         return cursorToCardMapper.map(cursor)
     }
 
-    private fun getArtistContentValues(artist: String, info: String, url: String, source: String, logoUrl: String) =
+    private fun getArtistContentValues(artist: String, card: Card) =
         ContentValues().apply {
             this.put(ARTIST_COLUMN, artist)
-            this.put(INFO_COLUMN, info)
-            this.put(URL_COLUMN, url)
-            this.put(SOURCE_COLUMN, source)
-            this.put(LOGO_URL_COLUMN,logoUrl)
+            this.put(INFO_COLUMN, card.info)
+            this.put(URL_COLUMN, card.url)
+            this.put(SOURCE_COLUMN, card.source.name)
+            this.put(LOGO_URL_COLUMN,card.logoUrl)
         }
 
     private fun getNewArtistCursor(artist: String): Cursor {

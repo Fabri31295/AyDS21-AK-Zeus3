@@ -13,7 +13,7 @@ internal class CardDescriptionHelperImpl : CardDescriptionHelper {
 
     override fun getCardInfoText(card: Card, artistName: String): String =
         getTextToHtml(
-            getTextWithPrefix(card.info, card.isLocallyStoraged),
+            getTextWithPrefix(card.info, card.isLocallyStored),
             artistName)
 
     private fun getTextToHtml(text: String, term: String) = StringBuilder().apply{

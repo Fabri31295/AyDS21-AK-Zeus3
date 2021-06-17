@@ -27,7 +27,7 @@ internal class CardRepositoryImpl(
                     article?.let { cardInfo = articleToCardMapper.map(it) }
                     cardInfo?.let { cardLocalStorage.saveCard(it, artistName) }
                 } catch (e: Exception) {
-                    Log.w("Wikipedia card", "ERROR : $e")
+                    Log.w("Card", "ERROR : $e")
                 }
             }
         }
@@ -35,6 +35,6 @@ internal class CardRepositoryImpl(
     }
 
     private fun markCardAsLocal(cardInfo: Card) {
-        cardInfo.isLocallyStoraged = true
+        cardInfo.isLocallyStored = true
     }
 }
