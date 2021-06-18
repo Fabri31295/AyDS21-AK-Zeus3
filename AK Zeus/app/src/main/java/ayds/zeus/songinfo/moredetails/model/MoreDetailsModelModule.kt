@@ -8,7 +8,7 @@ import ayds.zeus.songinfo.moredetails.model.repository.local.CursorToCardMapperI
 import ayds.zeus.songinfo.moredetails.model.repository.local.CardLocalStorage
 import ayds.zeus.songinfo.moredetails.model.repository.local.CardLocalStorageImpl
 import ayds.zeus.songinfo.moredetails.view.MoreDetailsView
-import ayds.zeus3.wikipedia.WikipediaModule.wikipediaService
+import ayds.zeus3.wikipedia.WikipediaModule
 
 object MoreDetailsModelModule {
 
@@ -21,7 +21,7 @@ object MoreDetailsModelModule {
         )
         val articleToCardMapper = ArticleToCardMapperImpl()
         val cardRepository: CardRepository =
-            CardRepositoryImpl(cardLocalStorage, wikipediaService, articleToCardMapper)
+            CardRepositoryImpl(cardLocalStorage, WikipediaModule.wikipediaService, articleToCardMapper)
         moreDetailsModel = MoreDetailsModelImpl(cardRepository)
     }
 

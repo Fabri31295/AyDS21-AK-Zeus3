@@ -4,15 +4,15 @@ import ayds.zeus.songinfo.moredetails.model.repository.entities.Card
 import ayds.zeus3.wikipedia.Article
 
 interface ArticleToCardMapper {
-    fun map(article: Article): Card
+    fun map(article: Article, source: Source): Card
 }
 
 internal class ArticleToCardMapperImpl : ArticleToCardMapper {
-    override fun map(article: Article) = Card(
+    override fun map(article: Article, source: Source) = Card(
         article.info,
         article.url,
         article.logoUrl,
-        Source.WIKIPEDIA
+        source
     )
 
 }

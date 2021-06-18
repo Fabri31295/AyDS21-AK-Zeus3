@@ -22,7 +22,7 @@ internal class MoreDetailsControllerImpl(private val moreDetailsModel: MoreDetai
     private val observer: Observer<MoreDetailsUiEvent> =
         Observer { value ->
             when (value) {
-                MoreDetailsUiEvent.ShowArticleInfo -> showArtistInfoAsync()
+                MoreDetailsUiEvent.ShowCardInfo -> showArtistInfoAsync()
                 is MoreDetailsUiEvent.OpenFullArticle -> openSourcePage()
             }
         }
