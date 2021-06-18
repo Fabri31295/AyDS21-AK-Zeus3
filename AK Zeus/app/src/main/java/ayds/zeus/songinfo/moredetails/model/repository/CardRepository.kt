@@ -2,7 +2,6 @@ package ayds.zeus.songinfo.moredetails.model.repository
 
 import android.util.Log
 import ayds.zeus.songinfo.moredetails.model.repository.entities.Card
-import ayds.zeus.songinfo.moredetails.model.repository.local.ArticleToCardMapper
 import ayds.zeus.songinfo.moredetails.model.repository.local.CardLocalStorage
 import ayds.zeus3.wikipedia.WikipediaService
 
@@ -11,9 +10,9 @@ interface CardRepository {
 }
 
 internal class CardRepositoryImpl(
-    private val cardLocalStorage: CardLocalStorage,
-    private val wikipediaService: WikipediaService,
-    private val articleToCardMapper: ArticleToCardMapper,
+        private val cardLocalStorage: CardLocalStorage,
+        private val wikipediaService: WikipediaService,
+        private val articleToCardMapper: ArticleToCardMapper,
 ) : CardRepository {
 
     override fun getCard(artistName: String): Card? {

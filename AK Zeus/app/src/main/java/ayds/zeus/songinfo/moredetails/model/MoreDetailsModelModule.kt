@@ -3,7 +3,7 @@ package ayds.zeus.songinfo.moredetails.model
 import android.content.Context
 import ayds.zeus.songinfo.moredetails.model.repository.CardRepository
 import ayds.zeus.songinfo.moredetails.model.repository.CardRepositoryImpl
-import ayds.zeus.songinfo.moredetails.model.repository.local.ArticleToCardMapperImpl
+import ayds.zeus.songinfo.moredetails.model.repository.ArticleToCardMapperImpl
 import ayds.zeus.songinfo.moredetails.model.repository.local.CursorToCardMapperImpl
 import ayds.zeus.songinfo.moredetails.model.repository.local.CardLocalStorage
 import ayds.zeus.songinfo.moredetails.model.repository.local.CardLocalStorageImpl
