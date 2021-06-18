@@ -17,21 +17,21 @@ internal class CardRepositoryImpl(
 ) : CardRepository {
 
     override fun getCard(artistName: String): Card? {
-        var cardInfo: Card? = cardLocalStorage.getCard(artistName)
+        var artistCard: Card? = cardLocalStorage.getCard(artistName)
 
         when {
-            cardInfo != null -> markCardAsLocal(cardInfo)
+            artistCard != null -> markCardAsLocal(artistCard)
             else -> {
                 try {
                     val article = wikipediaService.getArticle(artistName)
-                    article?.let { cardInfo = articleToCardMapper.map(it) }
-                    cardInfo?.let { cardLocalStorage.saveCard(it, artistName) }
+                    article?.let { artistCard = articleToCardMapper.map(it, Source.WIKIPEDIA) }
+                    artistCard?.let { cardLocalStorage.saveCard(it, artistName) }
                 } catch (e: Exception) {
                     Log.w("Card", "ERROR : $e")
                 }
             }
         }
-        return cardInfo
+        return artistCard
     }
 
     private fun markCardAsLocal(cardInfo: Card) {

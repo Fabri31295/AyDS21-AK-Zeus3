@@ -52,7 +52,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         initViews()
         initListeners()
         initObservers()
-        notifyShowArticleInfo()
+        notifyShowCardInfo()
     }
 
     private fun initObservers() {
@@ -114,8 +114,8 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         }
     }
 
-    private fun notifyShowArticleInfo() {
-        onActionSubject.notify(MoreDetailsUiEvent.ShowArticleInfo)
+    private fun notifyShowCardInfo() {
+        onActionSubject.notify(MoreDetailsUiEvent.ShowCardInfo)
     }
 
     private fun showCardInfoActivity() {
