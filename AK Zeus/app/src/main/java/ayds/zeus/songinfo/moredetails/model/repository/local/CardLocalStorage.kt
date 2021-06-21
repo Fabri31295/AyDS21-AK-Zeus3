@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import ayds.zeus.songinfo.moredetails.model.repository.entities.Card
 
 private const val DATABASE_VERSION = 1
-private const val DATABASE_NAME = "dictionary.db"
+private const val DATABASE_NAME = "cards.db"
 
 interface CardLocalStorage {
     fun saveCard(card: Card, artistName: String)
@@ -22,25 +22,25 @@ internal class CardLocalStorageImpl(
     CardLocalStorage {
 
     override fun saveCard(card: Card, artistName: String) {
-        val contentValues = getArtistContentValues(artistName, card)
+        val contentValues = getCardContentValues(artistName, card)
         this.writableDatabase.insert(ARTISTS_TABLE, null, contentValues)
     }
 
     override fun getCard(artistName: String): Card? {
-        val cursor = getNewArtistCursor(artistName)
+        val cursor = getNewCardCursor(artistName)
         return cursorToCardMapper.map(cursor)
     }
 
-    private fun getArtistContentValues(artist: String, card: Card) =
+    private fun getCardContentValues(artist: String, card: Card) =
         ContentValues().apply {
             this.put(ARTIST_COLUMN, artist)
             this.put(INFO_COLUMN, card.info)
             this.put(URL_COLUMN, card.url)
-            this.put(SOURCE_COLUMN, card.source.name)
+            this.put(SOURCE_COLUMN, card.source.ordinal)
             this.put(LOGO_URL_COLUMN,card.logoUrl)
         }
 
-    private fun getNewArtistCursor(artist: String): Cursor {
+    private fun getNewCardCursor(artist: String): Cursor {
         val dataBase = this.readableDatabase
         val projection = arrayOf(ID_COLUMN, ARTIST_COLUMN, INFO_COLUMN, URL_COLUMN, SOURCE_COLUMN, LOGO_URL_COLUMN)
         val selection = "$ARTIST_COLUMN = ?"

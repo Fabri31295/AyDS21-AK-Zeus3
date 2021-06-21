@@ -19,7 +19,7 @@ internal class CursorToCardMapperImpl : CursorToCardMapper {
                         info = getString(getColumnIndexOrThrow(INFO_COLUMN)),
                         url = getString(getColumnIndexOrThrow(URL_COLUMN)),
                         logoUrl = getString(getColumnIndexOrThrow(LOGO_URL_COLUMN)),
-                        source = Source.valueOf(getString(getColumnIndexOrThrow(SOURCE_COLUMN))),
+                        source = Source.values()[getInt(getColumnIndexOrThrow(SOURCE_COLUMN))],
                     )
                 } else {
                     null
