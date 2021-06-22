@@ -23,7 +23,7 @@ internal class CardLocalStorageImpl(
 
     override fun saveCard(card: Card, artistName: String) {
         val contentValues = getCardContentValues(artistName, card)
-        this.writableDatabase.insert(ARTISTS_TABLE, null, contentValues)
+        this.writableDatabase.insert(CARD_TABLE, null, contentValues)
     }
 
     override fun getCard(artistName: String): Card? {
@@ -47,7 +47,7 @@ internal class CardLocalStorageImpl(
         val selectionArgs = arrayOf(artist)
         val sortOrder = "$ARTIST_COLUMN DESC"
         return dataBase.query(
-            ARTISTS_TABLE,
+            CARD_TABLE,
             projection,
             selection,
             selectionArgs,

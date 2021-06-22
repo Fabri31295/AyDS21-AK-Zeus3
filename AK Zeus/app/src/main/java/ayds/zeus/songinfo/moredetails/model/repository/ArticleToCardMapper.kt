@@ -1,6 +1,7 @@
 package ayds.zeus.songinfo.moredetails.model.repository
 
 import ayds.zeus.songinfo.moredetails.model.repository.entities.Card
+import ayds.zeus.songinfo.moredetails.model.repository.entities.Source
 import ayds.zeus3.wikipedia.Article
 
 interface ArticleToCardMapper {

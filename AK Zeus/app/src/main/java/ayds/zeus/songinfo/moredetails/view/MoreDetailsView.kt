@@ -11,7 +11,7 @@ import ayds.observer.Subject
 import ayds.zeus.songinfo.R
 import ayds.zeus.songinfo.moredetails.model.MoreDetailsModel
 import ayds.zeus.songinfo.moredetails.model.MoreDetailsModelModule
-import ayds.zeus.songinfo.moredetails.model.repository.Source
+import ayds.zeus.songinfo.moredetails.model.repository.entities.Source
 import ayds.zeus.songinfo.moredetails.model.repository.entities.Card
 import ayds.zeus.songinfo.moredetails.model.repository.entities.EmptyCard
 import ayds.zeus.songinfo.utils.navigation.openExternalUrl
