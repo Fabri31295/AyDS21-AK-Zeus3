@@ -22,12 +22,12 @@ internal class MoreDetailsControllerImpl(private val moreDetailsModel: MoreDetai
     private val observer: Observer<MoreDetailsUiEvent> =
         Observer { value ->
             when (value) {
-                MoreDetailsUiEvent.ShowCardInfo -> showArtistInfoAsync()
-                is MoreDetailsUiEvent.OpenFullArticle -> openSourcePage()
+                MoreDetailsUiEvent.ShowCardInfo -> showCardInfoAsync()
+                is MoreDetailsUiEvent.OpenCardUrl -> openSourcePage()
             }
         }
 
-    private fun showArtistInfoAsync() {
+    private fun showCardInfoAsync() {
         Thread {
             moreDetailsModel.searchCard(moreDetailsView.uiState.artistName)
         }.start()
