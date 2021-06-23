@@ -1,6 +1,6 @@
 package ayds.zeus.songinfo.moredetails.model.repository.entities
 
 enum class Source(val sourceName: String){
-    WIKIPEDIA("Wikipedia.org"),
+    WIKIPEDIA("From Wikipedia.org"),
     EMPTY("Invalid source")
 }

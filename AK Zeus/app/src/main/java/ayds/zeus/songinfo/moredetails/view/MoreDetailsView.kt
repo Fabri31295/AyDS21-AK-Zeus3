@@ -1,5 +1,6 @@
 package ayds.zeus.songinfo.moredetails.view
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
@@ -131,8 +132,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     }
 
     private fun showSourceLabel() {
-        val sourcePaneText = "From ${uiState.source.sourceName}"
-        descriptionSourcePane.text = sourcePaneText
+        descriptionSourcePane.text = uiState.source.sourceName
     }
 
     private fun showInfo() {
