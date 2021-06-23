@@ -1,26 +1,26 @@
 package ayds.zeus.songinfo.moredetails.model
-
 import ayds.observer.Observable
 import ayds.observer.Subject
-import ayds.zeus.songinfo.moredetails.model.entities.Article
-import ayds.zeus.songinfo.moredetails.model.repository.ArticleRepository
+import ayds.zeus.songinfo.moredetails.model.repository.CardRepository
+import ayds.zeus.songinfo.moredetails.model.entities.Card
 
 interface MoreDetailsModel {
 
-    fun searchArticle(artistName: String)
+    fun searchCard(artistName: String)
 
-    fun articleObservable(): Observable<Article>
+    fun cardObservable(): Observable<Card>
 }
 
-internal class MoreDetailsModelImpl(private val repository: ArticleRepository) : MoreDetailsModel {
+internal class MoreDetailsModelImpl(private val repository: CardRepository) : MoreDetailsModel {
 
-    private val articleSubject = Subject<Article>()
+    private val cardSubject = Subject<Card>()
 
-    override fun searchArticle(artistName: String){
-        repository.getArticle(artistName).let {
-            articleSubject.notify(it)
+    override fun searchCard(artistName: String){
+        repository.getCard(artistName).let {
+            if (it != null)
+                cardSubject.notify(it)
         }
     }
 
-    override fun articleObservable(): Observable<Article> = articleSubject
+    override fun cardObservable(): Observable<Card> = cardSubject
 }

@@ -11,9 +11,9 @@ import ayds.observer.Subject
 import ayds.zeus.songinfo.R
 import ayds.zeus.songinfo.moredetails.model.MoreDetailsModel
 import ayds.zeus.songinfo.moredetails.model.MoreDetailsModelModule
-import ayds.zeus.songinfo.moredetails.model.entities.Article
-import ayds.zeus.songinfo.moredetails.model.entities.EmptyArticle
-import ayds.zeus.songinfo.moredetails.view.MoreDetailsUiState.Companion.IMAGE_WIKIPEDIA
+import ayds.zeus.songinfo.moredetails.model.entities.Source
+import ayds.zeus.songinfo.moredetails.model.entities.Card
+import ayds.zeus.songinfo.moredetails.model.entities.EmptyCard
 import ayds.zeus.songinfo.utils.navigation.openExternalUrl
 import com.squareup.picasso.Picasso
 
@@ -22,23 +22,24 @@ interface MoreDetailsView {
     var uiState: MoreDetailsUiState
     val uiEventObservable: Observable<MoreDetailsUiEvent>
 
-    fun openWikipediaPage()
+    fun openSourcePage()
 }
 
 class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
     private val onActionSubject = Subject<MoreDetailsUiEvent>()
-    private val articleInfoHelper: ArticleDescriptionHelper = MoreDetailsViewModule.articleInfoHelper
+    private val cardInfoHelper: CardDescriptionHelper = MoreDetailsViewModule.cardInfoHelper
     private lateinit var moreDetailsModel: MoreDetailsModel
 
     private lateinit var artistDescriptionPane: TextView
-    private lateinit var wikipediaImagePane: ImageView
+    private lateinit var descriptionSourcePane: TextView
+    private lateinit var sourceImagePane: ImageView
     private lateinit var openUrlButton: Button
 
     override var uiState: MoreDetailsUiState = MoreDetailsUiState()
     override val uiEventObservable: Observable<MoreDetailsUiEvent> = onActionSubject
 
-    override fun openWikipediaPage() {
+    override fun openSourcePage() {
         openExternalUrl(uiState.urlString)
     }
 
@@ -51,39 +52,43 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         initViews()
         initListeners()
         initObservers()
-        notifyShowArticleInfo()
+        notifyShowCardInfo()
     }
 
     private fun initObservers() {
-        moreDetailsModel.articleObservable()
-                .subscribe { value -> updateArticleInfo(value) }
+        moreDetailsModel.cardObservable()
+                .subscribe { value -> updateWithNewCard(value) }
     }
 
-    private fun updateArticleInfo(article: Article){
-        updateUiState(article)
-        showArticleInfoActivity()
+    private fun updateWithNewCard(card: Card){
+        updateUiState(card)
+        showCardInfoActivity()
     }
 
-    private fun updateUiState(article: Article) {
-        when (article) {
-            EmptyArticle -> updateNoResultUiState()
-            else -> updateArticleUiState(article)
+    private fun updateUiState(card: Card) {
+        when (card) {
+            is EmptyCard -> updateNoResultUiState()
+            else -> updateCardUiState(card)
         }
     }
 
-    private fun updateArticleUiState(article: Article) {
+    private fun updateCardUiState(card: Card) {
         uiState = uiState.copy(
-            urlString = article.url,
-            articleInfo = articleInfoHelper.getArticleInfoText(article, uiState.artistName),
-            actionsEnabled = true
+            urlString = card.url,
+            cardInfo = cardInfoHelper.getCardInfoText(card, uiState.artistName),
+            actionsEnabled = true,
+            urlLogoImage = card.logoUrl,
+            source = card.source
         )
     }
 
     private fun updateNoResultUiState() {
         uiState = uiState.copy(
             urlString = "",
-            articleInfo = articleInfoHelper.getArticleInfoText(artistName = ""),
-            actionsEnabled = false
+            cardInfo = cardInfoHelper.getCardInfoText(artistName = ""),
+            actionsEnabled = false,
+            urlLogoImage = "",
+            source = Source.EMPTY
         )
     }
 
@@ -98,33 +103,39 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
     private fun initViews() {
         artistDescriptionPane = findViewById(R.id.textPane2)
+        descriptionSourcePane = findViewById(R.id.textPaneSource)
         openUrlButton = findViewById(R.id.openUrlButton)
-        wikipediaImagePane = findViewById(R.id.imageView)
+        sourceImagePane = findViewById(R.id.imageView)
     }
 
     private fun initListeners() {
         openUrlButton.setOnClickListener {
-            openWikipediaPage()
+            openSourcePage()
         }
     }
 
-    private fun notifyShowArticleInfo() {
-        onActionSubject.notify(MoreDetailsUiEvent.ShowArticleInfo)
+    private fun notifyShowCardInfo() {
+        onActionSubject.notify(MoreDetailsUiEvent.ShowCardInfo)
     }
 
-    private fun showArticleInfoActivity() {
+    private fun showCardInfoActivity() {
         runOnUiThread {
-            showImageWikipedia()
-            showInfoArticle(uiState.articleInfo)
+            showSourceImage()
+            showSourceLabel()
+            showInfo()
         }
     }
 
-    private fun showImageWikipedia() {
-        Picasso.get().load(IMAGE_WIKIPEDIA).into(wikipediaImagePane)
+    private fun showSourceImage() {
+        Picasso.get().load(uiState.urlLogoImage).into(sourceImagePane)
     }
 
-    private fun showInfoArticle(text: String) {
-        artistDescriptionPane.text = HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY)
+    private fun showSourceLabel() {
+        descriptionSourcePane.text = uiState.source.sourceName
+    }
+
+    private fun showInfo() {
+        artistDescriptionPane.text = HtmlCompat.fromHtml(uiState.cardInfo, HtmlCompat.FROM_HTML_MODE_LEGACY)
 
     }
 

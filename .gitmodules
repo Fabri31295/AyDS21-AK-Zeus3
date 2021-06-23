@@ -1,0 +1,3 @@
+[submodule "AK Zeus/libs/WikipediaData"]
+	path = AK Zeus/libs/WikipediaData
+	url = https://github.com/Msent20/AKZEUS3Wikipedia.git

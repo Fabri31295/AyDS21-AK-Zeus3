@@ -5,7 +5,7 @@ import ayds.zeus.songinfo.moredetails.model.MoreDetailsModelModule
 
 object MoreDetailsViewModule {
 
-    val articleInfoHelper: ArticleDescriptionHelper = ArticleDescriptionHelperImpl()
+    val cardInfoHelper: CardDescriptionHelper = CardDescriptionHelperImpl()
     
     fun init(moreDetailsView: MoreDetailsView) {
         MoreDetailsModelModule.onViewStarted(moreDetailsView)
