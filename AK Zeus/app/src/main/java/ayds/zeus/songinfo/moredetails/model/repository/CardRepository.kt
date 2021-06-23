@@ -2,12 +2,13 @@ package ayds.zeus.songinfo.moredetails.model.repository
 
 import android.util.Log
 import ayds.zeus.songinfo.moredetails.model.repository.entities.Card
+import ayds.zeus.songinfo.moredetails.model.repository.entities.EmptyCard
 import ayds.zeus.songinfo.moredetails.model.repository.entities.Source
 import ayds.zeus.songinfo.moredetails.model.repository.local.CardLocalStorage
 import ayds.zeus3.wikipedia.WikipediaService
 
 interface CardRepository {
-    fun getCard(artistName: String): Card?
+    fun getCard(artistName: String): Card
 }
 
 internal class CardRepositoryImpl(
@@ -16,7 +17,7 @@ internal class CardRepositoryImpl(
         private val articleToCardMapper: ArticleToCardMapper,
 ) : CardRepository {
 
-    override fun getCard(artistName: String): Card? {
+    override fun getCard(artistName: String): Card {
         var artistCard: Card? = cardLocalStorage.getCard(artistName)
 
         when {
@@ -31,7 +32,7 @@ internal class CardRepositoryImpl(
                 }
             }
         }
-        return artistCard
+        return artistCard ?: EmptyCard()
     }
 
     private fun markCardAsLocal(cardInfo: Card) {
