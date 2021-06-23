@@ -131,11 +131,8 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     }
 
     private fun showSourceLabel() {
-        descriptionSourcePane.text =
-            when (uiState.source) {
-                Source.WIKIPEDIA -> "From Wikipedia.org"
-                else -> "Invalid source"
-            }
+        val sourcePaneText = "From ${uiState.source.sourceName}"
+        descriptionSourcePane.text = sourcePaneText
     }
 
     private fun showInfo() {
