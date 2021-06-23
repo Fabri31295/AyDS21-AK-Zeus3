@@ -1,4 +1,4 @@
-package ayds.zeus.songinfo.moredetails.model.repository.entities
+package ayds.zeus.songinfo.moredetails.model.entities
 
 open class Card(
         val info: String,

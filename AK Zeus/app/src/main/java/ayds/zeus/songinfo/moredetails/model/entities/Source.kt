@@ -1,4 +1,4 @@
-package ayds.zeus.songinfo.moredetails.model.repository.entities
+package ayds.zeus.songinfo.moredetails.model.entities
 
 enum class Source(val sourceName: String){
     WIKIPEDIA("From Wikipedia.org"),

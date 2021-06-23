@@ -1,8 +1,8 @@
 package ayds.zeus.songinfo.moredetails.model.repository.local
 
 import android.database.Cursor
-import ayds.zeus.songinfo.moredetails.model.repository.entities.Source
-import ayds.zeus.songinfo.moredetails.model.repository.entities.Card
+import ayds.zeus.songinfo.moredetails.model.entities.Source
+import ayds.zeus.songinfo.moredetails.model.entities.Card
 import java.sql.SQLException
 
 interface CursorToCardMapper {

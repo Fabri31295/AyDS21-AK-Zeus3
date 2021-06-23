@@ -1,9 +1,9 @@
 package ayds.zeus.songinfo.moredetails.model.repository
 
 import android.util.Log
-import ayds.zeus.songinfo.moredetails.model.repository.entities.Card
-import ayds.zeus.songinfo.moredetails.model.repository.entities.EmptyCard
-import ayds.zeus.songinfo.moredetails.model.repository.entities.Source
+import ayds.zeus.songinfo.moredetails.model.entities.Card
+import ayds.zeus.songinfo.moredetails.model.entities.EmptyCard
+import ayds.zeus.songinfo.moredetails.model.entities.Source
 import ayds.zeus.songinfo.moredetails.model.repository.local.CardLocalStorage
 import ayds.zeus3.wikipedia.WikipediaService
 

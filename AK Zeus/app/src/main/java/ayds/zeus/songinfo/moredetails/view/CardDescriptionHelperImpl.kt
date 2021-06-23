@@ -1,6 +1,6 @@
 package ayds.zeus.songinfo.moredetails.view
-import ayds.zeus.songinfo.moredetails.model.repository.entities.Card
-import ayds.zeus.songinfo.moredetails.model.repository.entities.EmptyCard
+import ayds.zeus.songinfo.moredetails.model.entities.Card
+import ayds.zeus.songinfo.moredetails.model.entities.EmptyCard
 import java.util.*
 
 private const val PREFIX = "[*]"

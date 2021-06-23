@@ -1,5 +1,5 @@
 package ayds.zeus.songinfo.moredetails.view
-import ayds.zeus.songinfo.moredetails.model.repository.entities.Source
+import ayds.zeus.songinfo.moredetails.model.entities.Source
 
 data class MoreDetailsUiState(
     val artistName: String = "",
