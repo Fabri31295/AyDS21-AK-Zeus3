@@ -60,8 +60,8 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
                 .subscribe { value -> updateWithNewCard(value) }
     }
 
-    private fun updateWithNewCard(card: Card){
-        updateUiState(card)
+    private fun updateWithNewCard(cardList: List<Card>){
+        updateUiState(cardList[0])
         showCardInfoActivity()
     }
 

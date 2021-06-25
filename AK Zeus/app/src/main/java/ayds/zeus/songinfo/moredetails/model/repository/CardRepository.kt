@@ -3,7 +3,6 @@ package ayds.zeus.songinfo.moredetails.model.repository
 import android.util.Log
 import ayds.zeus.songinfo.moredetails.model.broker.Broker
 import ayds.zeus.songinfo.moredetails.model.entities.Card
-import ayds.zeus.songinfo.moredetails.model.entities.EmptyCard
 import ayds.zeus.songinfo.moredetails.model.repository.local.CardLocalStorage
 
 interface CardRepository {
@@ -16,10 +15,11 @@ internal class CardRepositoryImpl(
 ) : CardRepository {
 
     override fun getCardList(artistName: String): List<Card> {
-        var artistCard: Card? = cardLocalStorage.getCard(artistName)
-        var cardList: List<Card> = mutableListOf()
+        var cardList: List<Card> = cardLocalStorage.getCardList(artistName)
         when {
-            artistCard != null -> markCardAsLocal(artistCard)
+            cardList.isNotEmpty() ->
+                for (card in cardList)
+                    markCardAsLocal(card)
             else -> {
                 try {
                     cardList = broker.getCardList(artistName)
