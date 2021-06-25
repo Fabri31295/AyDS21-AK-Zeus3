@@ -7,11 +7,7 @@ import ayds.zeus.songinfo.moredetails.model.entities.Source
 import ayds.zeus3.wikipedia.WikipediaArticle
 import ayds.zeus3.wikipedia.WikipediaService
 
-internal interface WikipediaProxy {
-    fun getCard(artistName: String): Card
-}
-
-internal class WikipediaProxyImpl(private val service: WikipediaService) : WikipediaProxy {
+internal class WikipediaProxy(private val service: WikipediaService) : Proxy {
     override fun getCard(artistName: String): Card {
         var artistCard: Card = EmptyCard()
         try {

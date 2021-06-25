@@ -1,9 +1,12 @@
 package ayds.zeus.songinfo.moredetails.model
 
 import android.content.Context
+import ayds.zeus.songinfo.moredetails.model.broker.Broker
+import ayds.zeus.songinfo.moredetails.model.broker.BrokerImpl
+import ayds.zeus.songinfo.moredetails.model.broker.proxies.Proxy
+import ayds.zeus.songinfo.moredetails.model.broker.proxies.WikipediaProxy
 import ayds.zeus.songinfo.moredetails.model.repository.CardRepository
 import ayds.zeus.songinfo.moredetails.model.repository.CardRepositoryImpl
-import ayds.zeus.songinfo.moredetails.model.repository.ArticleToCardMapperImpl
 import ayds.zeus.songinfo.moredetails.model.repository.local.CursorToCardMapperImpl
 import ayds.zeus.songinfo.moredetails.model.repository.local.CardLocalStorage
 import ayds.zeus.songinfo.moredetails.model.repository.local.CardLocalStorageImpl
@@ -19,9 +22,10 @@ object MoreDetailsModelModule {
             moreDetailsView as Context,
             CursorToCardMapperImpl()
         )
-        val articleToCardMapper = ArticleToCardMapperImpl()
+        val wikipediaProxy: Proxy = WikipediaProxy(WikipediaModule.wikipediaService)
+        val broker: Broker = BrokerImpl(wikipediaProxy)
         val cardRepository: CardRepository =
-            CardRepositoryImpl(cardLocalStorage, WikipediaModule.wikipediaService, articleToCardMapper)
+            CardRepositoryImpl(cardLocalStorage, broker)
         moreDetailsModel = MoreDetailsModelImpl(cardRepository)
     }
 
