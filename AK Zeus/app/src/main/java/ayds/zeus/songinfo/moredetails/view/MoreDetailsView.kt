@@ -55,16 +55,16 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
     private fun initObservers() {
         moreDetailsModel.cardObservable()
-                .subscribe { value -> initSpinner(value) }
+            .subscribe { value -> initSpinner(value) }
     }
 
     private fun initSpinner(list: List<Card>) {
         cardList = list
         val spinnerList: MutableList<String> = mutableListOf()
-        for(card in cardList) {
+        for (card in cardList) {
             spinnerList.add(card.source.sourceName)
         }
-        runOnUiThread{
+        runOnUiThread {
             spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, spinnerList)
         }
     }
@@ -117,7 +117,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
             openSourcePage()
         }
         spinner.onItemSelectedListener = object :
-            AdapterView.OnItemSelectedListener{
+            AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -127,6 +127,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
                 updateUiState(cardList[position])
                 showCardInfoActivity()
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 updateUiState(cardList[0])
                 showCardInfoActivity()
@@ -150,7 +151,8 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     }
 
     private fun showInfo() {
-        artistDescriptionPane.text = HtmlCompat.fromHtml(uiState.cardInfo, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        artistDescriptionPane.text =
+            HtmlCompat.fromHtml(uiState.cardInfo, HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
 
     companion object {

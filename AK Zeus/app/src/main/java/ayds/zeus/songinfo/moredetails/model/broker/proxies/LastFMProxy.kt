@@ -6,8 +6,9 @@ import ayds.zeus.songinfo.moredetails.model.entities.Card
 import ayds.zeus.songinfo.moredetails.model.entities.EmptyCard
 import ayds.zeus.songinfo.moredetails.model.entities.Source
 
-internal class LastFMProxy(private val service: LastFMAPIArtistService) : Proxy{
-    override fun getCard(artistName:String): Card {
+internal class LastFMProxy(private val service: LastFMAPIArtistService) : Proxy {
+
+    override fun getCard(artistName: String): Card {
         var artistInfo = service.getArtist(artistName)
         return if (artistInfo == null)
             EmptyCard()
