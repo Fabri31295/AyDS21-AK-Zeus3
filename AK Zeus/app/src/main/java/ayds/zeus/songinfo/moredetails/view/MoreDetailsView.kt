@@ -1,9 +1,8 @@
 package ayds.zeus.songinfo.moredetails.view
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import ayds.observer.Observable
@@ -17,7 +16,6 @@ import ayds.zeus.songinfo.moredetails.model.entities.EmptyCard
 import ayds.zeus.songinfo.utils.navigation.openExternalUrl
 import com.squareup.picasso.Picasso
 
-
 interface MoreDetailsView {
     var uiState: MoreDetailsUiState
     val uiEventObservable: Observable<MoreDetailsUiEvent>
@@ -30,9 +28,9 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     private val onActionSubject = Subject<MoreDetailsUiEvent>()
     private val cardInfoHelper: CardDescriptionHelper = MoreDetailsViewModule.cardInfoHelper
     private lateinit var moreDetailsModel: MoreDetailsModel
-
+    private lateinit var spinner: Spinner
+    private lateinit var cardList: List<Card>
     private lateinit var artistDescriptionPane: TextView
-    private lateinit var descriptionSourcePane: TextView
     private lateinit var sourceImagePane: ImageView
     private lateinit var openUrlButton: Button
 
@@ -57,12 +55,16 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
     private fun initObservers() {
         moreDetailsModel.cardObservable()
-                .subscribe { value -> updateWithNewCard(value) }
+                .subscribe { value -> initSpinner(value) }
     }
 
-    private fun updateWithNewCard(cardList: List<Card>){
-        updateUiState(cardList[0])
-        showCardInfoActivity()
+    private fun initSpinner(list: List<Card>) {
+        cardList = list
+        val spinnerList: MutableList<String> = mutableListOf()
+        for(card in cardList) {
+            spinnerList.add(card.source.sourceName)
+        }
+        spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, spinnerList)
     }
 
     private fun updateUiState(card: Card) {
@@ -103,7 +105,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
     private fun initViews() {
         artistDescriptionPane = findViewById(R.id.textPane2)
-        descriptionSourcePane = findViewById(R.id.textPaneSource)
+        spinner = findViewById(R.id.spinner)
         openUrlButton = findViewById(R.id.openUrlButton)
         sourceImagePane = findViewById(R.id.imageView)
     }
@@ -111,6 +113,22 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     private fun initListeners() {
         openUrlButton.setOnClickListener {
             openSourcePage()
+        }
+        spinner.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                updateUiState(cardList[position])
+                showCardInfoActivity()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                updateUiState(cardList[0])
+                showCardInfoActivity()
+            }
         }
     }
 
@@ -121,7 +139,6 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     private fun showCardInfoActivity() {
         runOnUiThread {
             showSourceImage()
-            showSourceLabel()
             showInfo()
         }
     }
@@ -130,13 +147,8 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         Picasso.get().load(uiState.urlLogoImage).into(sourceImagePane)
     }
 
-    private fun showSourceLabel() {
-        descriptionSourcePane.text = uiState.source.sourceName
-    }
-
     private fun showInfo() {
         artistDescriptionPane.text = HtmlCompat.fromHtml(uiState.cardInfo, HtmlCompat.FROM_HTML_MODE_LEGACY)
-
     }
 
     companion object {
