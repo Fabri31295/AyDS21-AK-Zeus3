@@ -1,8 +1,10 @@
 package ayds.zeus.songinfo.moredetails.model
 
 import android.content.Context
+import ayds.apolo2.LastFM.LastFMAPIArtistModule
 import ayds.zeus.songinfo.moredetails.model.broker.Broker
 import ayds.zeus.songinfo.moredetails.model.broker.BrokerImpl
+import ayds.zeus.songinfo.moredetails.model.broker.proxies.LastFMProxy
 import ayds.zeus.songinfo.moredetails.model.broker.proxies.Proxy
 import ayds.zeus.songinfo.moredetails.model.broker.proxies.WikipediaProxy
 import ayds.zeus.songinfo.moredetails.model.repository.CardRepository
@@ -23,7 +25,8 @@ object MoreDetailsModelModule {
             CursorToCardMapperImpl()
         )
         val wikipediaProxy: Proxy = WikipediaProxy(WikipediaModule.wikipediaService)
-        val broker: Broker = BrokerImpl(wikipediaProxy)
+        val lastFMProxy: Proxy = LastFMProxy(LastFMAPIArtistModule.lastFMAPIArtistService)
+        val broker: Broker = BrokerImpl(wikipediaProxy, lastFMProxy)
         val cardRepository: CardRepository =
             CardRepositoryImpl(cardLocalStorage, broker)
         moreDetailsModel = MoreDetailsModelImpl(cardRepository)
