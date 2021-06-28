@@ -1,6 +1,7 @@
 package ayds.zeus.songinfo.moredetails.model.repository.local
 
 import android.database.Cursor
+import android.util.Log
 import ayds.zeus.songinfo.moredetails.model.entities.Source
 import ayds.zeus.songinfo.moredetails.model.entities.Card
 import java.sql.SQLException
@@ -16,7 +17,7 @@ internal class CursorToCardMapperImpl : CursorToCardMapper {
         try {
             var card : Card
             with(cursor) {
-                if (moveToNext()) {
+                while (moveToNext()) {
                     card =
                         Card(
                             info = getString(getColumnIndexOrThrow(INFO_COLUMN)),
