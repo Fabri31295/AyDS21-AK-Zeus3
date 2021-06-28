@@ -64,7 +64,9 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         for(card in cardList) {
             spinnerList.add(card.source.sourceName)
         }
-        spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, spinnerList)
+        runOnUiThread{
+            spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, spinnerList)
+        }
     }
 
     private fun updateUiState(card: Card) {
