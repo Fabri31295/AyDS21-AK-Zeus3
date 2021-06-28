@@ -36,6 +36,8 @@ dependencies {
 
     implementation project(":observer")
     implementation project(":wikipediadata")
+    implementation project(":lastfm")
+    implementation project(":nytimes")
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'
@@ -50,6 +52,8 @@ dependencies {
     implementation 'androidx.sqlite:sqlite-ktx:2.1.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation project(path: ':wikipediadata')
+    implementation project(path: ':lastfm')
+    implementation project(path: ':nytimes')
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
