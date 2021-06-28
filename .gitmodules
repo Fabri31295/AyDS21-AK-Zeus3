@@ -1,3 +1,9 @@
 [submodule "AK Zeus/libs/WikipediaData"]
 	path = AK Zeus/libs/WikipediaData
 	url = https://github.com/Msent20/AKZEUS3Wikipedia.git
+[submodule "AK Zeus/libs/AKApolo2LastFM"]
+	path = AK Zeus/libs/AKApolo2LastFM
+	url = https://github.com/Federicotalmon/AKApolo2LastFM.git
+[submodule "AK Zeus/libs/JKHera-NYTimes"]
+	path = AK Zeus/libs/JKHera-NYTimes
+	url = https://github.com/MarianelaDiaz/JKHera-NYTimes.git
