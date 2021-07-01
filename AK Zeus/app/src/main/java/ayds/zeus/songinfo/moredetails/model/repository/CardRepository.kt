@@ -27,8 +27,7 @@ internal class CardRepositoryImpl(
                 try {
                     cardList = broker.getCardList(artistName)
                     for (card in cardList) {
-                        if (card !is EmptyCard)
-                            cardLocalStorage.saveCard(card, artistName)
+                        cardLocalStorage.saveCard(card, artistName)
                     }
                 } catch (e: Exception) {
                     Log.w("Card", "ERROR : $e")
