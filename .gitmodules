@@ -7,3 +7,6 @@
 [submodule "AK Zeus/libs/JKHera-NYTimes"]
 	path = AK Zeus/libs/JKHera-NYTimes
 	url = https://github.com/MarianelaDiaz/JKHera-NYTimes.git
+[submodule "AK Zeus/libs/Hera3-Module"]
+	path = AK Zeus/libs/Hera3-Module
+	url = https://github.com/santiagopardal/Hera3-Module.git
