@@ -10,9 +10,9 @@ import ayds.observer.Subject
 import ayds.zeus.songinfo.R
 import ayds.zeus.songinfo.moredetails.model.MoreDetailsModel
 import ayds.zeus.songinfo.moredetails.model.MoreDetailsModelModule
-import ayds.zeus.songinfo.moredetails.model.entities.Source
 import ayds.zeus.songinfo.moredetails.model.entities.Card
 import ayds.zeus.songinfo.moredetails.model.entities.EmptyCard
+import ayds.zeus.songinfo.moredetails.model.entities.Source
 import ayds.zeus.songinfo.utils.navigation.openExternalUrl
 import com.squareup.picasso.Picasso
 
@@ -29,16 +29,16 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     private val cardInfoHelper: CardDescriptionHelper = MoreDetailsViewModule.cardInfoHelper
     private lateinit var moreDetailsModel: MoreDetailsModel
     private lateinit var spinner: Spinner
-    private lateinit var cardList: List<Card>
     private lateinit var artistDescriptionPane: TextView
     private lateinit var sourceImagePane: ImageView
     private lateinit var openUrlButton: Button
+    private var spinnerPosition: Int = 0
 
     override var uiState: MoreDetailsUiState = MoreDetailsUiState()
     override val uiEventObservable: Observable<MoreDetailsUiEvent> = onActionSubject
 
     override fun openSourcePage() {
-        openExternalUrl(uiState.urlString)
+        openExternalUrl(uiState.cardList[spinnerPosition].url)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,45 +55,31 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
     private fun initObservers() {
         moreDetailsModel.cardObservable()
-            .subscribe { value -> initSpinner(value) }
+            .subscribe { value ->
+                run {
+                    initSpinner(value)
+                    updateUiState(value)
+                }
+            }
     }
 
     private fun initSpinner(list: List<Card>) {
-        cardList = list
         val spinnerList: MutableList<String> = mutableListOf()
-        for (card in cardList) {
+        for (card in list) {
             spinnerList.add(card.source.sourceName)
         }
+        if (spinnerList.isEmpty()) spinnerList.add(Source.EMPTY.sourceName)
         runOnUiThread {
             spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, spinnerList)
         }
     }
 
-    private fun updateUiState(card: Card) {
-        when (card) {
-            is EmptyCard -> updateNoResultUiState()
-            else -> updateCardUiState(card)
+    private fun updateUiState(cards: List<Card>) {
+        uiState = when {
+            cards.isEmpty() -> uiState.copy(cardList = listOf(EmptyCard()))
+            else -> uiState.copy(cardList = cards)
         }
-    }
 
-    private fun updateCardUiState(card: Card) {
-        uiState = uiState.copy(
-            urlString = card.url,
-            cardInfo = cardInfoHelper.getCardInfoText(card, uiState.artistName),
-            actionsEnabled = true,
-            urlLogoImage = card.logoUrl,
-            source = card.source
-        )
-    }
-
-    private fun updateNoResultUiState() {
-        uiState = uiState.copy(
-            urlString = "",
-            cardInfo = cardInfoHelper.getCardInfoText(artistName = ""),
-            actionsEnabled = false,
-            urlLogoImage = "",
-            source = Source.EMPTY
-        )
     }
 
     private fun initModule() {
@@ -124,12 +110,11 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
                 position: Int,
                 id: Long
             ) {
-                updateUiState(cardList[position])
+                spinnerPosition = position
                 showCardInfoActivity()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                updateUiState(cardList[0])
                 showCardInfoActivity()
             }
         }
@@ -147,12 +132,14 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     }
 
     private fun showSourceImage() {
-        Picasso.get().load(uiState.urlLogoImage).into(sourceImagePane)
+        Picasso.get().load(uiState.cardList[spinnerPosition].logoUrl).into(sourceImagePane)
     }
 
     private fun showInfo() {
         artistDescriptionPane.text =
-            HtmlCompat.fromHtml(uiState.cardInfo, HtmlCompat.FROM_HTML_MODE_LEGACY)
+            HtmlCompat.fromHtml(
+                cardInfoHelper.getCardInfoText(uiState.cardList[spinnerPosition], uiState.artistName),
+                HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
 
     companion object {
