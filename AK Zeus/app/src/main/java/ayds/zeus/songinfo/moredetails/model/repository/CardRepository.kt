@@ -18,9 +18,11 @@ internal class CardRepositoryImpl(
     override fun getCardList(artistName: String): List<Card> {
         var cardList: List<Card> = cardLocalStorage.getCardList(artistName)
         when {
-            cardList.isNotEmpty() ->
+            cardList.isNotEmpty() ->{
                 for (card in cardList)
                     markCardAsLocal(card)
+                return cardList+broker.getMissingCards(cardList, artistName)
+            }
             else -> {
                 try {
                     cardList = broker.getCardList(artistName)
