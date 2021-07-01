@@ -1,6 +1,5 @@
-package ayds.zeus.songinfo.moredetails.model.broker.proxies
+package ayds.zeus.songinfo.moredetails.model.repository.broker.proxies
 
-import android.util.Log
 import ayds.zeus.songinfo.moredetails.model.entities.Card
 import ayds.zeus.songinfo.moredetails.model.entities.EmptyCard
 import ayds.zeus.songinfo.moredetails.model.entities.Source

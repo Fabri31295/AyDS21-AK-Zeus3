@@ -1,4 +1,4 @@
-package ayds.zeus.songinfo.moredetails.model.broker.proxies
+package ayds.zeus.songinfo.moredetails.model.repository.broker.proxies
 
 import ayds.zeus.songinfo.moredetails.model.entities.Card
 

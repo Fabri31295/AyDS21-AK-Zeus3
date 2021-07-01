@@ -1,8 +1,9 @@
 package ayds.zeus.songinfo.moredetails.model.repository
 
 import android.util.Log
-import ayds.zeus.songinfo.moredetails.model.broker.Broker
+import ayds.zeus.songinfo.moredetails.model.repository.broker.Broker
 import ayds.zeus.songinfo.moredetails.model.entities.Card
+import ayds.zeus.songinfo.moredetails.model.entities.EmptyCard
 import ayds.zeus.songinfo.moredetails.model.repository.local.CardLocalStorage
 
 interface CardRepository {
@@ -10,8 +11,8 @@ interface CardRepository {
 }
 
 internal class CardRepositoryImpl(
-        private val cardLocalStorage: CardLocalStorage,
-        private val broker: Broker
+    private val cardLocalStorage: CardLocalStorage,
+    private val broker: Broker
 ) : CardRepository {
 
     override fun getCardList(artistName: String): List<Card> {
@@ -23,8 +24,10 @@ internal class CardRepositoryImpl(
             else -> {
                 try {
                     cardList = broker.getCardList(artistName)
-                    for(card in cardList)
-                        cardLocalStorage.saveCard(card,artistName)
+                    for (card in cardList) {
+                        if (card !is EmptyCard)
+                            cardLocalStorage.saveCard(card, artistName)
+                    }
                 } catch (e: Exception) {
                     Log.w("Card", "ERROR : $e")
                 }

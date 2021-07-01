@@ -1,4 +1,4 @@
-package ayds.zeus.songinfo.moredetails.model.broker.proxies
+package ayds.zeus.songinfo.moredetails.model.repository.broker.proxies
 
 import ayds.apolo2.LastFM.LastFMAPIArtistService
 import ayds.apolo2.LastFM.entities.InfoArtist
@@ -9,7 +9,7 @@ import ayds.zeus.songinfo.moredetails.model.entities.Source
 internal class LastFMProxy(private val service: LastFMAPIArtistService) : Proxy {
 
     override fun getCard(artistName: String): Card {
-        var artistInfo = service.getArtist(artistName)
+        val artistInfo = service.getArtist(artistName)
         return if (artistInfo == null)
             EmptyCard()
         else
