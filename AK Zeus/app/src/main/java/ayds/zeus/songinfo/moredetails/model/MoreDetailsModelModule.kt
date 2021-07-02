@@ -3,7 +3,6 @@ package ayds.zeus.songinfo.moredetails.model
 import android.content.Context
 import ayds.apolo2.LastFM.LastFMAPIArtistModule
 import ayds.hera3.nytimes.NYTimesModule
-import ayds.zeus.songinfo.moredetails.model.entities.Source
 import ayds.zeus.songinfo.moredetails.model.repository.broker.Broker
 import ayds.zeus.songinfo.moredetails.model.repository.broker.BrokerImpl
 import ayds.zeus.songinfo.moredetails.model.repository.broker.proxies.LastFMProxy
@@ -26,10 +25,10 @@ object MoreDetailsModelModule {
             moreDetailsView as Context,
             CursorToCardMapperImpl()
         )
-        val proxyMap = mapOf(
-            Pair(Source.WIKIPEDIA, WikipediaProxy(WikipediaModule.wikipediaService)),
-            Pair(Source.LASTFM, LastFMProxy(LastFMAPIArtistModule.lastFMAPIArtistService)),
-            Pair(Source.NYTIMES, NYTimesProxy(NYTimesModule.nyTimesArticleService))
+        val proxyMap = listOf(
+            WikipediaProxy(WikipediaModule.wikipediaService),
+            LastFMProxy(LastFMAPIArtistModule.lastFMAPIArtistService),
+            NYTimesProxy(NYTimesModule.nyTimesArticleService)
         )
         val broker: Broker = BrokerImpl(proxyMap)
         val cardRepository: CardRepository =
