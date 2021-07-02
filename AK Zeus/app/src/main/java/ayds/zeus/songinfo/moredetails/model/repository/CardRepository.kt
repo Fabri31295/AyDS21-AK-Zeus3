@@ -1,6 +1,5 @@
 package ayds.zeus.songinfo.moredetails.model.repository
 
-import android.util.Log
 import ayds.zeus.songinfo.moredetails.model.repository.broker.Broker
 import ayds.zeus.songinfo.moredetails.model.entities.Card
 import ayds.zeus.songinfo.moredetails.model.repository.local.CardLocalStorage
@@ -21,13 +20,9 @@ internal class CardRepositoryImpl(
                 for (card in cardList)
                     markCardAsLocal(card)
             else -> {
-                try {
-                    cardList = broker.getCardList(artistName)
-                    for (card in cardList) {
-                        cardLocalStorage.saveCard(card, artistName)
-                    }
-                } catch (e: Exception) {
-                    Log.w("Card", "ERROR : $e")
+                cardList = broker.getCardList(artistName)
+                for (card in cardList) {
+                    cardLocalStorage.saveCard(card, artistName)
                 }
             }
         }
