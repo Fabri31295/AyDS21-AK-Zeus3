@@ -65,9 +65,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
 
     private fun initSpinner(list: List<Card>) {
         val spinnerList: MutableList<String> = mutableListOf()
-        for (card in list) {
-            spinnerList.add(card.source.sourceName)
-        }
+        spinnerList.addAll(list.map { it.source.sourceName })
         if (spinnerList.isEmpty()) spinnerList.add(Source.EMPTY.sourceName)
         runOnUiThread {
             spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, spinnerList)

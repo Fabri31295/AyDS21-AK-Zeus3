@@ -8,7 +8,7 @@ interface Broker {
     fun getCardList(artistName: String): List<Card>
 }
 
-class BrokerImpl(private val sourceToProxyMap: List<Proxy>) : Broker {
+internal class BrokerImpl(private val sourceToProxyMap: List<Proxy>) : Broker {
 
     override fun getCardList(artistName: String): List<Card> {
         val cardList: MutableList<Card> = mutableListOf()
