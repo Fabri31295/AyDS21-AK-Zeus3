@@ -3,7 +3,7 @@ project(':wikipediadata').projectDir = new File('libs/WikipediaData')
 include ':lastfm'
 project(':lastfm').projectDir = new File('libs/AKApolo2LastFM')
 include ':NYTimesData'
-project(':NYTimesData').projectDir = new File('libs/NYTimesData/')
+project(':NYTimesData').projectDir = new File('libs/Hera3-Module/NYTimesData/')
 include ':app'
 include 'observer'
 rootProject.name = "AK Zeus"
