@@ -129,13 +129,13 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     }
 
     private fun showSourceImage() {
-        Picasso.get().load(uiState.cardList[uiState.spinnerPosition].logoUrl).into(sourceImagePane)
+        Picasso.get().load(uiState.getCurrentCard().logoUrl).into(sourceImagePane)
     }
 
     private fun showInfo() {
         artistDescriptionPane.text =
             HtmlCompat.fromHtml(
-                cardInfoHelper.getCardInfoText(uiState.cardList[uiState.spinnerPosition], uiState.artistName),
+                cardInfoHelper.getCardInfoText(uiState.getCurrentCard(), uiState.artistName),
                 HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
 
