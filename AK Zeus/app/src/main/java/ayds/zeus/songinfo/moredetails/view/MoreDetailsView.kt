@@ -32,13 +32,12 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     private lateinit var artistDescriptionPane: TextView
     private lateinit var sourceImagePane: ImageView
     private lateinit var openUrlButton: Button
-    private var spinnerPosition: Int = 0
 
     override var uiState: MoreDetailsUiState = MoreDetailsUiState()
     override val uiEventObservable: Observable<MoreDetailsUiEvent> = onActionSubject
 
     override fun openSourcePage() {
-        openExternalUrl(uiState.cardList[spinnerPosition].url)
+        openExternalUrl(uiState.getCurrentCard().url)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -108,7 +107,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
                 position: Int,
                 id: Long
             ) {
-                spinnerPosition = position
+                uiState.spinnerPosition = position
                 showCardInfoActivity()
             }
 
@@ -130,13 +129,13 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     }
 
     private fun showSourceImage() {
-        Picasso.get().load(uiState.cardList[spinnerPosition].logoUrl).into(sourceImagePane)
+        Picasso.get().load(uiState.cardList[uiState.spinnerPosition].logoUrl).into(sourceImagePane)
     }
 
     private fun showInfo() {
         artistDescriptionPane.text =
             HtmlCompat.fromHtml(
-                cardInfoHelper.getCardInfoText(uiState.cardList[spinnerPosition], uiState.artistName),
+                cardInfoHelper.getCardInfoText(uiState.cardList[uiState.spinnerPosition], uiState.artistName),
                 HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
 
