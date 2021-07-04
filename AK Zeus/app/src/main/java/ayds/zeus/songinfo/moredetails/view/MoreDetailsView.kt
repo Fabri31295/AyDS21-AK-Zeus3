@@ -107,7 +107,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
                 position: Int,
                 id: Long
             ) {
-                uiState.spinnerPosition = position
+                uiState.currentCardPosition = position
                 showCardInfoActivity()
             }
 
