@@ -2,6 +2,8 @@ package ayds.zeus.songinfo.moredetails.view
 
 import android.os.Bundle
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
@@ -29,6 +31,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     private val cardInfoHelper: CardDescriptionHelper = MoreDetailsViewModule.cardInfoHelper
     private lateinit var moreDetailsModel: MoreDetailsModel
     private lateinit var spinner: Spinner
+    private lateinit var progressBar: ProgressBar
     private lateinit var artistDescriptionPane: TextView
     private lateinit var sourceImagePane: ImageView
     private lateinit var openUrlButton: Button
@@ -91,6 +94,7 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
     private fun initViews() {
         artistDescriptionPane = findViewById(R.id.textPane2)
         spinner = findViewById(R.id.spinner)
+        progressBar = findViewById(R.id.progressBar)
         openUrlButton = findViewById(R.id.openUrlButton)
         sourceImagePane = findViewById(R.id.imageView)
     }
@@ -125,6 +129,8 @@ class OtherInfoActivity : AppCompatActivity(), MoreDetailsView {
         runOnUiThread {
             showSourceImage()
             showInfo()
+            progressBar.visibility = GONE
+            openUrlButton.visibility = VISIBLE
         }
     }
 
