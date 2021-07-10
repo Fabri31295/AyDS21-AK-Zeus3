@@ -1,7 +1,7 @@
 package ayds.zeus.songinfo.moredetails.model
 
 import android.content.Context
-import ayds.apolo2.LastFM.LastFMAPIArtistModule
+import ayds.apolo2.LastFM.entities.LastFMAPIArtistModule
 import ayds.hera3.nytimes.NYTimesModule
 import ayds.zeus.songinfo.moredetails.model.repository.broker.Broker
 import ayds.zeus.songinfo.moredetails.model.repository.broker.BrokerImpl

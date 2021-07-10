@@ -22,6 +22,10 @@ internal class WikipediaProxy(private val service: WikipediaService) : Proxy {
     private fun WikipediaArticle?.toCard() =
         when {
             this == null -> EmptyCard()
-            else -> Card(info, url, logoUrl, Source.WIKIPEDIA)
+            else ->
+                if (info == "")
+                    Card(NO_DESCRIPTION_FOUND, url, logoUrl, Source.WIKIPEDIA)
+                else
+                    Card(info, url, logoUrl, Source.WIKIPEDIA)
         }
 }

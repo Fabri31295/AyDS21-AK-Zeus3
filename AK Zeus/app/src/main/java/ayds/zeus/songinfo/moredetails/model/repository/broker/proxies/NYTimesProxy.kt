@@ -22,7 +22,11 @@ internal class NYTimesProxy(private val service: NYTimesArticleService) : Proxy 
     private fun Article?.toCard() =
         when {
             this == null -> EmptyCard()
-            else -> Card(artistInfo, url, logoUrl, Source.NYTIMES)
+            else ->
+                if (artistInfo == "")
+                    Card(NO_DESCRIPTION_FOUND, url, logoUrl, Source.NYTIMES)
+                else
+                    Card(artistInfo, url, logoUrl, Source.NYTIMES)
         }
 
 }

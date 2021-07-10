@@ -1,8 +1,8 @@
 package ayds.zeus.songinfo.moredetails.model.repository.broker.proxies
 
 import android.util.Log
-import ayds.apolo2.LastFM.LastFMAPIArtistService
 import ayds.apolo2.LastFM.entities.InfoArtist
+import ayds.apolo2.LastFM.entities.LastFMAPIArtistService
 import ayds.zeus.songinfo.moredetails.model.entities.Card
 import ayds.zeus.songinfo.moredetails.model.entities.EmptyCard
 import ayds.zeus.songinfo.moredetails.model.entities.Source
@@ -22,6 +22,10 @@ internal class LastFMProxy(private val service: LastFMAPIArtistService) : Proxy 
     private fun InfoArtist?.toCard() =
         when {
             this == null -> EmptyCard()
-            else -> Card(description, infoUrl, sourceLogoUrl, Source.LASTFM)
+            else ->
+                if (description == "")
+                    Card(NO_DESCRIPTION_FOUND, infoUrl, sourceLogoUrl, Source.LASTFM)
+                else
+                    Card(description, infoUrl, sourceLogoUrl, Source.LASTFM)
         }
 }
