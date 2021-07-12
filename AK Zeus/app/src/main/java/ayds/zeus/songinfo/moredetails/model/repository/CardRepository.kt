@@ -1,38 +1,32 @@
 package ayds.zeus.songinfo.moredetails.model.repository
 
-import android.util.Log
+import ayds.zeus.songinfo.moredetails.model.repository.broker.Broker
 import ayds.zeus.songinfo.moredetails.model.entities.Card
-import ayds.zeus.songinfo.moredetails.model.entities.EmptyCard
-import ayds.zeus.songinfo.moredetails.model.entities.Source
 import ayds.zeus.songinfo.moredetails.model.repository.local.CardLocalStorage
-import ayds.zeus3.wikipedia.WikipediaService
 
 interface CardRepository {
-    fun getCard(artistName: String): Card
+    fun getCardList(artistName: String): List<Card>
 }
 
 internal class CardRepositoryImpl(
-        private val cardLocalStorage: CardLocalStorage,
-        private val wikipediaService: WikipediaService,
-        private val articleToCardMapper: ArticleToCardMapper,
+    private val cardLocalStorage: CardLocalStorage,
+    private val broker: Broker
 ) : CardRepository {
 
-    override fun getCard(artistName: String): Card {
-        var artistCard: Card? = cardLocalStorage.getCard(artistName)
-
+    override fun getCardList(artistName: String): List<Card> {
+        var cardList: List<Card> = cardLocalStorage.getCardList(artistName)
         when {
-            artistCard != null -> markCardAsLocal(artistCard)
+            cardList.isNotEmpty() ->
+                for (card in cardList)
+                    markCardAsLocal(card)
             else -> {
-                try {
-                    val article = wikipediaService.getArticle(artistName)
-                    article?.let { artistCard = articleToCardMapper.map(it, Source.WIKIPEDIA) }
-                    artistCard?.let { cardLocalStorage.saveCard(it, artistName) }
-                } catch (e: Exception) {
-                    Log.w("Card", "ERROR : $e")
+                cardList = broker.getCardList(artistName)
+                for (card in cardList) {
+                    cardLocalStorage.saveCard(card, artistName)
                 }
             }
         }
-        return artistCard ?: EmptyCard()
+        return cardList
     }
 
     private fun markCardAsLocal(cardInfo: Card) {

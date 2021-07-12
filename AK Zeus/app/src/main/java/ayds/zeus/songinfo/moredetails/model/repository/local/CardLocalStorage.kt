@@ -12,7 +12,7 @@ private const val DATABASE_NAME = "cards.db"
 
 interface CardLocalStorage {
     fun saveCard(card: Card, artistName: String)
-    fun getCard(artistName: String): Card?
+    fun getCardList(artistName: String): List<Card>
 }
 
 internal class CardLocalStorageImpl(
@@ -26,7 +26,7 @@ internal class CardLocalStorageImpl(
         this.writableDatabase.insert(CARD_TABLE, null, contentValues)
     }
 
-    override fun getCard(artistName: String): Card? {
+    override fun getCardList(artistName: String): List<Card> {
         val cursor = getNewCardCursor(artistName)
         return cursorToCardMapper.map(cursor)
     }

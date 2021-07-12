@@ -8,19 +8,16 @@ interface MoreDetailsModel {
 
     fun searchCard(artistName: String)
 
-    fun cardObservable(): Observable<Card>
+    fun cardObservable(): Observable<List<Card>>
 }
 
 internal class MoreDetailsModelImpl(private val repository: CardRepository) : MoreDetailsModel {
 
-    private val cardSubject = Subject<Card>()
+    private val cardSubject = Subject<List<Card>>()
 
     override fun searchCard(artistName: String){
-        repository.getCard(artistName).let {
-            if (it != null)
-                cardSubject.notify(it)
-        }
+        cardSubject.notify(repository.getCardList(artistName))
     }
 
-    override fun cardObservable(): Observable<Card> = cardSubject
+    override fun cardObservable(): Observable<List<Card>> = cardSubject
 }

@@ -9,9 +9,9 @@ open class Card(
 )
 
 class EmptyCard : Card(
+    "No results found",
     "",
-    "",
-    "",
+    "https://image.freepik.com/vector-gratis/pagina-error-404-distorsion_23-2148105404.jpg",
     Source.EMPTY,
     false,
 )
